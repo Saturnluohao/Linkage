@@ -1,0 +1,13 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.f4.linkage.webserver.api.login.mapper.UserMapper" >
+  <select id="loadUserByUserName" resultType="com.f4.linkage.webserver.api.login.model.User">
+    select * from linkage.user where username = #{username}
+  </select>
+
+
+  <select id="getUserRoleByUserId" resultType="com.f4.linkage.webserver.api.login.model.Role">
+    select linkage.role.id, name
+    from linkage.user join linkage.user_role on linkage.user.id = user_role.uid join linkage.role on user_role.rid = role.id
+    where linkage.user.id = #{id}
+  </select>
+</mapper>
