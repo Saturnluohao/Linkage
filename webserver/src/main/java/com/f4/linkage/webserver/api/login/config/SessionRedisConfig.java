@@ -3,6 +3,7 @@ package com.f4.linkage.webserver.api.login.config;
 import com.f4.linkage.webserver.api.login.config.properties.SessionRedisProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
@@ -20,6 +21,7 @@ public class SessionRedisConfig {
   private SessionRedisProperty property;
 
   @Bean
+  @Primary
   public RedisConnectionFactory connectionFactory() {
     JedisConnectionFactory factory = new JedisConnectionFactory();
     factory.setHostName(property.getHost());

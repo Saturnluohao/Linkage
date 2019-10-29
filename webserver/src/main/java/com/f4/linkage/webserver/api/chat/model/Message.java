@@ -2,6 +2,8 @@ package com.f4.linkage.webserver.api.chat.model;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @program: Linkage
  * @description: The chat message
@@ -9,8 +11,11 @@ import lombok.Data;
  * @create: 2019/10/28
  **/
 @Data
-public class Message {
+public class Message implements Serializable {
+  private int id;
   private String name;
   private String content;
   private String to;
+  private int status; // 0 unread
+                      // 1 read
 }

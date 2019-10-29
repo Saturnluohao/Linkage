@@ -1,6 +1,7 @@
 package com.f4.linkage.webserver.api.chat.controller;
 
 import com.f4.linkage.webserver.api.chat.model.Message;
+import com.f4.linkage.webserver.api.chat.service.MessageService;
 import com.f4.linkage.webserver.api.chat.service.OnlineUserHub;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.MessagingException;
@@ -23,6 +24,8 @@ public class GreetingController {
   SimpMessagingTemplate simpMessagingTemplate;
   @Autowired
   OnlineUserHub onlineUserHub;
+  @Autowired
+  MessageService messageService;
 
   @MessageMapping("/hello")
   @SendTo("/topic/greetings")
@@ -33,10 +36,17 @@ public class GreetingController {
 
   @MessageMapping("/chat")
   public void chat(Principal principal, Message message){
+    boolean targetOnline = onlineUserHub.findUserByName(message.getTo());
     System.out.println("From: "+principal.getName()+" TO: "+message.getTo());
-    System.out.println(message.getTo()+" is "+onlineUserHub.findUserByName(message.getTo()));
+    System.out.println(message.getTo()+" is "+ targetOnline);
     String from = principal.getName();
     message.setName(from);
+    if(targetOnline){
+      message.setStatus(1);
+    }else {
+      message.setStatus(0);
+    }
+    messageService.addMessage(message);
     simpMessagingTemplate.convertAndSendToUser(message.getTo(),"/queue/chat",message);
   }
 }

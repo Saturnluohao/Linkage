@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
  **/
 @Data
 @Configuration
-@ConfigurationProperties(prefix = "spring.redis.session")
+@ConfigurationProperties(prefix = "spring.redis")
 public class SessionRedisProperty {
   private String host;
 

@@ -1,5 +1,10 @@
 package com.f4.linkage.webserver.api.chat.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -13,14 +18,20 @@ import java.util.Set;
  **/
 @Service
 public class OnlineUserHub {
+  @Autowired
+  RedisTemplate<String,String> redisTemplate;
+
   private Set<String> userHub = new HashSet<>();
   public void userConnect(String name){
-    userHub.add(name);
+    SetOperations<String,String> operations = redisTemplate.opsForSet();
+    operations.add("online",name);
   }
   public void userDisconnect(String name){
-    userHub.remove(name);
+    SetOperations<String,String> operations = redisTemplate.opsForSet();
+    operations.remove("online",name);
   }
   public boolean findUserByName(String name){
-    return userHub.contains(name);
+    SetOperations<String,String> operations = redisTemplate.opsForSet();
+    return operations.isMember("online",name);
   }
 }
