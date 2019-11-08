@@ -9,4 +9,5 @@
   <update id="setMessagesRead" parameterType="java.lang.String">
     update linkage.message set status = 1 where `to` = #{receiverName}
   </update>
+
 </mapper>

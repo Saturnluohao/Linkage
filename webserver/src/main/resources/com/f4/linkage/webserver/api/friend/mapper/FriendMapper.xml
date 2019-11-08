@@ -1,0 +1,9 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.f4.linkage.webserver.api.friend.mapper.FriendMapper">
+  <select id="SearchFriendByName" resultType="com.f4.linkage.webserver.api.friend.model.Friend" >
+    select username,description,sex from linkage.user where username like #{name}
+  </select>
+  <select id="GetMyFriends" resultType="com.f4.linkage.webserver.api.friend.model.Friend">
+    select * from linkage.user join linkage.friend on user.username = friend.friend_username where linkage.friend.my_username = #{myName}
+  </select>
+</mapper>
