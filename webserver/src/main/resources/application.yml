@@ -3,7 +3,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://localhost:3306
     username: root
-    password: i am a fool
+    password: eikvDK5R47hK0ztHN1qL0
 
   redis:
       database: 0

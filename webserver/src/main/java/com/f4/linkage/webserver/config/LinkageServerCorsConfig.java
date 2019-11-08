@@ -19,4 +19,5 @@ public class LinkageServerCorsConfig implements WebMvcConfigurer {
       .allowedOrigins("http://localhost:8080");
     // TODO: put this value into application.yml
   }
+
 }

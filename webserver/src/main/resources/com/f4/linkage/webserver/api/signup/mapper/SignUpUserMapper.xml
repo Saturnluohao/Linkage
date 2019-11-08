@@ -1,0 +1,18 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.f4.linkage.webserver.api.signup.mapper.SignUpUserMapper">
+  <insert id="storeNewUser" parameterType="com.f4.linkage.webserver.api.signup.model.SignUpUserInfo">
+    insert into linkage.user(username, password, enabled, locked, phoneNumber) VALUES (#{userName},#{userPassword},1,1,#{phoneNumber})
+  </insert>
+  <select id="getIDbyUserName" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select id from linkage.user where username=#{username}
+  </select>
+  <insert id="setRoleByID" parameterType="java.lang.Integer">
+    insert into linkage.user_role(uid, rid) VALUES (#{id},2)
+  </insert>
+  <select id="findSameName" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(*) from linkage.user where username = #{username}
+  </select>
+  <select id="findSamePhoneNumber" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select count(*) from linkage.user where phoneNumber = #{phone}
+  </select>
+</mapper>

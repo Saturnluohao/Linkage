@@ -1,4 +1,4 @@
-package com.f4.linkage.webserver.api.chat.config;
+package com.f4.linkage.webserver.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  * @create: 2019/10/29
  **/
 @Service
-public class OnlineUserRedisConfig {
+public class RedisConfig {
   @Autowired
   RedisConnectionFactory redisConnectionFactory;
 

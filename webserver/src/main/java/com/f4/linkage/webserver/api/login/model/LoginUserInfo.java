@@ -13,21 +13,26 @@ import java.util.List;
 
 /**
  * @program: Linkage
- * @description: User
+ * @description: LoginUserInfo
  * @author: Zijian Zhang
  * @create: 2019/10/26
  **/
 @Data
-public class User implements UserDetails, Serializable {
+public class LoginUserInfo implements UserDetails, Serializable {
   private Integer id;
   private String userName;
+  @JsonIgnore
   private String password;
+  @JsonIgnore
   private boolean enabled;
+  @JsonIgnore
   private boolean locked;
+  @JsonIgnore
   private List<Role> roles;
 
 
   @Override
+  @JsonIgnore
   public Collection<? extends GrantedAuthority> getAuthorities() {
     List<SimpleGrantedAuthority> authorities = new ArrayList<>();
     for (Role role :
@@ -51,7 +56,7 @@ public class User implements UserDetails, Serializable {
   @JsonIgnore
   @Override
   public boolean isAccountNonLocked() {
-    return locked;
+    return !locked;
   }
 
   @JsonIgnore
