@@ -22,9 +22,8 @@ public class SearchForNewFriendsService {
   public PageInfo<Friend> findFriendByName(String username, int currentPage, int pageSize){
     PageHelper.startPage(currentPage,pageSize);
     List<Friend> friends = friendMapper.SearchFriendByName("%" + username + "%");
-    PageInfo<Friend> friendPageInfo = new PageInfo<>(friends);
     //System.out.println(friendPageInfo.isHasNextPage());
-    return friendPageInfo;
+    return new PageInfo<>(friends);
   }
 
 }
