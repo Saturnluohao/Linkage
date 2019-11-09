@@ -34,6 +34,7 @@ public class FileUploadController {
         args[2] = text;
 
         fileUtil.updateWeblogID();
+
         if(pictures != null){
             if(fileUtil.saveFiles(pictures, 0)){
                 LOGGER.info("Pictures transferred successfully!");
