@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+</head>
+<body>
+<form action="/weblog" method="post" enctype="multipart/form-data">
+    <input type="text" name="Text" placeholder="Say something"><br/>
+    <input type="file" name="Picture" multiple="multiple"><br/>
+    <input type="file" name="video" multiple="multiple"><br/>
+    <input type="submit" name="submit">
+</form>
+<!--<img src="http://localhost:8080/weblog/0/picture/0">-->
+
+<br/>
+<br/>
+<video width="320" height="240" controls="controls">
+    <source src="/weblog/0/video/0" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
+</body>
+</html>
