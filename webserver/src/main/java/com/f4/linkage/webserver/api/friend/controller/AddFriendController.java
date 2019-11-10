@@ -54,6 +54,7 @@ public class AddFriendController {
 
   @MessageMapping("/friend/check")
   public void decideAddFriend(Principal principal,AddFriendRequest friendRequest){
+    System.out.println(friendRequest);
     AddFriendRequest dbRequest = addFriendService.getRequestById(friendRequest.getId());
     assert dbRequest.getTargetName().equals(principal.getName());
     assert friendRequest.getAcceptStatus() != null;

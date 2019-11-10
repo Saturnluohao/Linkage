@@ -18,7 +18,7 @@ public class StompDisconnectEvent implements ApplicationListener<SessionDisconne
   OnlineUserHub onlineUserHub;
   @Override
   public void onApplicationEvent(SessionDisconnectEvent sessionDisconnectEvent) {
-    // System.out.println(Objects.requireNonNull(sessionDisconnectEvent.getUser()).getName()+" is leaving!");
+    System.out.println(Objects.requireNonNull(sessionDisconnectEvent.getUser()).getName()+" is leaving!");
     onlineUserHub.userDisconnect(Objects.requireNonNull(sessionDisconnectEvent.getUser()).getName());
   }
 }

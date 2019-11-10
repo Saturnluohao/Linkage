@@ -6,7 +6,7 @@
   <select id="getLastID" resultType="java.lang.Integer">
     select LAST_INSERT_ID()
   </select>
-  <select id="getRequestById">
+  <select id="getRequestById" resultType="com.f4.linkage.webserver.api.friend.model.AddFriendRequest">
     select * from linkage.add_friend_request where id=#{id}
   </select>
   <update id="storeAcceptOrNotById">

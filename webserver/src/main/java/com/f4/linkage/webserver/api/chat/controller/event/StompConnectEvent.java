@@ -20,7 +20,7 @@ public class StompConnectEvent implements ApplicationListener<SessionConnectedEv
 
   @Override
   public void onApplicationEvent(SessionConnectedEvent sessionConnectedEvent) {
-    // System.out.println(Objects.requireNonNull(sessionConnectedEvent.getUser()).getName()+" is connected!");
+    System.out.println(Objects.requireNonNull(sessionConnectedEvent.getUser()).getName()+" is connected!");
     onlineUserHub.userConnect(Objects.requireNonNull(sessionConnectedEvent.getUser()).getName());
   }
 }

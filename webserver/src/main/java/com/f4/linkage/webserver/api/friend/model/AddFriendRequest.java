@@ -3,6 +3,8 @@ package com.f4.linkage.webserver.api.friend.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  * @program: Linkage
  * @description: The request for add friends
@@ -10,7 +12,7 @@ import lombok.Data;
  * @create: 2019/11/10
  **/
 @Data
-public class AddFriendRequest {
+public class AddFriendRequest implements Serializable {
   private Integer id;
   private String username; // the man who send the request
   private String targetName; // the man who get the request
