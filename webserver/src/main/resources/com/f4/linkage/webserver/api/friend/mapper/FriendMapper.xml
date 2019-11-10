@@ -6,4 +6,8 @@
   <select id="GetMyFriends" resultType="com.f4.linkage.webserver.api.friend.model.Friend">
     select * from linkage.user join linkage.friend on user.username = friend.friend_username where linkage.friend.my_username = #{myName}
   </select>
+  <insert id="addFriend">
+    insert into linkage.friend(my_username, friend_username) value (#{name_1},#{name_2});
+    insert into linkage.friend(my_username, friend_username) value (#{name_2},#{name_1});
+  </insert>
 </mapper>

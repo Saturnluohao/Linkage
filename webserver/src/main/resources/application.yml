@@ -1,7 +1,7 @@
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://localhost:3306
+    url: jdbc:mysql://localhost:3306/linkage?allowMultiQueries=true
     username: root
     password: eikvDK5R47hK0ztHN1qL0
 

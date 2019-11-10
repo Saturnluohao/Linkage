@@ -1,0 +1,27 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.f4.linkage.webserver.api.friend.mapper.AddFriendRequestMapper">
+  <insert id="storeAddFriendRequest" parameterType="com.f4.linkage.webserver.api.friend.model.AddFriendRequest">
+    insert into linkage.add_friend_request(username, targetName, selfIntro, readStatus) values(#{username},#{targetName},#{selfIntro},#{readStatus})
+  </insert>
+  <select id="getLastID" resultType="java.lang.Integer">
+    select LAST_INSERT_ID()
+  </select>
+  <select id="getRequestById">
+    select * from linkage.add_friend_request where id=#{id}
+  </select>
+  <update id="storeAcceptOrNotById">
+    update linkage.add_friend_request set acceptStatus=#{accept},replyStatus=#{read} where id=#{id}
+  </update>
+  <select id="getHistoryRequest" resultType="com.f4.linkage.webserver.api.friend.model.AddFriendRequest">
+    select * from linkage.add_friend_request where targetName=#{username}
+  </select>
+  <select id="getHistoryReply" resultType="com.f4.linkage.webserver.api.friend.model.AddFriendRequest">
+    select * from linkage.add_friend_request where username=#{username}
+  </select>
+  <select id="getUnreadRequest" resultType="com.f4.linkage.webserver.api.friend.model.AddFriendRequest">
+    select * from linkage.add_friend_request where targetName=#{username} and readStatus=0
+  </select>
+  <select id="getUnreadReply" resultType="com.f4.linkage.webserver.api.friend.model.AddFriendRequest">
+    select * from linkage.add_friend_request where username=#{username} and replyStatus=0
+  </select>
+</mapper>

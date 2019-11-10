@@ -10,4 +10,8 @@
     from linkage.user join linkage.user_role on linkage.user.id = user_role.uid join linkage.role on user_role.rid = role.id
     where linkage.user.id = #{id}
   </select>
+
+  <update id="changeTimeStamp">
+    update linkage.user set lastLogIn=CURRENT_TIMESTAMP where username=#{username}
+  </update>
 </mapper>

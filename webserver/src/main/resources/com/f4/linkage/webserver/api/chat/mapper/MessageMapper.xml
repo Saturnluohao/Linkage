@@ -3,11 +3,13 @@
   <insert id="addMessage" parameterType="com.f4.linkage.webserver.api.chat.model.Message">
     insert into linkage.message(name, content, `to`,status) values (#{name},#{content},#{to},#{status})
   </insert>
-  <select id="getUnreadMessage" parameterType="java.lang.String" resultType="com.f4.linkage.webserver.api.chat.model.Message">
-    select * from linkage.message where `to` = #{receiverName} and status = 0
+  <select id="getMessage" parameterType="java.lang.String" resultType="com.f4.linkage.webserver.api.chat.model.Message">
+    select * from linkage.message where (`to` = #{userName} and name=#{targetName}) or (`to` = #{targetName} and name=#{userName})
   </select>
   <update id="setMessagesRead" parameterType="java.lang.String">
     update linkage.message set status = 1 where `to` = #{receiverName}
   </update>
-
+  <select id="getUnreadMessage" resultType="com.f4.linkage.webserver.api.chat.model.Message">
+    select id, name, content, `to`, status, sendTime from linkage.message where `to`=#{userName} and status=0
+  </select>
 </mapper>
