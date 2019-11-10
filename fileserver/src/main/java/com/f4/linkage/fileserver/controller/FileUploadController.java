@@ -54,6 +54,6 @@ public class FileUploadController {
             args[4] = null;
         }
         DataUtil.insertBlog(args);
-        return "Upload successfully";
+        return "Upload successfully, this weblog id is " + FileUtil.weblogID;
     }
 }
