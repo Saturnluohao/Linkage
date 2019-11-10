@@ -12,4 +12,5 @@ import java.util.List;
 public interface UserMapper {
   LoginUserInfo loadUserByUserName(String username);
   List<Role> getUserRoleByUserId(Integer id);
+  void changeTimeStamp(String username);
 }

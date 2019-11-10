@@ -1,5 +1,8 @@
 package com.f4.linkage.webserver.api.login.model;
 
+import com.f4.linkage.webserver.api.login.model.unread.UnreadAddFriendReply;
+import com.f4.linkage.webserver.api.login.model.unread.UnreadAddFriendRequest;
+import com.f4.linkage.webserver.api.login.model.unread.UnreadMessage;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
@@ -21,6 +24,11 @@ import java.util.List;
 public class LoginUserInfo implements UserDetails, Serializable {
   private Integer id;
   private String userName;
+  private UnreadMessage unreadMessage;
+  private UnreadAddFriendRequest unreadAddFriendRequest;
+  private UnreadAddFriendReply unreadAddFriendReply;
+
+
   @JsonIgnore
   private String password;
   @JsonIgnore

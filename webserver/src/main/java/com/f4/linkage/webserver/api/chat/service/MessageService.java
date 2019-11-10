@@ -2,6 +2,8 @@ package com.f4.linkage.webserver.api.chat.service;
 
 import com.f4.linkage.webserver.api.chat.mapper.MessageMapper;
 import com.f4.linkage.webserver.api.chat.model.Message;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +19,12 @@ import java.util.List;
 public class MessageService {
   @Autowired
   MessageMapper messageMapper;
-  public int addMessage(Message message){
-    return messageMapper.addMessage(message);
+  public void addMessage(Message message){
+    messageMapper.addMessage(message);
   }
-  public List<Message> findUnreadMessages(String name){
-    return messageMapper.getUnreadMessage(name);
-  }
-  public int setMessageAllRead(String name){
-    return messageMapper.setMessagesRead(name);
+  public PageInfo<Message> findUnreadMessages(String name,String targetName, int currentPage, int pageSize){
+    PageHelper.startPage(currentPage,pageSize);
+    List<Message> messages = messageMapper.getMessage(name,targetName);
+    return new PageInfo<>(messages);
   }
 }

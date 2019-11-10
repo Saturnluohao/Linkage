@@ -11,19 +11,26 @@ import java.util.List;
 
 /**
  * @program: Linkage
- * @description: Find friends with similar name
+ * @description: Get user's friends.
  * @author: Zijian Zhang
  * @create: 2019/11/08
  **/
 @Service
-public class SearchForNewFriendsService {
+public class FriendService {
   @Autowired
   private FriendMapper friendMapper;
+  public PageInfo<Friend> getMyFriends(String username,int currentPage,int pageSize){
+    PageHelper.startPage(currentPage,pageSize);
+    List<Friend> myFriends = friendMapper.GetMyFriends(username);
+    return new PageInfo<>(myFriends);
+  }
   public PageInfo<Friend> findFriendByName(String username, int currentPage, int pageSize){
     PageHelper.startPage(currentPage,pageSize);
     List<Friend> friends = friendMapper.SearchFriendByName("%" + username + "%");
     //System.out.println(friendPageInfo.isHasNextPage());
     return new PageInfo<>(friends);
   }
-
+  public void addFriend(String userName, String targetName){
+    friendMapper.addFriend(userName,targetName);
+  }
 }

@@ -1,5 +1,6 @@
 package com.f4.linkage.webserver.api.chat.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -12,10 +13,12 @@ import java.io.Serializable;
  **/
 @Data
 public class Message implements Serializable {
+  @JsonIgnore
   private int id;
   private String name;
   private String content;
   private String to;
+  @JsonIgnore
   private int status; // 0 unread
                       // 1 read
 }

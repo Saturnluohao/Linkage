@@ -11,4 +11,5 @@ import java.util.List;
 public interface FriendMapper {
   List<Friend> SearchFriendByName(String name);
   List<Friend> GetMyFriends(String myName);
+  void addFriend(String name_1, String name_2);
 }

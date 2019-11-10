@@ -1,4 +1,4 @@
-package com.f4.linkage.webserver.api.chat.service;
+package com.f4.linkage.webserver.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.HashOperations;

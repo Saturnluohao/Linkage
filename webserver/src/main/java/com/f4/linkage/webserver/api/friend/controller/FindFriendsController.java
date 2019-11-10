@@ -1,7 +1,7 @@
 package com.f4.linkage.webserver.api.friend.controller;
 
 import com.f4.linkage.webserver.api.friend.model.Friend;
-import com.f4.linkage.webserver.api.friend.service.SearchForNewFriendsService;
+import com.f4.linkage.webserver.api.friend.service.FriendService;
 import com.f4.linkage.webserver.util.RestfulResponseHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +22,10 @@ import java.util.Map;
 @Controller
 public class FindFriendsController {
   @Autowired
-  private SearchForNewFriendsService searchForNewFriendsService;
+  private FriendService friendService;
   @GetMapping("/user/newFriend")
   public void getFriendsWithSimilarName(String username,Integer currentPage, Integer pageSize,HttpServletResponse response) throws IOException {
-    PageInfo<Friend> friendPageInfo = searchForNewFriendsService.findFriendByName(username,currentPage,pageSize);
+    PageInfo<Friend> friendPageInfo = friendService.findFriendByName(username,currentPage,pageSize);
     Map<String,Object> map = new HashMap<>();
     map.put("totalPages",friendPageInfo.getPages());
     map.put("totalNumber",friendPageInfo.getTotal());

@@ -1,4 +1,4 @@
-package com.f4.linkage.webserver.api.chat.config;
+package com.f4.linkage.webserver.config;
 
 import com.f4.linkage.webserver.api.chat.controller.event.StompConnectEvent;
 import com.f4.linkage.webserver.api.chat.controller.event.StompDisconnectEvent;

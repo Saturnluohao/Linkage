@@ -1,6 +1,6 @@
 package com.f4.linkage.webserver.api.chat.controller.event;
 
-import com.f4.linkage.webserver.api.chat.service.OnlineUserHub;
+import com.f4.linkage.webserver.config.OnlineUserHub;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.web.socket.messaging.SessionDisconnectEvent;
@@ -18,7 +18,7 @@ public class StompDisconnectEvent implements ApplicationListener<SessionDisconne
   OnlineUserHub onlineUserHub;
   @Override
   public void onApplicationEvent(SessionDisconnectEvent sessionDisconnectEvent) {
-    System.out.println(Objects.requireNonNull(sessionDisconnectEvent.getUser()).getName()+" is leaving!");
-    onlineUserHub.userDisconnect(sessionDisconnectEvent.getUser().getName());
+    // System.out.println(Objects.requireNonNull(sessionDisconnectEvent.getUser()).getName()+" is leaving!");
+    onlineUserHub.userDisconnect(Objects.requireNonNull(sessionDisconnectEvent.getUser()).getName());
   }
 }

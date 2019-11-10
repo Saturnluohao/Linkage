@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface MessageMapper {
   int addMessage(Message message);
-  List<Message> getUnreadMessage(String receiverName);
+  List<Message> getMessage(String userName,String targetName);
   int setMessagesRead(String receiverName);
-  // TODO add pagination
+  List<Message> getUnreadMessage(String userName);
 }

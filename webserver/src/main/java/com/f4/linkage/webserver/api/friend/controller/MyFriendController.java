@@ -1,7 +1,7 @@
 package com.f4.linkage.webserver.api.friend.controller;
 
 import com.f4.linkage.webserver.api.friend.model.Friend;
-import com.f4.linkage.webserver.api.friend.service.GetMyFriendsService;
+import com.f4.linkage.webserver.api.friend.service.FriendService;
 import com.f4.linkage.webserver.util.RestfulResponseHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +23,10 @@ import java.util.Map;
 @RestController
 public class MyFriendController {
   @Autowired
-  private GetMyFriendsService getMyFriendsService;
+  private FriendService friendService;
   @GetMapping("/user/myFriend")
   void getMyFriend(Principal principal, Integer currentPage, Integer pageSize, HttpServletResponse response) throws IOException {
-    PageInfo<Friend> friendPageInfo = getMyFriendsService.getMyFriends(principal.getName(),currentPage,pageSize);
+    PageInfo<Friend> friendPageInfo = friendService.getMyFriends(principal.getName(),currentPage,pageSize);
     Map<String,Object> map = new HashMap<>();
     map.put("totalPages",friendPageInfo.getPages());
     map.put("totalNumber",friendPageInfo.getTotal());

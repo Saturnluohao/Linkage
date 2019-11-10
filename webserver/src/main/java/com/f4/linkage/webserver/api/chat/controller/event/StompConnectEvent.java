@@ -1,6 +1,6 @@
 package com.f4.linkage.webserver.api.chat.controller.event;
 
-import com.f4.linkage.webserver.api.chat.service.OnlineUserHub;
+import com.f4.linkage.webserver.config.OnlineUserHub;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
@@ -20,7 +20,7 @@ public class StompConnectEvent implements ApplicationListener<SessionConnectedEv
 
   @Override
   public void onApplicationEvent(SessionConnectedEvent sessionConnectedEvent) {
-    System.out.println(Objects.requireNonNull(sessionConnectedEvent.getUser()).getName()+" is connected!");
-    onlineUserHub.userConnect(sessionConnectedEvent.getUser().getName());
+    // System.out.println(Objects.requireNonNull(sessionConnectedEvent.getUser()).getName()+" is connected!");
+    onlineUserHub.userConnect(Objects.requireNonNull(sessionConnectedEvent.getUser()).getName());
   }
 }
