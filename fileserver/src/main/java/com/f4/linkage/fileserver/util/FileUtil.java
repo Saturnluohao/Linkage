@@ -18,7 +18,7 @@ import java.nio.file.Paths;
 @Service
 public class FileUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileUtil.class);
-    private static int weblogID = -1;
+    public static int weblogID = -1;
 
     @Value("${app.linkage.fileRoot}")
     private String fileRoot;
@@ -55,7 +55,7 @@ public class FileUtil {
         if(weblogID < 0){
             String query = "SELECT COUNT(*) FROM weblog";
             JdbcTemplate jdbcTemplate = (JdbcTemplate) ContextUtil.getBean("jdbcTemplate");
-            weblogID = jdbcTemplate.queryForObject(query, Integer.class) + 1;
+            weblogID = jdbcTemplate.queryForObject(query, Integer.class);
         }
         else {
             weblogID++;
