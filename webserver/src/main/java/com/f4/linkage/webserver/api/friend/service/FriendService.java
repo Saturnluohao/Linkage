@@ -19,7 +19,11 @@ import java.util.List;
 public class FriendService {
   @Autowired
   private FriendMapper friendMapper;
-  public PageInfo<Friend> getMyFriends(String username,int currentPage,int pageSize){
+  public List<Friend> getAllMyFriends(String username){
+    return friendMapper.GetMyFriends(username);
+  }
+
+  public PageInfo<Friend> getMyFriendsByPages(String username, int currentPage, int pageSize){
     PageHelper.startPage(currentPage,pageSize);
     List<Friend> myFriends = friendMapper.GetMyFriends(username);
     return new PageInfo<>(myFriends);

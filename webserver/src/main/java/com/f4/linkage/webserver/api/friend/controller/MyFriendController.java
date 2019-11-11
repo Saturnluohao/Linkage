@@ -26,7 +26,7 @@ public class MyFriendController {
   private FriendService friendService;
   @GetMapping("/user/myFriend")
   void getMyFriend(Principal principal, Integer currentPage, Integer pageSize, HttpServletResponse response) throws IOException {
-    PageInfo<Friend> friendPageInfo = friendService.getMyFriends(principal.getName(),currentPage,pageSize);
+    PageInfo<Friend> friendPageInfo = friendService.getMyFriendsByPages(principal.getName(),currentPage,pageSize);
     Map<String,Object> map = new HashMap<>();
     map.put("totalPages",friendPageInfo.getPages());
     map.put("totalNumber",friendPageInfo.getTotal());

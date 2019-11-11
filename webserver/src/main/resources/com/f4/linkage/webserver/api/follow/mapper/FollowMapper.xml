@@ -1,0 +1,17 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.f4.linkage.webserver.api.follow.mapper.FollowMapper">
+  <insert id="addFollowRelationship" parameterType="com.f4.linkage.webserver.api.follow.model.FollowRelationship">
+    insert into linkage.follow(local_username, global_username) VALUE (#{localUsername},#{globalUsername})
+  </insert>
+  <select id="getAllFollowerName" resultType="java.lang.String">
+    select local_username from linkage.local_global_user where global_username=#{globalUserName}
+  </select>
+  <select id="getGlobalUserIFollow" resultType="com.f4.linkage.webserver.api.globalUser.model.InitialGlobalUser">
+    select username,iconUrl,locked from linkage.follow join linkage.global_user on follow.global_username = global_user.username
+    where linkage.follow.local_username = #{username}
+  </select>
+  <select id="getGlobalUserNameIFollowed" resultType="java.lang.String">
+    select username from linkage.follow join linkage.global_user on follow.global_username = global_user.username
+    where linkage.follow.local_username = #{username}
+  </select>
+</mapper>
