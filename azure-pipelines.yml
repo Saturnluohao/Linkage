@@ -34,7 +34,7 @@ steps:
   inputs:
     sshEndpoint: WebServer
     runOptions: inline
-    inline: expect /home/linkage/script/init_db.sh;sh /home/linkage/script/start-webserver.sh
+    inline: expect /home/linkage/script/init_db.sh;sh /home/linkage/script/start_webserver.sh
 
 - task: SSH@0
   inputs:
