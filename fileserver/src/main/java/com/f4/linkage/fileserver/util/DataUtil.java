@@ -12,7 +12,10 @@ public class DataUtil {
     public static boolean insertBlog(Object[] args){
         JdbcTemplate jdbcTemplate = (JdbcTemplate) ContextUtil.getBean("jdbcTemplate");
         LOGGER.info("jdbc template is " + jdbcTemplate);
-        jdbcTemplate.update(insertStatement, args);
-        return true;
+        if(jdbcTemplate.update(insertStatement, args) == 1) {
+            return true;
+        }else {
+            return false;
+        }
     }
 }
