@@ -29,6 +29,7 @@ steps:
     contents: DDL/linkage.sql
     targetFolder: /home/linkage/sql/
     overwrite: true
+    flattenFolders: true
 - task: SSH@0
   inputs:
     sshEndpoint: WebServer
