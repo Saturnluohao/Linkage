@@ -60,7 +60,7 @@ public class FileUploadController {
             args[4] = null;
         }
         if(!DataUtil.insertBlog(args)){
-            return ResponseEntity.status(500).body("We don't make it to insert you blog record to our database!");
+            return ResponseEntity.status(500).body("We don't make it to insert your blog record to our database!");
         }
 
         return ResponseEntity.ok().body("Upload successfully, your weblog id is " + FileUtil.weblogID);
