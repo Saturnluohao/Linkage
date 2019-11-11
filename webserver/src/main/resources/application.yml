@@ -1,13 +1,20 @@
+#spring:
+#  datasource:
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    url: jdbc:mysql://localhost:3306/linkage?allowMultiQueries=true
+#    username: root
+#    password: eikvDK5R47hK0ztHN1qL0
+
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://localhost:3306/linkage?allowMultiQueries=true
-    username: root
-    password: eikvDK5R47hK0ztHN1qL0
+    url: jdbc:mysql://118.25.191.207:3306/linkage?allowMultiQueries=true
+    username: linkage
+    password: Zzj6p@saturn@lym
 
   redis:
       database: 0
-      host: localhost
+      host: 172.17.0.17
       port: 6379
 
 

@@ -22,6 +22,19 @@ steps:
     goals: 'package'
 - script:
     sh deploy_script/build.sh
+
+- task: CopyFilesOverSSH@0
+  inputs:
+    sshEndpoint: WebServer
+    contents: DDL/linkage.sql
+    targetFolder: /home/linkage/sql/
+    overwrite: true
+- task: SSH@0
+  inputs:
+    sshEndpoint: WebServer
+    runOptions: inline
+    inline: expect /home/linkage/script/init_db.sh;sh /home/linkage/script/start-webserver.sh
+
 - task: SSH@0
   inputs:
     sshEndpoint: FileServer
