@@ -4,6 +4,7 @@ import com.f4.linkage.fileserver.util.DataUtil;
 import com.f4.linkage.fileserver.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,8 +23,7 @@ public class FileUploadController {
     }
 
     @PostMapping("/weblog")
-    @ResponseBody
-    public String upload(@RequestParam("Text")String text, @RequestParam("Picture")MultipartFile[] pictures, @RequestParam("Video")MultipartFile[] videos){
+    public ResponseEntity<String> upload(@RequestParam("Text")String text, @RequestParam("Picture")MultipartFile[] pictures, @RequestParam("Video")MultipartFile[] videos){
 
         LOGGER.info("pictures length is " + pictures.length);
         LOGGER.info("videos length is " + videos.length);
@@ -40,6 +40,9 @@ public class FileUploadController {
                 LOGGER.info("Pictures transferred successfully!");
                 args[3] = pictures.length;
             }
+            else {
+                return ResponseEntity.status(500).body("Picture upload failed!");
+            }
         }
         else{
             args[3] = null;
@@ -49,11 +52,17 @@ public class FileUploadController {
                 LOGGER.info("Videos transferred successfully!");
                 args[4] = videos.length;
             }
+            else {
+                return ResponseEntity.status(500).body("Video upload failed!");
+            }
         }
         else {
             args[4] = null;
         }
-        DataUtil.insertBlog(args);
-        return "Upload successfully, this weblog id is " + FileUtil.weblogID;
+        if(!DataUtil.insertBlog(args)){
+            return ResponseEntity.status(500).body("We don't make it to insert you blog record to our database!");
+        }
+
+        return ResponseEntity.ok().body("Upload successfully, your weblog id is " + FileUtil.weblogID);
     }
 }

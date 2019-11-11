@@ -73,6 +73,7 @@ public class FileUtil {
                 byte[] content = new byte[fis.available()];
                 fis.read(content);
                 os.write(content);
+                response.setStatus(200);
                 /*int count = 0;
                 byte[] buffer = new byte[1024 * 8];
                 while ((count = fis.read(buffer)) != -1) {
@@ -81,14 +82,21 @@ public class FileUtil {
                 }*/
 
             } catch (Exception e) {
-                e.printStackTrace();
+                response.setStatus(500);
             } finally {
                 try {
                     fis.close();
                     os.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    response.setStatus(500);
                 }
+            }
+        }
+        else {
+            response.setStatus(404);
+            try{
+            response.getWriter().println("The file you request is not found!");
+            }catch (IOException e){
             }
         }
     }
