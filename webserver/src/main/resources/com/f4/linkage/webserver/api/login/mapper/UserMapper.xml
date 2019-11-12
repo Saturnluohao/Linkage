@@ -14,4 +14,10 @@
   <update id="changeTimeStamp">
     update linkage.user set lastLogIn=CURRENT_TIMESTAMP where username=#{username}
   </update>
+  <select id="getUserSelfInfoByUsername" resultType="com.f4.linkage.webserver.api.login.model.UserSelfInfo">
+    select description,sex,iconUrl,address,phoneNumber,username from linkage.user where username=#{username}
+  </select>
+  <update id="updateSelfInfo" parameterType="com.f4.linkage.webserver.api.login.model.UserSelfInfo">
+    update linkage.user set description=#{description},sex=#{sex},address=#{address} where username=#{username}
+  </update>
 </mapper>

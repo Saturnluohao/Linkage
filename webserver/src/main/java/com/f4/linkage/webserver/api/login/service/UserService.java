@@ -4,6 +4,7 @@ import com.f4.linkage.webserver.api.chat.mapper.MessageMapper;
 import com.f4.linkage.webserver.api.friend.mapper.AddFriendRequestMapper;
 import com.f4.linkage.webserver.api.login.mapper.UserMapper;
 import com.f4.linkage.webserver.api.login.model.LoginUserInfo;
+import com.f4.linkage.webserver.api.login.model.UserSelfInfo;
 import com.f4.linkage.webserver.api.login.model.unread.UnreadAddFriendReply;
 import com.f4.linkage.webserver.api.login.model.unread.UnreadAddFriendRequest;
 import com.f4.linkage.webserver.api.login.model.unread.UnreadMessage;
@@ -52,6 +53,13 @@ public class UserService implements UserDetailsService {
     loginUserInfo.setUnreadAddFriendRequest(unreadAddFriendRequest);
     userMapper.changeTimeStamp(s);
     return loginUserInfo;
+  }
+
+  public UserSelfInfo getUserInfoByHimself(String username){
+    return userMapper.getUserSelfInfoByUsername(username);
+  }
+  public void updateUserInfo(UserSelfInfo selfInfo){
+    userMapper.updateSelfInfo(selfInfo);
   }
 
 }

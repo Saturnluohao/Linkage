@@ -183,7 +183,7 @@ CREATE TABLE `message` (
   KEY `message_user_username_fk_2` (`to`),
   CONSTRAINT `message_user_username_fk` FOREIGN KEY (`name`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `message_user_username_fk_2` FOREIGN KEY (`to`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -192,7 +192,7 @@ CREATE TABLE `message` (
 
 LOCK TABLES `message` WRITE;
 /*!40000 ALTER TABLE `message` DISABLE KEYS */;
-INSERT INTO `message` VALUES (1,'zzj','你哈皮','zzj',1,'2019-11-10 04:47:08'),(2,'zzj','你哈皮','admin',1,'2019-11-10 04:47:08'),(3,'zzj','你牛皮','admin',1,'2019-11-10 04:47:08'),(4,'admin','哈哈哈 我看到了','zzj',1,'2019-11-10 04:47:08'),(5,'admin','你好 ','zzj',1,'2019-11-10 04:47:08'),(6,'zzj','你好你好','admin',1,'2019-11-10 04:47:08'),(13,'zzj','asdfg','zzj',1,'2019-11-10 07:29:34'),(14,'zzj','kldglfng','skr',1,'2019-11-10 07:29:45'),(15,'skr','nihao','zzj',1,'2019-11-10 07:35:19'),(16,'skr','有蒂娜那时的风','zzj',1,'2019-11-10 07:35:29'),(17,'skr','safasdf','zzj',1,'2019-11-10 07:38:32'),(18,'skr','阿斯顿发 v','zzj',1,'2019-11-10 07:38:37'),(19,'skr','从不曾 v','skr',1,'2019-11-10 07:39:41'),(20,'skr','阿斯顿发 v','zzj',1,'2019-11-10 07:39:52'),(21,'skr','阿斯顿发 v','zzj',1,'2019-11-10 07:40:25'),(22,'zzj','asdf','zzj',1,'2019-11-10 07:44:48'),(23,'zzj','asdf','zzj',1,'2019-11-10 07:44:55'),(24,'zzj','asdfdf','zzj',1,'2019-11-10 07:44:59'),(25,'skr','saf','zzj',1,'2019-11-10 07:46:04'),(26,'zzj','asdfdf','skr',1,'2019-11-10 07:46:11');
+INSERT INTO `message` VALUES (1,'zzj','你哈皮','zzj',1,'2019-11-10 04:47:08'),(2,'zzj','你哈皮','admin',1,'2019-11-10 04:47:08'),(3,'zzj','你牛皮','admin',1,'2019-11-10 04:47:08'),(4,'admin','哈哈哈 我看到了','zzj',1,'2019-11-10 04:47:08'),(5,'admin','你好 ','zzj',1,'2019-11-10 04:47:08'),(6,'zzj','你好你好','admin',1,'2019-11-10 04:47:08'),(13,'zzj','asdfg','zzj',1,'2019-11-10 07:29:34'),(14,'zzj','kldglfng','skr',1,'2019-11-10 07:29:45'),(15,'skr','nihao','zzj',1,'2019-11-10 07:35:19'),(16,'skr','有蒂娜那时的风','zzj',1,'2019-11-10 07:35:29'),(17,'skr','safasdf','zzj',1,'2019-11-10 07:38:32'),(18,'skr','阿斯顿发 v','zzj',1,'2019-11-10 07:38:37'),(19,'skr','从不曾 v','skr',1,'2019-11-10 07:39:41'),(20,'skr','阿斯顿发 v','zzj',1,'2019-11-10 07:39:52'),(21,'skr','阿斯顿发 v','zzj',1,'2019-11-10 07:40:25');
 /*!40000 ALTER TABLE `message` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -237,7 +237,8 @@ CREATE TABLE `user` (
   `description` text,
   `sex` smallint(6) DEFAULT NULL,
   `lastLogIn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `icon_url` varchar(100) DEFAULT NULL,
+  `iconUrl` varchar(100) DEFAULT NULL,
+  `address` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_username_uindex` (`username`),
   UNIQUE KEY `user_id_uindex` (`id`),
@@ -251,7 +252,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin','$2y$10$aMK1CNHNz16C9C1JwNjtHuWYaDluNufZpGHb4qXIiQPQCK67W7feC',1,0,'',NULL,1,'2019-11-10 05:37:43',NULL),(2,'zzj','$2y$10$aMK1CNHNz16C9C1JwNjtHuWYaDluNufZpGHb4qXIiQPQCK67W7feC',1,0,'','i am zzj ',1,'2019-11-11 12:14:36',NULL),(7,'skr','$2a$10$zapaTNnBIf.VA0FE3.JxmevLEBNXt9v9lr/Q5aDsMJXwxwr60z2/6',1,0,'18280096128','i hate zzj',0,'2019-11-11 11:32:47',NULL),(13,'lym','$2a$10$dDwIKrenHzns0uY6ZMcN4OJXVtzp1LOW3ieZaBEv2rJmnPEZD64ie',1,0,'18621062280','? why i am here',0,'2019-11-10 05:37:43',NULL),(14,'zzj_1','1',1,0,'12345678908','zzj No.2',1,'2019-11-10 05:37:43',NULL),(15,'zzj_2','2',1,0,'12345678901','zzj zzj No.3',0,'2019-11-11 09:07:13',NULL),(16,'zzj_3','3',1,0,'123','zzj No.4',1,'2019-11-11 09:07:54',NULL),(17,'zzj_4','4',1,0,'345','zzj No.5',0,'2019-11-11 09:08:30',NULL),(18,'omg','5',1,0,'4367','zzj No.6',1,'2019-11-11 09:10:44',NULL),(19,'godfather','6',1,0,'2355','zzj No.7',0,'2019-11-11 09:18:07',NULL);
+INSERT INTO `user` VALUES (1,'admin','$2y$10$aMK1CNHNz16C9C1JwNjtHuWYaDluNufZpGHb4qXIiQPQCK67W7feC',1,0,'',NULL,1,'2019-11-10 05:37:43',NULL,NULL),(2,'zzj','$2y$10$aMK1CNHNz16C9C1JwNjtHuWYaDluNufZpGHb4qXIiQPQCK67W7feC',1,0,'','How handsome I am!',1,'2019-11-12 07:39:04',NULL,'Chengdu'),(7,'skr','$2a$10$zapaTNnBIf.VA0FE3.JxmevLEBNXt9v9lr/Q5aDsMJXwxwr60z2/6',1,0,'18280096128','i hate zzj',0,'2019-11-12 06:21:55',NULL,NULL),(13,'lym','$2a$10$dDwIKrenHzns0uY6ZMcN4OJXVtzp1LOW3ieZaBEv2rJmnPEZD64ie',1,0,'18621062280','? why i am here',0,'2019-11-10 05:37:43',NULL,NULL),(14,'zzj_1','1',1,0,'12345678908','zzj No.2',1,'2019-11-10 05:37:43',NULL,NULL),(15,'zzj_2','2',1,0,'12345678901','zzj zzj No.3',0,'2019-11-11 09:07:13',NULL,NULL),(16,'zzj_3','3',1,0,'123','zzj No.4',1,'2019-11-11 09:07:54',NULL,NULL),(17,'zzj_4','4',1,0,'345','zzj No.5',0,'2019-11-11 09:08:30',NULL,NULL),(18,'omg','5',1,0,'4367','zzj No.6',1,'2019-11-11 09:10:44',NULL,NULL),(19,'godfather','6',1,0,'2355','zzj No.7',0,'2019-11-11 09:18:07',NULL,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -304,6 +305,31 @@ INSERT INTO `user_role` VALUES (2,2,2),(14,1,1),(15,1,2),(16,7,2),(22,13,2);
 UNLOCK TABLES;
 
 --
+-- Table structure for table `user_weblog_push`
+--
+
+DROP TABLE IF EXISTS `user_weblog_push`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user_weblog_push` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(32) NOT NULL,
+  `blog_id` int(11) NOT NULL,
+  `publishTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_weblog_push`
+--
+
+LOCK TABLES `user_weblog_push` WRITE;
+/*!40000 ALTER TABLE `user_weblog_push` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_weblog_push` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `weblog`
 --
 
@@ -312,11 +338,12 @@ DROP TABLE IF EXISTS `weblog`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `weblog` (
   `blog_id` int(11) NOT NULL AUTO_INCREMENT,
-  `poster_id` int(11) NOT NULL,
+  `poster_name` varchar(32) NOT NULL,
   `text` text NOT NULL,
   `picture_num` int(2) DEFAULT NULL,
   `video_num` int(2) DEFAULT NULL,
-  PRIMARY KEY (`blog_id`)
+  PRIMARY KEY (`blog_id`),
+  KEY `weblog_global_user_username_fk` (`poster_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -338,4 +365,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-11 20:46:58
+-- Dump completed on 2019-11-12 18:02:43
