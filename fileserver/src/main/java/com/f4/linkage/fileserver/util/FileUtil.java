@@ -35,6 +35,15 @@ public class FileUtil {
         return true;
     }
 
+    public boolean saveIconFile(MultipartFile file){
+        try{
+            file.transferTo(Paths.get(fileRoot + "user"));
+        }catch (IOException e){
+            return false;
+        }
+        return true;
+    }
+
     private Path getServerFilePath(int index, MultipartFile file, int kind){
         String fileName = file.getOriginalFilename();
         LOGGER.info("file name is " + fileName);

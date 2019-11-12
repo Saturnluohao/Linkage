@@ -65,4 +65,17 @@ public class FileUploadController {
 
         return ResponseEntity.ok().body("Upload successfully, your weblog id is " + FileUtil.weblogID);
     }
+
+    @PostMapping("/icon")
+    ResponseEntity<String> uploadIcon(@RequestParam("Icon") MultipartFile icon){
+        if(icon != null){
+            if(fileUtil.saveIconFile(icon)){
+                return ResponseEntity.ok().body("http://www.saturnluo.cn:5000/icon/" + "user");
+            }
+            else {
+                return ResponseEntity.status(500).body("We can't save you icon file!");
+            }
+        }
+        return ResponseEntity.status(400).body("We don't receive your icon file");
+    }
 }

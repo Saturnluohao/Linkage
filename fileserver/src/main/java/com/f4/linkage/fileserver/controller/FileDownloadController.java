@@ -28,4 +28,10 @@ public class FileDownloadController {
         fileUtil.transfer(response, fileName);
         response.setContentType("video/mp4");
     }
+
+    @GetMapping("/icon/{user}")
+    void iconTransferer(@PathVariable String user, HttpServletResponse response){
+        String fileName = user;
+        fileUtil.transfer(response, fileName);
+    }
 }
