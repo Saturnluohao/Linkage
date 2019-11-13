@@ -14,4 +14,10 @@
     select username from linkage.follow join linkage.global_user on follow.global_username = global_user.username
     where linkage.follow.local_username = #{username}
   </select>
+  <select id="getAllFollowerNumber" resultType="java.lang.Integer">
+    select count(distinct local_username) from linkage.follow where global_username=#{globalUserName}
+  </select>
+  <delete id="deleteFollow" parameterType="java.lang.String">
+    delete from linkage.follow where local_username=#{username} and global_username=#{globalUserName}
+  </delete>
 </mapper>

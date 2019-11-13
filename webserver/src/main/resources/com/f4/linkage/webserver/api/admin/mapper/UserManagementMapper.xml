@@ -1,0 +1,24 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.f4.linkage.webserver.api.admin.mapper.UserManagementMapper">
+  <select id="getUserInfoByUsername" parameterType="java.lang.String" resultType="com.f4.linkage.webserver.api.admin.model.info.UserManagementInfo">
+    select username,locked,description,address,lastLogIn from linkage.user where username like #{username}
+  </select>
+  <update id="lockUserByUsername" parameterType="java.lang.String">
+    update linkage.user set locked=1 where username=#{username}
+  </update>
+  <update id="unlockUserByUsername" parameterType="java.lang.String">
+    update linkage.user set locked=0 where username=#{username}
+  </update>
+  <insert id="addRecordForLockUser" parameterType="com.f4.linkage.webserver.api.admin.model.operation.LockUserOperation">
+    insert into linkage.admin_lock_user_operation(adminName, username, operationType, reason) value (#{adminName},#{username},#{operationType},#{reason})
+  </insert>
+  <insert id="addRecordForLockPost" parameterType="com.f4.linkage.webserver.api.admin.model.operation.LockPostOperation">
+    insert into linkage.admin_lock_post_operation(postId, reason, operationType, adminName) VALUE (#{postId},#{reason},#{operationType},#{adminName})
+  </insert>
+  <insert id="addRecordForLockMoment" parameterType="com.f4.linkage.webserver.api.admin.model.operation.LockMomentOperation">
+    insert into linkage.admin_lock_moment_operation(momentId, reason, operationType, adminName) VALUE (#{momentId},#{reason},#{operationType},#{adminName})
+  </insert>
+  <select id="getLockUserOperation" resultType="com.f4.linkage.webserver.api.admin.model.operation.LockUserOperation">
+    select adminName,username,operationType,reason,executeTime from linkage.admin_lock_user_operation
+  </select>
+</mapper>

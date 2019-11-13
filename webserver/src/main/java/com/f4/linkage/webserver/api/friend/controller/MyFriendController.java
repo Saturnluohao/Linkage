@@ -4,7 +4,10 @@ import com.f4.linkage.webserver.api.friend.model.Friend;
 import com.f4.linkage.webserver.api.friend.service.FriendService;
 import com.f4.linkage.webserver.util.RestfulResponseHelper;
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,15 +25,29 @@ import java.util.Map;
  **/
 @RestController
 public class MyFriendController {
+  private Logger logger = LoggerFactory.getLogger(MyFriendController.class);
   @Autowired
   private FriendService friendService;
   @GetMapping("/user/myFriend")
-  void getMyFriend(Principal principal, Integer currentPage, Integer pageSize, HttpServletResponse response) throws IOException {
+  public void getMyFriend(Principal principal, Integer currentPage, Integer pageSize, HttpServletResponse response) throws IOException {
     PageInfo<Friend> friendPageInfo = friendService.getMyFriendsByPages(principal.getName(),currentPage,pageSize);
     Map<String,Object> map = new HashMap<>();
     map.put("totalPages",friendPageInfo.getPages());
     map.put("totalNumber",friendPageInfo.getTotal());
     map.put("friendList",friendPageInfo.getList());
+    RestfulResponseHelper.writeToResponse(response,200,map);
+  }
+  @DeleteMapping("/user/myFriend")
+  public void deleteMyFriend(Principal principal,String friendName,HttpServletResponse response) throws IOException {
+    Map<String,Object> map = new HashMap<>();
+    try {
+      friendService.deleteFriend(principal.getName(),friendName);
+    }catch (Exception e){
+      map.put("msg","delete friend fail");
+      RestfulResponseHelper.writeToResponse(response,401,map);
+      logger.error(e.toString());
+    }
+    map.put("msg","ok");
     RestfulResponseHelper.writeToResponse(response,200,map);
   }
 }

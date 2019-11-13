@@ -9,3 +9,7 @@ spring:
     database: 0
     host: localhost
     port: 6379
+
+linkage:
+  host: http://localhost:8080
+  sessionTimeOut: 10

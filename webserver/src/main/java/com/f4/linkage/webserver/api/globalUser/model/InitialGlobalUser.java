@@ -15,6 +15,8 @@ import java.io.Serializable;
 public class InitialGlobalUser implements Serializable {
   private String username;
   private String iconUrl;
+  private String description;
+  private int followerNumber;
   @JsonIgnore
   private String localUserName;
   @JsonIgnore

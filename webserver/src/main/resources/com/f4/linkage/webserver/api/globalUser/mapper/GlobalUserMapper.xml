@@ -1,17 +1,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.f4.linkage.webserver.api.globalUser.mapper.GlobalUserMapper">
   <insert id="storeInitialGlobalUser" parameterType="com.f4.linkage.webserver.api.globalUser.model.InitialGlobalUser">
-    insert into linkage.global_user(username,iconUrl) value (#{username},#{iconUrl});
+    insert into linkage.global_user(username,iconUrl,description) value (#{username},#{iconUrl},#{description});
     insert into linkage.local_global_user(local_username, global_username) value (#{localUserName},#{username});
   </insert>
   <insert id="addLocalGlobalRelationship" parameterType="com.f4.linkage.webserver.api.globalUser.model.LocalGlobalRelationship">
     insert into  linkage.local_global_user(local_username, global_username) VALUE (#{localUserName},#{globalUserName})
   </insert>
   <select id="getSomeoneGlobalUser" resultType="com.f4.linkage.webserver.api.globalUser.model.InitialGlobalUser">
-    select username,iconUrl,locked from linkage.global_user join linkage.local_global_user on global_user.username = local_global_user.global_username
+    select username,iconUrl,description,locked from linkage.global_user join linkage.local_global_user on global_user.username = local_global_user.global_username
     where linkage.local_global_user.local_username = #{username}
   </select>
   <select id="searchForGlobalUser" resultType="com.f4.linkage.webserver.api.globalUser.model.InitialGlobalUser">
-    select username,iconUrl,locked from linkage.global_user where username like #{globalUserName}
+    select username,iconUrl,description from linkage.global_user
+    where username like #{globalUserName} and locked=0
   </select>
 </mapper>

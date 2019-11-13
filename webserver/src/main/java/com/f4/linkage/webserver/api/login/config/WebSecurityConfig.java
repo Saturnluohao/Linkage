@@ -3,6 +3,7 @@ package com.f4.linkage.webserver.api.login.config;
 import com.f4.linkage.webserver.api.login.service.UserService;
 import com.f4.linkage.webserver.util.RestfulResponseHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
@@ -34,6 +35,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   PasswordEncoder passwordEncoder(){
     return new BCryptPasswordEncoder();
   }
+  @Value("${linkage.sessionTimeOut}")
+  private int minutesToExpireSession;
+
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception{
     auth.userDetailsService(userService);
@@ -59,6 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.authorizeRequests()
       .antMatchers("/admin/**").hasRole("admin")
       .antMatchers("/user/**").hasRole("user")
+      .antMatchers("/operator/**").hasRole("operator")
 //      .antMatchers("/login").permitAll()
       .antMatchers("/").permitAll()
       .antMatchers("/signup/**").permitAll()
@@ -71,8 +76,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       .usernameParameter("username")
       .passwordParameter("passwd")
       .successHandler((httpServletRequest, httpServletResponse, authentication) -> {
-        // TODO 放入配置文件中 session的过期时间
-        httpServletRequest.getSession().setMaxInactiveInterval(5*60);
+        httpServletRequest.getSession().setMaxInactiveInterval(minutesToExpireSession * 60);
         Map<String,Object> map = new HashMap<>();
         Object principle = authentication.getPrincipal();
         map.put("status",200);

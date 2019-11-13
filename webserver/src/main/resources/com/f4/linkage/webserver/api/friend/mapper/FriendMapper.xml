@@ -1,13 +1,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.f4.linkage.webserver.api.friend.mapper.FriendMapper">
   <select id="SearchFriendByName" resultType="com.f4.linkage.webserver.api.friend.model.Friend" >
-    select username,description,sex from linkage.user where username like #{name}
+    select username,description,sex from linkage.user
+    where username like #{name} and linkage.user.locked=0
   </select>
   <select id="GetMyFriends" resultType="com.f4.linkage.webserver.api.friend.model.Friend">
-    select * from linkage.user join linkage.friend on user.username = friend.friend_username where linkage.friend.my_username = #{myName}
+    select * from linkage.user join linkage.friend on user.username = friend.friend_username
+    where (linkage.friend.my_username = #{myName} and linkage.user.locked=0)
   </select>
   <insert id="addFriend">
     insert into linkage.friend(my_username, friend_username) value (#{name_1},#{name_2});
     insert into linkage.friend(my_username, friend_username) value (#{name_2},#{name_1});
   </insert>
+  <select id="getAllMyFriends" resultType="java.lang.String" parameterType="java.lang.String">
+    select friend_username from linkage.user join linkage.friend on user.username = friend.friend_username
+    where (linkage.friend.my_username = #{name} and linkage.user.locked=0)
+  </select>
+  <delete id="deleteFriend" parameterType="java.lang.String">
+    delete from linkage.friend where friend_username=#{name_1} and my_username=#{name_2};
+    delete from linkage.friend where friend_username=#{name_2} and my_username=#{name_1};
+  </delete>
 </mapper>

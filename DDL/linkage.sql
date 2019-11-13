@@ -50,6 +50,92 @@ INSERT INTO `add_friend_request` VALUES (7,'skr','zzj','hello',1,1,0,'2019-11-10
 UNLOCK TABLES;
 
 --
+-- Table structure for table `admin_lock_moment_operation`
+--
+
+DROP TABLE IF EXISTS `admin_lock_moment_operation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `admin_lock_moment_operation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `momentId` int(11) NOT NULL,
+  `reason` text,
+  `executeTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `operationType` text NOT NULL,
+  `adminName` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `admin_lock_moment_operation`
+--
+
+LOCK TABLES `admin_lock_moment_operation` WRITE;
+/*!40000 ALTER TABLE `admin_lock_moment_operation` DISABLE KEYS */;
+/*!40000 ALTER TABLE `admin_lock_moment_operation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `admin_lock_post_operation`
+--
+
+DROP TABLE IF EXISTS `admin_lock_post_operation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `admin_lock_post_operation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `postId` int(11) NOT NULL,
+  `reason` text,
+  `executeTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `operationType` text NOT NULL,
+  `adminName` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `admin_lock_post_operation`
+--
+
+LOCK TABLES `admin_lock_post_operation` WRITE;
+/*!40000 ALTER TABLE `admin_lock_post_operation` DISABLE KEYS */;
+/*!40000 ALTER TABLE `admin_lock_post_operation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `admin_lock_user_operation`
+--
+
+DROP TABLE IF EXISTS `admin_lock_user_operation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `admin_lock_user_operation` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `adminName` varchar(32) NOT NULL,
+  `username` varchar(32) DEFAULT NULL,
+  `operationType` text NOT NULL,
+  `reason` text,
+  `executeTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `admin_lock_user_operation_user_username_fk` (`username`),
+  KEY `admin_lock_user_operation_user_username_fk_2` (`adminName`),
+  CONSTRAINT `admin_lock_user_operation_user_username_fk` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `admin_lock_user_operation_user_username_fk_2` FOREIGN KEY (`adminName`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `admin_lock_user_operation`
+--
+
+LOCK TABLES `admin_lock_user_operation` WRITE;
+/*!40000 ALTER TABLE `admin_lock_user_operation` DISABLE KEYS */;
+INSERT INTO `admin_lock_user_operation` VALUES (11,'admin','zzj_1','lockUser',' This man is fake','2019-11-13 11:13:28'),(13,'admin','zzj_1','unlockUser',' This man is not fake','2019-11-13 11:19:30');
+/*!40000 ALTER TABLE `admin_lock_user_operation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `follow`
 --
 
@@ -65,7 +151,7 @@ CREATE TABLE `follow` (
   KEY `follow_user_username_fk` (`local_username`),
   CONSTRAINT `follow_global_user_username_fk` FOREIGN KEY (`global_username`) REFERENCES `global_user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `follow_user_username_fk` FOREIGN KEY (`local_username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +160,7 @@ CREATE TABLE `follow` (
 
 LOCK TABLES `follow` WRITE;
 /*!40000 ALTER TABLE `follow` DISABLE KEYS */;
-INSERT INTO `follow` VALUES (1,'zzj','zzjBigUnser');
+INSERT INTO `follow` VALUES (4,'skr','ThinkAboutOurTrivialBeing');
 /*!40000 ALTER TABLE `follow` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -103,7 +189,7 @@ CREATE TABLE `friend` (
 
 LOCK TABLES `friend` WRITE;
 /*!40000 ALTER TABLE `friend` DISABLE KEYS */;
-INSERT INTO `friend` VALUES (1,'zzj','admin'),(2,'admin','zzj'),(5,'zzj','lym'),(6,'lym','zzj'),(7,'zzj','skr'),(8,'skr','zzj'),(9,'zzj','zzj_1'),(10,'zzj_1','zzj'),(11,'zzj','zzj_2'),(12,'zzj_2','zzj'),(13,'zzj','zzj_3'),(14,'zzj_3','zzj'),(15,'zzj','zzj_4'),(16,'zzj_4','zzj'),(17,'zzj','omg'),(18,'omg','zzj'),(19,'zzj','godfather'),(20,'godfather','zzj');
+INSERT INTO `friend` VALUES (1,'zzj','admin'),(2,'admin','zzj'),(5,'zzj','lym'),(6,'lym','zzj'),(7,'zzj','skr'),(8,'skr','zzj'),(9,'zzj','zzj_1'),(10,'zzj_1','zzj'),(11,'zzj','zzj_2'),(12,'zzj_2','zzj'),(13,'zzj','zzj_3'),(14,'zzj_3','zzj'),(15,'zzj','zzj_4'),(16,'zzj_4','zzj'),(17,'zzj','omg'),(18,'omg','zzj');
 /*!40000 ALTER TABLE `friend` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -119,9 +205,10 @@ CREATE TABLE `global_user` (
   `username` varchar(32) NOT NULL,
   `locked` smallint(6) NOT NULL DEFAULT '0',
   `iconUrl` text,
+  `description` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `global_user_username_uindex` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,7 +217,7 @@ CREATE TABLE `global_user` (
 
 LOCK TABLES `global_user` WRITE;
 /*!40000 ALTER TABLE `global_user` DISABLE KEYS */;
-INSERT INTO `global_user` VALUES (3,'zzjBigUnser',0,'https://cn.bing.com/images/search?q=北部战区空军组织跨昼夜飞行训练&FORM=ISTRTH&id=8A6C203801386A7B15F74187723C090CFAE363C1&cat=今日热图&lpversion=');
+INSERT INTO `global_user` VALUES (3,'zzjBigUnser',0,'https://cn.bing.com/images/search?q=北部战区空军组织跨昼夜飞行训练&FORM=ISTRTH&id=8A6C203801386A7B15F74187723C090CFAE363C1&cat=今日热图&lpversion=',NULL),(5,'ThinkAboutOurTrivialBeing',0,'','hhh i also have a big account');
 /*!40000 ALTER TABLE `global_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,7 +238,7 @@ CREATE TABLE `local_global_user` (
   KEY `local_global_user_user_username_fk` (`local_username`),
   CONSTRAINT `local_global_user_global_user_username_fk` FOREIGN KEY (`global_username`) REFERENCES `global_user` (`username`) ON UPDATE CASCADE,
   CONSTRAINT `local_global_user_user_username_fk` FOREIGN KEY (`local_username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,7 +247,7 @@ CREATE TABLE `local_global_user` (
 
 LOCK TABLES `local_global_user` WRITE;
 /*!40000 ALTER TABLE `local_global_user` DISABLE KEYS */;
-INSERT INTO `local_global_user` VALUES (2,'skr','zzjBigUnser','2019-11-11 11:32:52');
+INSERT INTO `local_global_user` VALUES (2,'skr','zzjBigUnser','2019-11-11 11:32:52'),(8,'zzj','ThinkAboutOurTrivialBeing','2019-11-13 12:28:43');
 /*!40000 ALTER TABLE `local_global_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -194,6 +281,107 @@ LOCK TABLES `message` WRITE;
 /*!40000 ALTER TABLE `message` DISABLE KEYS */;
 INSERT INTO `message` VALUES (1,'zzj','你哈皮','zzj',1,'2019-11-10 04:47:08'),(2,'zzj','你哈皮','admin',1,'2019-11-10 04:47:08'),(3,'zzj','你牛皮','admin',1,'2019-11-10 04:47:08'),(4,'admin','哈哈哈 我看到了','zzj',1,'2019-11-10 04:47:08'),(5,'admin','你好 ','zzj',1,'2019-11-10 04:47:08'),(6,'zzj','你好你好','admin',1,'2019-11-10 04:47:08'),(13,'zzj','asdfg','zzj',1,'2019-11-10 07:29:34'),(14,'zzj','kldglfng','skr',1,'2019-11-10 07:29:45'),(15,'skr','nihao','zzj',1,'2019-11-10 07:35:19'),(16,'skr','有蒂娜那时的风','zzj',1,'2019-11-10 07:35:29'),(17,'skr','safasdf','zzj',1,'2019-11-10 07:38:32'),(18,'skr','阿斯顿发 v','zzj',1,'2019-11-10 07:38:37'),(19,'skr','从不曾 v','skr',1,'2019-11-10 07:39:41'),(20,'skr','阿斯顿发 v','zzj',1,'2019-11-10 07:39:52'),(21,'skr','阿斯顿发 v','zzj',1,'2019-11-10 07:40:25');
 /*!40000 ALTER TABLE `message` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `moment`
+--
+
+DROP TABLE IF EXISTS `moment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `moment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `poster_name` varchar(32) NOT NULL,
+  `text` text NOT NULL,
+  `picture_num` int(2) DEFAULT NULL,
+  `video_num` int(2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `moment`
+--
+
+LOCK TABLES `moment` WRITE;
+/*!40000 ALTER TABLE `moment` DISABLE KEYS */;
+INSERT INTO `moment` VALUES (1,'zzj','This is for test',1,1),(2,'zzj','This is for test',1,1),(3,'zzj','This is for test',1,1),(4,'zzj','This is for test',1,1),(5,'zzj','This is for test',1,1),(6,'zzj','No video',1,1),(7,'zzj','No video',1,1),(8,'zzj','No video',1,1),(9,'zzj','This is from postman',1,0);
+/*!40000 ALTER TABLE `moment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `moment_comment`
+--
+
+DROP TABLE IF EXISTS `moment_comment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `moment_comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `moment_id` int(11) DEFAULT NULL,
+  `content` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `moment_comment`
+--
+
+LOCK TABLES `moment_comment` WRITE;
+/*!40000 ALTER TABLE `moment_comment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `moment_comment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `post`
+--
+
+DROP TABLE IF EXISTS `post`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `post` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_name` varchar(32) DEFAULT NULL,
+  `text` text,
+  `picture_num` int(2) DEFAULT NULL,
+  `video_num` int(2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `post`
+--
+
+LOCK TABLES `post` WRITE;
+/*!40000 ALTER TABLE `post` DISABLE KEYS */;
+/*!40000 ALTER TABLE `post` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `post_comment`
+--
+
+DROP TABLE IF EXISTS `post_comment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `post_comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) DEFAULT NULL,
+  `content` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `post_comment`
+--
+
+LOCK TABLES `post_comment` WRITE;
+/*!40000 ALTER TABLE `post_comment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `post_comment` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -252,7 +440,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin','$2y$10$aMK1CNHNz16C9C1JwNjtHuWYaDluNufZpGHb4qXIiQPQCK67W7feC',1,0,'',NULL,1,'2019-11-10 05:37:43',NULL,NULL),(2,'zzj','$2y$10$aMK1CNHNz16C9C1JwNjtHuWYaDluNufZpGHb4qXIiQPQCK67W7feC',1,0,'','How handsome I am!',1,'2019-11-12 07:39:04',NULL,'Chengdu'),(7,'skr','$2a$10$zapaTNnBIf.VA0FE3.JxmevLEBNXt9v9lr/Q5aDsMJXwxwr60z2/6',1,0,'18280096128','i hate zzj',0,'2019-11-12 06:21:55',NULL,NULL),(13,'lym','$2a$10$dDwIKrenHzns0uY6ZMcN4OJXVtzp1LOW3ieZaBEv2rJmnPEZD64ie',1,0,'18621062280','? why i am here',0,'2019-11-10 05:37:43',NULL,NULL),(14,'zzj_1','1',1,0,'12345678908','zzj No.2',1,'2019-11-10 05:37:43',NULL,NULL),(15,'zzj_2','2',1,0,'12345678901','zzj zzj No.3',0,'2019-11-11 09:07:13',NULL,NULL),(16,'zzj_3','3',1,0,'123','zzj No.4',1,'2019-11-11 09:07:54',NULL,NULL),(17,'zzj_4','4',1,0,'345','zzj No.5',0,'2019-11-11 09:08:30',NULL,NULL),(18,'omg','5',1,0,'4367','zzj No.6',1,'2019-11-11 09:10:44',NULL,NULL),(19,'godfather','6',1,0,'2355','zzj No.7',0,'2019-11-11 09:18:07',NULL,NULL);
+INSERT INTO `user` VALUES (1,'admin','$2y$10$aMK1CNHNz16C9C1JwNjtHuWYaDluNufZpGHb4qXIiQPQCK67W7feC',1,0,'',NULL,1,'2019-11-13 11:47:02',NULL,NULL),(2,'zzj','$2y$10$aMK1CNHNz16C9C1JwNjtHuWYaDluNufZpGHb4qXIiQPQCK67W7feC',1,0,'','How handsome I am!',1,'2019-11-13 13:24:36',NULL,'Chengdu'),(7,'skr','$2a$10$zapaTNnBIf.VA0FE3.JxmevLEBNXt9v9lr/Q5aDsMJXwxwr60z2/6',1,0,'18280096128','i hate zzj',0,'2019-11-13 12:33:27',NULL,NULL),(13,'lym','$2a$10$dDwIKrenHzns0uY6ZMcN4OJXVtzp1LOW3ieZaBEv2rJmnPEZD64ie',1,0,'18621062280','? why i am here',0,'2019-11-10 05:37:43',NULL,NULL),(14,'zzj_1','1',1,0,'12345678908','zzj No.2',1,'2019-11-10 05:37:43',NULL,NULL),(15,'zzj_2','2',1,0,'12345678901','zzj zzj No.3',0,'2019-11-11 09:07:13',NULL,NULL),(16,'zzj_3','3',1,0,'123','zzj No.4',1,'2019-11-11 09:07:54',NULL,NULL),(17,'zzj_4','4',1,0,'345','zzj No.5',0,'2019-11-11 09:08:30',NULL,NULL),(18,'omg','5',1,0,'4367','zzj No.6',1,'2019-11-11 09:10:44',NULL,NULL),(19,'godfather','6',1,0,'2355','zzj No.7',0,'2019-11-11 09:18:07',NULL,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -330,30 +518,52 @@ LOCK TABLES `user_weblog_push` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `weblog`
+-- Table structure for table `who_should_see_moment`
 --
 
-DROP TABLE IF EXISTS moment;
+DROP TABLE IF EXISTS `who_should_see_moment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `weblog` (
-  `blog_id` int(11) NOT NULL AUTO_INCREMENT,
-  `poster_name` varchar(32) NOT NULL,
-  `text` text NOT NULL,
-  `picture_num` int(2) DEFAULT NULL,
-  `video_num` int(2) DEFAULT NULL,
-  PRIMARY KEY (`blog_id`),
-  KEY `weblog_global_user_username_fk` (`poster_name`)
+CREATE TABLE `who_should_see_moment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `moment_id` int(11) DEFAULT NULL,
+  `username` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `who_should_see_moment`
+--
+
+LOCK TABLES `who_should_see_moment` WRITE;
+/*!40000 ALTER TABLE `who_should_see_moment` DISABLE KEYS */;
+INSERT INTO `who_should_see_moment` VALUES (1,4,'admin'),(2,4,'lym'),(3,4,'skr'),(4,5,'admin'),(5,5,'lym'),(6,5,'skr'),(7,6,'admin'),(8,6,'lym'),(9,6,'skr'),(10,7,'admin'),(11,7,'lym'),(12,7,'skr'),(13,8,'admin'),(14,8,'lym'),(15,8,'skr');
+/*!40000 ALTER TABLE `who_should_see_moment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `who_should_see_post`
+--
+
+DROP TABLE IF EXISTS `who_should_see_post`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `who_should_see_post` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) DEFAULT NULL,
+  `global_username` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `weblog`
+-- Dumping data for table `who_should_see_post`
 --
 
-LOCK TABLES moment WRITE;
-/*!40000 ALTER TABLE moment DISABLE KEYS */;
-/*!40000 ALTER TABLE moment ENABLE KEYS */;
+LOCK TABLES `who_should_see_post` WRITE;
+/*!40000 ALTER TABLE `who_should_see_post` DISABLE KEYS */;
+/*!40000 ALTER TABLE `who_should_see_post` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -365,4 +575,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-12 18:02:43
+-- Dump completed on 2019-11-13 22:14:41

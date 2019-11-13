@@ -19,8 +19,8 @@ import java.util.List;
 public class FriendService {
   @Autowired
   private FriendMapper friendMapper;
-  public List<Friend> getAllMyFriends(String username){
-    return friendMapper.GetMyFriends(username);
+  public List<String> getAllMyFriends(String username){
+    return friendMapper.getAllMyFriends(username);
   }
 
   public PageInfo<Friend> getMyFriendsByPages(String username, int currentPage, int pageSize){
@@ -37,4 +37,5 @@ public class FriendService {
   public void addFriend(String userName, String targetName){
     friendMapper.addFriend(userName,targetName);
   }
+  public void deleteFriend(String userName,String targetName){friendMapper.deleteFriend(userName,targetName);}
 }

@@ -2,6 +2,7 @@ package com.f4.linkage.webserver.api.chat.controller;
 
 import com.f4.linkage.webserver.api.chat.model.Message;
 import com.f4.linkage.webserver.api.chat.service.MessageService;
+import com.f4.linkage.webserver.api.friend.service.FriendService;
 import com.f4.linkage.webserver.config.OnlineUserHub;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -10,6 +11,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 import java.security.Principal;
+import java.util.List;
 
 /**
  * @program: Linkage
@@ -20,11 +22,14 @@ import java.security.Principal;
 @Controller
 public class GreetingController {
   @Autowired
-  SimpMessagingTemplate simpMessagingTemplate;
+  private SimpMessagingTemplate simpMessagingTemplate;
   @Autowired
-  OnlineUserHub onlineUserHub;
+  private OnlineUserHub onlineUserHub;
   @Autowired
-  MessageService messageService;
+  private MessageService messageService;
+  @Autowired
+  private FriendService friendService;
+
 
   @MessageMapping("/hello")
   @SendTo("/topic/greetings")
@@ -40,6 +45,10 @@ public class GreetingController {
     // System.out.println(message.getTo()+" is "+ targetOnline);
     String from = principal.getName();
     message.setName(from);
+    List<String> userFriendList = friendService.getAllMyFriends(principal.getName());
+    if(!userFriendList.contains(message.getTo())){
+      return;
+    }
     if(targetOnline){
       message.setStatus(1);
       simpMessagingTemplate.convertAndSendToUser(message.getTo(),"/queue/chat",message);
