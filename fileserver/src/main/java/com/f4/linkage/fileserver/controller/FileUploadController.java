@@ -17,12 +17,15 @@ public class FileUploadController {
     @Resource
     private FileUtil fileUtil;
 
-    @GetMapping("/weblog")
+    @Resource
+    private DataUtil dataUtil;
+
+    @GetMapping("/moment")
     public String upload(){
-        return "The upload API";
+        return "The moment upload API";
     }
 
-    @PostMapping("/weblog")
+    @PostMapping("/moment")
     public ResponseEntity<String> upload(@RequestParam("Text")String text, @RequestParam("Picture")MultipartFile[] pictures, @RequestParam("Video")MultipartFile[] videos){
 
         LOGGER.info("pictures length is " + pictures.length);
@@ -30,10 +33,10 @@ public class FileUploadController {
         Object[] args = new Object[5];
 
         args[0] = null;
-        args[1] = 666;
+        args[1] = "zzj";
         args[2] = text;
 
-        fileUtil.updateWeblogID();
+        fileUtil.updateMomentID();
 
         if(pictures != null){
             if(fileUtil.saveFiles(pictures, 0)){
@@ -59,17 +62,18 @@ public class FileUploadController {
         else {
             args[4] = null;
         }
-        if(!DataUtil.insertBlog(args)){
+        if(!dataUtil.insertBlog(args)){
             return ResponseEntity.status(500).body("We don't make it to insert your blog record to our database!");
         }
 
-        return ResponseEntity.ok().body("Upload successfully, your weblog id is " + FileUtil.weblogID);
+        return ResponseEntity.ok().body("Upload successfully, your weblog id is " + FileUtil.momentID);
     }
 
     @PostMapping("/icon")
     ResponseEntity<String> uploadIcon(@RequestParam("Icon") MultipartFile icon){
         if(icon != null){
-            if(fileUtil.saveIconFile(icon)){
+            if(fileUtil.saveIconFile(icon, "user")){
+                dataUtil.updateIconUrl("user");
                 return ResponseEntity.ok().body("http://www.saturnluo.cn:5000/icon/" + "user");
             }
             else {

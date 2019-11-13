@@ -16,15 +16,15 @@ public class FileDownloadController {
     FileUtil fileUtil;
 
 
-    @GetMapping("/weblog/{blog_id}/picture/{picture_index}")
-    void pictureTransferer(@PathVariable int blog_id, @PathVariable int picture_index, HttpServletResponse response){
-        String fileName = "" + blog_id + "_p_" + picture_index;
+    @GetMapping("/moment/{id}/picture/{picture_index}")
+    void pictureTransferer(@PathVariable int id, @PathVariable int picture_index, HttpServletResponse response){
+        String fileName = "img/" + id + "_" + picture_index;
         fileUtil.transfer(response, fileName);
     }
 
-    @GetMapping("/weblog/{blog_id}/video/{video_index}")
-    void videoTransferer(@PathVariable int blog_id, @PathVariable int video_index, HttpServletResponse response){
-        String fileName = "" + blog_id + "_v_" + video_index;
+    @GetMapping("/moment/{id}/video/{video_index}")
+    void videoTransferer(@PathVariable int id, @PathVariable int video_index, HttpServletResponse response){
+        String fileName = "video/" + id + "_" + video_index;
         fileUtil.transfer(response, fileName);
         response.setContentType("video/mp4");
     }

@@ -18,7 +18,7 @@ import java.nio.file.Paths;
 @Service
 public class FileUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileUtil.class);
-    public static int weblogID = -1;
+    public static int momentID = -1;
 
     @Value("${app.linkage.fileRoot}")
     private String fileRoot;
@@ -35,9 +35,9 @@ public class FileUtil {
         return true;
     }
 
-    public boolean saveIconFile(MultipartFile file){
+    public boolean saveIconFile(MultipartFile file, String user){
         try{
-            file.transferTo(Paths.get(fileRoot + "user"));
+            file.transferTo(Paths.get(fileRoot + "icon/"+ user));
         }catch (IOException e){
             return false;
         }
@@ -47,9 +47,9 @@ public class FileUtil {
     private Path getServerFilePath(int index, MultipartFile file, int kind){
         String fileName = file.getOriginalFilename();
         LOGGER.info("file name is " + fileName);
-        String fileKind = kind == 0 ? "p" : "v";
+        String fileKind = kind == 0 ? "img" : "video";
 
-        return Paths.get(fileRoot + weblogID + "_" + fileKind + "_" + index);
+        return Paths.get(fileRoot + fileKind +"/" + momentID + "_" + index);
     }
 
     private String getPosix(String name){
@@ -60,14 +60,14 @@ public class FileUtil {
         return splits[splits.length - 1];
     }
 
-    public void updateWeblogID(){
-        if(weblogID < 0){
-            String query = "SELECT COUNT(*) FROM weblog";
+    public void updateMomentID(){
+        if(momentID < 0){
+            String query = "SELECT COUNT(*) FROM moment";
             JdbcTemplate jdbcTemplate = (JdbcTemplate) ContextUtil.getBean("jdbcTemplate");
-            weblogID = jdbcTemplate.queryForObject(query, Integer.class);
+            momentID = jdbcTemplate.queryForObject(query, Integer.class);
         }
         else {
-            weblogID++;
+            momentID++;
         }
     }
 

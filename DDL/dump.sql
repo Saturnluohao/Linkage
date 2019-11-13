@@ -304,7 +304,7 @@ UNLOCK TABLES;
 -- Table structure for table `weblog`
 --
 
-DROP TABLE IF EXISTS `weblog`;
+DROP TABLE IF EXISTS moment;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `weblog` (
@@ -321,9 +321,9 @@ CREATE TABLE `weblog` (
 -- Dumping data for table `weblog`
 --
 
-LOCK TABLES `weblog` WRITE;
-/*!40000 ALTER TABLE `weblog` DISABLE KEYS */;
-/*!40000 ALTER TABLE `weblog` ENABLE KEYS */;
+LOCK TABLES moment WRITE;
+/*!40000 ALTER TABLE moment DISABLE KEYS */;
+/*!40000 ALTER TABLE moment ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

@@ -1,21 +1,81 @@
 package com.f4.linkage.fileserver.util;
 
+import com.f4.linkage.fileserver.mapper.MomentMapper;
+import com.f4.linkage.fileserver.model.Moment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
 public class DataUtil {
     private final static Logger LOGGER = LoggerFactory.getLogger(DataUtil.class);
 
-    private static String insertStatement = "INSERT INTO weblog VALUES (?,?,?,?,?)";
+    @Value("app.linkage.fileRoot")
+    private String fileRoot;
 
-    public static boolean insertBlog(Object[] args){
-        JdbcTemplate jdbcTemplate = (JdbcTemplate) ContextUtil.getBean("jdbcTemplate");
-        LOGGER.info("jdbc template is " + jdbcTemplate);
-        if(jdbcTemplate.update(insertStatement, args) == 1) {
+    @Resource
+    JdbcTemplate jdbcTemplate;
+
+    public boolean insertBlog(Object[] args){
+        String sql = "INSERT INTO moment VALUES (?,?,?,?,?)";
+        if(jdbcTemplate.update(sql, args) == 1) {
+            String poster = args[1].toString();
+            List<String> friends = getFriends(poster);
+            for (String friend: friends
+                 ) {
+                insertWSSM(friend, FileUtil.momentID);
+            }
             return true;
         }else {
             return false;
         }
+    }
+
+    public boolean updateIconUrl(String username){
+        String iconUrl = fileRoot + "icon/" + username;
+        String sql = "Update user set icon_url = ? where username = ?";
+        if(jdbcTemplate.update(sql, username, iconUrl) == 1){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public List<String> getFriends(String username){
+        String sql = "select friend_username from friend where my_username=?";
+        List<String> friends = jdbcTemplate.queryForList(sql, new Object[]{username}, String.class);
+        friends.add(username);
+        return friends;
+    }
+
+    public void insertWSSM(String username, int moment_id){
+        String sql = "insert into who_should_see_moment values(null, ?, ?)";
+        jdbcTemplate.update(sql, new Object[]{moment_id, username});
+    }
+
+
+    public Moment getMoment(int id){
+        String sql = "select * from moment where id=?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, new MomentMapper());
+    }
+
+    public List<Moment> getMoments(String username){
+        String sql = "select moment_id from who_should_see_moment where username=?";
+        String sql2 = "select * from moment where id=?";
+        List<Integer> moment_ids = jdbcTemplate.queryForList(sql, new Object[]{username}, Integer.class);
+        List<Moment> momentList = new ArrayList<>();
+        Object[] arg = new Object[1];
+        MomentMapper momentMapper = new MomentMapper();
+        for(int i = 0; i < moment_ids.size(); i++){
+            arg[0] = moment_ids.get(i);
+            momentList.add(jdbcTemplate.queryForObject(sql2, arg, momentMapper));
+        }
+        return momentList;
     }
 }
