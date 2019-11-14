@@ -5,8 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,6 +21,9 @@ import java.nio.file.Paths;
 public class FileUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileUtil.class);
     public static int momentID = -1;
+
+    @Resource
+    private JdbcTemplate jdbcTemplate;
 
     @Value("${app.linkage.fileRoot}")
     private String fileRoot;
@@ -44,6 +49,15 @@ public class FileUtil {
         return true;
     }
 
+    public boolean saveGlobalIconFile(MultipartFile file, String user){
+        try{
+            file.transferTo(Paths.get(fileRoot + "global_icon/"+ user));
+        }catch (IOException e){
+            return false;
+        }
+        return true;
+    }
+
     private Path getServerFilePath(int index, MultipartFile file, int kind){
         String fileName = file.getOriginalFilename();
         LOGGER.info("file name is " + fileName);
@@ -63,8 +77,7 @@ public class FileUtil {
     public void updateMomentID(){
         if(momentID < 0){
             String query = "SELECT COUNT(*) FROM moment";
-            JdbcTemplate jdbcTemplate = (JdbcTemplate) ContextUtil.getBean("jdbcTemplate");
-            momentID = jdbcTemplate.queryForObject(query, Integer.class);
+            momentID = jdbcTemplate.queryForObject(query, Integer.class) + 1;
         }
         else {
             momentID++;

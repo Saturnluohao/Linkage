@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.17, for macos10.14 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.18, for Linux (x86_64)
 --
 -- Host: 127.0.0.1    Database: linkage
 -- ------------------------------------------------------
--- Server version	8.0.17
+-- Server version	8.0.18
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -197,6 +197,98 @@ INSERT INTO `message` VALUES (1,'zzj','你哈皮','zzj',1,'2019-11-10 04:47:08')
 UNLOCK TABLES;
 
 --
+-- Table structure for table `moment`
+--
+
+DROP TABLE IF EXISTS `moment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `moment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `poster_name` varchar(32) NOT NULL,
+  `text` text NOT NULL,
+  `picture_num` int(2) DEFAULT NULL,
+  `video_num` int(2) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `weblog_global_user_username_fk` (`poster_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `moment_comment`
+--
+
+DROP TABLE IF EXISTS `moment_comment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `moment_comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `moment_id` int(11) DEFAULT NULL,
+  `content` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `moment_comment`
+--
+
+LOCK TABLES `moment_comment` WRITE;
+/*!40000 ALTER TABLE `moment_comment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `moment_comment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `post`
+--
+
+DROP TABLE IF EXISTS `post`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `post` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_name` varchar(32) DEFAULT NULL,
+  `text` text,
+  `picture_num` int(2) DEFAULT NULL,
+  `video_num` int(2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `post`
+--
+
+LOCK TABLES `post` WRITE;
+/*!40000 ALTER TABLE `post` DISABLE KEYS */;
+/*!40000 ALTER TABLE `post` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `post_comment`
+--
+
+DROP TABLE IF EXISTS `post_comment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `post_comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) DEFAULT NULL,
+  `content` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `post_comment`
+--
+
+LOCK TABLES `post_comment` WRITE;
+/*!40000 ALTER TABLE `post_comment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `post_comment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `role`
 --
 
@@ -305,55 +397,43 @@ INSERT INTO `user_role` VALUES (2,2,2),(14,1,1),(15,1,2),(16,7,2),(22,13,2);
 UNLOCK TABLES;
 
 --
--- Table structure for table `user_weblog_push`
+-- Table structure for table `who_should_see_moment`
 --
 
-DROP TABLE IF EXISTS `user_weblog_push`;
+DROP TABLE IF EXISTS `who_should_see_moment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `user_weblog_push` (
+CREATE TABLE `who_should_see_moment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(32) NOT NULL,
-  `blog_id` int(11) NOT NULL,
-  `publishTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `moment_id` int(11) DEFAULT NULL,
+  `username` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
+-- Table structure for table `who_should_see_post`
+--
+
+DROP TABLE IF EXISTS `who_should_see_post`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `who_should_see_post` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) DEFAULT NULL,
+  `global_username` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user_weblog_push`
+-- Dumping data for table `who_should_see_post`
 --
 
-LOCK TABLES `user_weblog_push` WRITE;
-/*!40000 ALTER TABLE `user_weblog_push` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_weblog_push` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `weblog`
---
-
-DROP TABLE IF EXISTS moment;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `weblog` (
-  `blog_id` int(11) NOT NULL AUTO_INCREMENT,
-  `poster_name` varchar(32) NOT NULL,
-  `text` text NOT NULL,
-  `picture_num` int(2) DEFAULT NULL,
-  `video_num` int(2) DEFAULT NULL,
-  PRIMARY KEY (`blog_id`),
-  KEY `weblog_global_user_username_fk` (`poster_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `weblog`
---
-
-LOCK TABLES moment WRITE;
-/*!40000 ALTER TABLE moment DISABLE KEYS */;
-/*!40000 ALTER TABLE moment ENABLE KEYS */;
+LOCK TABLES `who_should_see_post` WRITE;
+/*!40000 ALTER TABLE `who_should_see_post` DISABLE KEYS */;
+/*!40000 ALTER TABLE `who_should_see_post` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -365,4 +445,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-12 18:02:43
+-- Dump completed on 2019-11-14  9:08:46

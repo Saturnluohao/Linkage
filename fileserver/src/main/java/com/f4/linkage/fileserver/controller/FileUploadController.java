@@ -9,77 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.lang.annotation.Repeatable;
 
 @RestController
 public class FileUploadController {
-    private final static Logger LOGGER = LoggerFactory.getLogger(FileUploadController.class);
 
-    @Resource
-    private FileUtil fileUtil;
-
-    @Resource
-    private DataUtil dataUtil;
-
-    @GetMapping("/moment")
-    public String upload(){
-        return "The moment upload API";
-    }
-
-    @PostMapping("/moment")
-    public ResponseEntity<String> upload(@RequestParam("Text")String text, @RequestParam("Picture")MultipartFile[] pictures, @RequestParam("Video")MultipartFile[] videos){
-
-        LOGGER.info("pictures length is " + pictures.length);
-        LOGGER.info("videos length is " + videos.length);
-        Object[] args = new Object[5];
-
-        args[0] = null;
-        args[1] = "zzj";
-        args[2] = text;
-
-        fileUtil.updateMomentID();
-
-        if(pictures != null){
-            if(fileUtil.saveFiles(pictures, 0)){
-                LOGGER.info("Pictures transferred successfully!");
-                args[3] = pictures.length;
-            }
-            else {
-                return ResponseEntity.status(500).body("Picture upload failed!");
-            }
-        }
-        else{
-            args[3] = null;
-        }
-        if(videos != null){
-            if(fileUtil.saveFiles(videos, 1)){
-                LOGGER.info("Videos transferred successfully!");
-                args[4] = videos.length;
-            }
-            else {
-                return ResponseEntity.status(500).body("Video upload failed!");
-            }
-        }
-        else {
-            args[4] = null;
-        }
-        if(!dataUtil.insertBlog(args)){
-            return ResponseEntity.status(500).body("We don't make it to insert your blog record to our database!");
-        }
-
-        return ResponseEntity.ok().body("Upload successfully, your weblog id is " + FileUtil.momentID);
-    }
-
-    @PostMapping("/icon")
-    ResponseEntity<String> uploadIcon(@RequestParam("Icon") MultipartFile icon){
-        if(icon != null){
-            if(fileUtil.saveIconFile(icon, "user")){
-                dataUtil.updateIconUrl("user");
-                return ResponseEntity.ok().body("http://www.saturnluo.cn:5000/icon/" + "user");
-            }
-            else {
-                return ResponseEntity.status(500).body("We can't save you icon file!");
-            }
-        }
-        return ResponseEntity.status(400).body("We don't receive your icon file");
-    }
 }

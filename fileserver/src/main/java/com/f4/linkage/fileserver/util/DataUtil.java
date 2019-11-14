@@ -39,7 +39,17 @@ public class DataUtil {
 
     public boolean updateIconUrl(String username){
         String iconUrl = fileRoot + "icon/" + username;
-        String sql = "Update user set icon_url = ? where username = ?";
+        String sql = "Update user set iconUrl = ? where username = ?";
+        if(jdbcTemplate.update(sql, username, iconUrl) == 1){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public boolean updateGlobalIconUrl(String username){
+        String iconUrl = fileRoot + "global_icon/" + username;
+        String sql = "Update global_user set iconUrl = ? where username = ?";
         if(jdbcTemplate.update(sql, username, iconUrl) == 1){
             return true;
         }else {
@@ -59,6 +69,16 @@ public class DataUtil {
         jdbcTemplate.update(sql, new Object[]{moment_id, username});
     }
 
+    public boolean deleteMoment(int id){
+        String sql = "delete from moment where id=?";
+        if(jdbcTemplate.update(sql, new Object[]{id}) == 1){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
 
     public Moment getMoment(int id){
         String sql = "select * from moment where id=?";
@@ -70,11 +90,10 @@ public class DataUtil {
         String sql2 = "select * from moment where id=?";
         List<Integer> moment_ids = jdbcTemplate.queryForList(sql, new Object[]{username}, Integer.class);
         List<Moment> momentList = new ArrayList<>();
-        Object[] arg = new Object[1];
         MomentMapper momentMapper = new MomentMapper();
-        for(int i = 0; i < moment_ids.size(); i++){
-            arg[0] = moment_ids.get(i);
-            momentList.add(jdbcTemplate.queryForObject(sql2, arg, momentMapper));
+        for (int id: moment_ids
+                 ) {
+            momentList.add(getMoment(id));
         }
         return momentList;
     }
