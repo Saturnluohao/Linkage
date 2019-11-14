@@ -29,7 +29,7 @@ public class IconController {
         if(icon != null){
             if(fileUtil.saveIconFile(icon, "user")){
                 dataUtil.updateIconUrl("user");
-                return ResponseEntity.ok().body("http://www.saturnluo.cn:5000/icon/" + "usr");
+                return ResponseEntity.ok().body("http://www.saturnluo.cn:5000/icon/" + "user");
             }
             else {
                 return ResponseEntity.status(500).body("We can't save your icon file!");
