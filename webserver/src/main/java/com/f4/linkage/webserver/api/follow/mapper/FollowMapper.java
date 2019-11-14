@@ -12,6 +12,8 @@ import java.util.List;
 public interface FollowMapper {
   void addFollowRelationship(FollowRelationship relationship);
   List<String> getAllFollowerName(String globalUserName);
+  int getAllFollowerNumber(String globalUserName);
   List<InitialGlobalUser> getGlobalUserIFollow(String username);
   List<String> getGlobalUserNameIFollowed(String username);
+  void deleteFollow(String username ,String globalUserName);
 }

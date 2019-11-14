@@ -35,37 +35,36 @@ public class MomentController {
 
         LOGGER.info("pictures length is " + pictures.length);
         LOGGER.info("videos length is " + videos.length);
-        Object[] args = new Object[5];
+        Object[] args = new Object[4];
 
-        args[0] = null;
-        args[1] = "zzj";
-        args[2] = text;
+        args[0] = "zzj";
+        args[1] = text;
 
         fileUtil.updateMomentID();
 
         if(pictures != null){
             if(fileUtil.saveFiles(pictures, 0)){
                 LOGGER.info("Pictures transferred successfully!");
-                args[3] = pictures.length;
+                args[2] = pictures.length;
             }
             else {
                 return ResponseEntity.status(500).body("Picture upload failed!");
             }
         }
         else{
-            args[3] = null;
+            args[2] = null;
         }
         if(videos != null){
             if(fileUtil.saveFiles(videos, 1)){
                 LOGGER.info("Videos transferred successfully!");
-                args[4] = videos.length;
+                args[3] = videos.length;
             }
             else {
                 return ResponseEntity.status(500).body("Video upload failed!");
             }
         }
         else {
-            args[4] = null;
+            args[3] = null;
         }
         if(!dataUtil.insertBlog(args)){
             return ResponseEntity.status(500).body("We don't make it to insert your blog record to our database!");
@@ -90,7 +89,7 @@ public class MomentController {
         }
     }
 
-    @PostMapping("/moment/check")
+    @GetMapping("/moment/check")
     List<Moment> checkMoment(@RequestParam("user") String username) {
         LOGGER.info("Return the moment of " + username);
         return dataUtil.getMoments(username);

@@ -5,8 +5,11 @@ import com.f4.linkage.webserver.api.follow.service.FollowerService;
 import com.f4.linkage.webserver.api.globalUser.model.InitialGlobalUser;
 import com.f4.linkage.webserver.util.RestfulResponseHelper;
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -25,6 +28,7 @@ import java.util.Map;
  **/
 @Controller
 public class FollowGlobalUserController {
+  private Logger logger = LoggerFactory.getLogger(FollowGlobalUserController.class);
   @Autowired
   private FollowerService followerService;
   @GetMapping("/user/follow")
@@ -47,9 +51,29 @@ public class FollowGlobalUserController {
     }else {
       relationship.setGlobalUsername(globalUserName);
       relationship.setLocalUsername(principal.getName());
-      followerService.addFollow(relationship);
+      try {
+        followerService.addFollow(relationship);
+      }catch (Exception e){
+        map.put("msg","global user not found!");
+        RestfulResponseHelper.writeToResponse(response,401,map);
+        return;
+      }
       map.put("msg","ok");
       RestfulResponseHelper.writeToResponse(response,200,map);
     }
+  }
+  @DeleteMapping("/user/follow")
+  void deleteGlobalUserIFollow(Principal principal,String targetGlobalUserName,HttpServletResponse response) throws IOException {
+    Map<String,Object> map = new HashMap<>();
+    try {
+      followerService.deleteSubscription(principal.getName(),targetGlobalUserName);
+    }catch (Exception e){
+      logger.error(e.toString());
+      map.put("msg","delete subscription fail");
+      RestfulResponseHelper.writeToResponse(response,401,map);
+      return;
+    }
+    map.put("msg","ok");
+    RestfulResponseHelper.writeToResponse(response,200,map);
   }
 }

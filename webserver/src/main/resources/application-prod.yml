@@ -11,3 +11,7 @@ spring:
     host: 118.25.191.207
     port: 6379
     password: nKsf7IxQRUdwfj3pMLaVmRA
+
+linkage:
+  host: https://www.saturnluo.cn/
+  minutesToExpireSession: 10

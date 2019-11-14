@@ -34,6 +34,7 @@ public class MomentMapper implements RowMapper<Moment> {
         moment.setText(resultSet.getString("text"));
         moment.setImg(picture);
         moment.setVideo(videos);
+        moment.setTime(resultSet.getString("time"));
         return moment;
     }
 }

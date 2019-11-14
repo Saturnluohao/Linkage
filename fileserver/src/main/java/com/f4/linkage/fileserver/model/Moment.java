@@ -42,10 +42,18 @@ public class Moment {
     public void setPoster_name(String poster_name) {
         this.poster_name = poster_name;
     }
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     private int id;
     private String poster_name;
     private List img;
     private List video;
     private String text;
+    private String time;
 }

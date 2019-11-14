@@ -1,5 +1,6 @@
 package com.f4.linkage.webserver.api.globalUser.service;
 
+import com.f4.linkage.webserver.api.follow.mapper.FollowMapper;
 import com.f4.linkage.webserver.api.globalUser.mapper.GlobalUserMapper;
 import com.f4.linkage.webserver.api.globalUser.model.InitialGlobalUser;
 import com.f4.linkage.webserver.api.globalUser.model.LocalGlobalRelationship;
@@ -20,6 +21,8 @@ import java.util.List;
 public class GlobalUserService {
   @Autowired
   private GlobalUserMapper globalUserMapper;
+  @Autowired
+  private FollowMapper followMapper;
   public void createNewGlobalUser(InitialGlobalUser globalUser){
     globalUserMapper.storeInitialGlobalUser(globalUser);
   }
@@ -33,5 +36,8 @@ public class GlobalUserService {
     PageHelper.startPage(currentPage,pageSize);
     List<InitialGlobalUser> initialGlobalUserList = globalUserMapper.searchForGlobalUser("%"+globalUserName+"%");
     return new PageInfo<>(initialGlobalUserList);
+  }
+  public int getFollowerNumbers(String globalUserName){
+    return followMapper.getAllFollowerNumber(globalUserName);
   }
 }

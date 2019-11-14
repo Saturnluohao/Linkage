@@ -31,7 +31,13 @@ public class FileDownloadController {
 
     @GetMapping("/icon/{user}")
     void iconTransferer(@PathVariable String user, HttpServletResponse response){
-        String fileName = user;
+        String fileName = "icon/" + user;
+        fileUtil.transfer(response, fileName);
+    }
+
+    @GetMapping("/global_icon/{user}")
+    void global_iconTransferer(@PathVariable String user, HttpServletResponse response){
+        String fileName = "global_icon/" + user;
         fileUtil.transfer(response, fileName);
     }
 }

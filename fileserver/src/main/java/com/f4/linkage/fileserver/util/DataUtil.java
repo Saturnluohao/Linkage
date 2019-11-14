@@ -23,9 +23,9 @@ public class DataUtil {
     JdbcTemplate jdbcTemplate;
 
     public boolean insertBlog(Object[] args){
-        String sql = "INSERT INTO moment VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO moment(poster_name, text, picture_num, video_num) VALUES (?,?,?,?)";
         if(jdbcTemplate.update(sql, args) == 1) {
-            String poster = args[1].toString();
+            String poster = args[0].toString();
             List<String> friends = getFriends(poster);
             for (String friend: friends
                  ) {

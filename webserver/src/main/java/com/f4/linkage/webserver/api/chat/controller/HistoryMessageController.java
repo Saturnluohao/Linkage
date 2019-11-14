@@ -23,7 +23,7 @@ import java.util.Map;
  * @create: 2019/10/29
  **/
 @RestController
-public class UnreadMessageController {
+public class HistoryMessageController {
   @Autowired
   MessageService messageService;
   @GetMapping("/message")

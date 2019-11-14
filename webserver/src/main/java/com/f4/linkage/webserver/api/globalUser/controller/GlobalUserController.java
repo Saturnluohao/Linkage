@@ -4,6 +4,8 @@ import com.f4.linkage.webserver.api.globalUser.model.InitialGlobalUser;
 import com.f4.linkage.webserver.api.globalUser.service.GlobalUserService;
 import com.f4.linkage.webserver.util.RestfulResponseHelper;
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,7 @@ import java.util.Map;
  **/
 @Controller
 public class GlobalUserController {
+  private Logger logger = LoggerFactory.getLogger(GlobalUserService.class);
   @Autowired
   private GlobalUserService globalUserService;
   @GetMapping("/user/globalAccount/me")
@@ -36,6 +39,7 @@ public class GlobalUserController {
       map.put("globalUser",null);
       RestfulResponseHelper.writeToResponse(response,401,map);
     }else {
+      globalUser.setFollowerNumber(globalUserService.getFollowerNumbers(globalUser.getUsername()));
       map.put("globalUser",globalUser);
       RestfulResponseHelper.writeToResponse(response,200,map);
     }
@@ -54,7 +58,8 @@ public class GlobalUserController {
         globalUserService.createNewGlobalUser(initialGlobalUser);
         map.put("msg","ok");
         RestfulResponseHelper.writeToResponse(response,200,map);
-      }catch (Error error){
+      }catch (Exception e){
+        logger.error(e.toString());
         map.put("msg","global name used, change another one");
         RestfulResponseHelper.writeToResponse(response,401,map);
       }

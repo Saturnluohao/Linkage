@@ -5,10 +5,14 @@ import com.f4.linkage.webserver.api.follow.model.FollowRelationship;
 import com.f4.linkage.webserver.api.globalUser.model.InitialGlobalUser;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: Linkage
@@ -34,5 +38,9 @@ public class FollowerService {
   }
   public List<String> getAllGlobalAccountIFollowed(String userName){
     return followMapper.getGlobalUserNameIFollowed(userName);
+  }
+
+  public void deleteSubscription(String username,String globalName){
+    followMapper.deleteFollow(username,globalName);
   }
 }

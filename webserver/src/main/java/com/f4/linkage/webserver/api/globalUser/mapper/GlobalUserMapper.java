@@ -12,7 +12,7 @@ import java.util.List;
 public interface GlobalUserMapper {
   // TODO keep the relationship as an individual table to deal with further emergence of {company}
   void storeInitialGlobalUser(InitialGlobalUser initialGlobalUser);
-  void addLocalGlobalRelationship(LocalGlobalRelationship localGlobalRelationship);
+  // void addLocalGlobalRelationship(LocalGlobalRelationship localGlobalRelationship);
   InitialGlobalUser getSomeoneGlobalUser(String username);
   List<InitialGlobalUser> searchForGlobalUser(String globalUserName);
 }
