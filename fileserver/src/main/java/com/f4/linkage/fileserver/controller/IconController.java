@@ -50,5 +50,6 @@ public class IconController {
             }
         }
         return ResponseEntity.status(400).body("We don't receive your icon file");
+
     }
 }
