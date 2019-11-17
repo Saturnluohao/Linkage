@@ -1,5 +1,6 @@
 package com.f4.linkage.fileserver.util;
 
+import com.f4.linkage.fileserver.model.FileKind;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +28,10 @@ public class FileUtil {
 
     @Value("${app.linkage.fileRoot}")
     private String fileRoot;
+    @Value("${app.linkage.defaultIcon}")
+    private String defaultIcon;
+    @Value("${app.linkage.defaultGlobalIcon}")
+    private String defaultGlobalIcon;
 
     public boolean saveFiles(MultipartFile[] files, int kind){
         try {
@@ -84,41 +89,53 @@ public class FileUtil {
         }
     }
 
-    public void transfer(HttpServletResponse response, String path) {
+    public void transfer(HttpServletResponse response, String path, FileKind fileKind) {
         File file = new File(fileRoot + path);
-        if (file.exists()) {
-            FileInputStream fis = null;
-            OutputStream os = null;
-            try {
-                fis = new FileInputStream(file);
-                os = response.getOutputStream();
-                byte[] content = new byte[fis.available()];
-                fis.read(content);
-                os.write(content);
-                response.setStatus(200);
+
+        if (!file.exists()) {
+            if(fileKind.equals(FileKind.ICON)){
+                file = new File(defaultIcon);
+            }
+            else if(fileKind.equals(FileKind.GLOBAL_ICON)){
+                file = new File(defaultGlobalIcon);
+            }
+            else {
+                response.setStatus(404);
+                try{
+                    response.getWriter().println("The file you request is not found!");
+                }catch (IOException e){
+                }
+            }
+        }
+        try{
+            transfer(response.getOutputStream(), file);
+        }catch (IOException e){
+            response.setStatus(500);
+            return;
+        }
+    }
+
+    private void transfer(OutputStream outputStream, File file) throws IOException{
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(file);
+            byte[] content = new byte[fis.available()];
+            fis.read(content);
+            outputStream.write(content);
                 /*int count = 0;
                 byte[] buffer = new byte[1024 * 8];
                 while ((count = fis.read(buffer)) != -1) {
                     os.write(buffer, 0, count);
                     os.flush();
                 }*/
-
-            } catch (Exception e) {
-                response.setStatus(500);
-            } finally {
-                try {
-                    fis.close();
-                    os.close();
-                } catch (IOException e) {
-                    response.setStatus(500);
-                }
-            }
-        }
-        else {
-            response.setStatus(404);
-            try{
-            response.getWriter().println("The file you request is not found!");
-            }catch (IOException e){
+        }catch (IOException e) {
+            throw e;
+        }finally {
+            try {
+                fis.close();
+                outputStream.close();
+            } catch (IOException e) {
+                throw e;
             }
         }
     }

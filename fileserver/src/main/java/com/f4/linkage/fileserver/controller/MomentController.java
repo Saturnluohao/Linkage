@@ -90,8 +90,8 @@ public class MomentController {
     }
 
     @GetMapping("/moment/check")
-    List<Moment> checkMoment(@RequestParam("user") String username) {
-        LOGGER.info("Return the moment of " + username);
-        return dataUtil.getMoments(username);
+    List<Moment> checkMoment() {
+        LOGGER.info("Return the moment of " + "zzj");
+        return dataUtil.getMoments("zzj");
     }
 }

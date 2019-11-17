@@ -50,10 +50,20 @@ public class Moment {
         this.time = time;
     }
 
+    public String getPoster_icon() {
+        return poster_icon;
+    }
+
+    public void setPoster_icon(String poster_icon) {
+        this.poster_icon = poster_icon;
+    }
+
+
     private int id;
     private String poster_name;
     private List img;
     private List video;
     private String text;
     private String time;
+    private String poster_icon;
 }
