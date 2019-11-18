@@ -13,6 +13,7 @@ import java.io.Serializable;
 @Data
 public class Friend implements Serializable {
   private String username;
+  private String iconUrl;
   private String description;
   private int sex;
 }

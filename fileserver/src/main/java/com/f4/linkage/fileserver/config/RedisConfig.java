@@ -1,12 +1,12 @@
 package com.f4.linkage.fileserver.config;
 
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.context.annotation.Bean;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.data.redis.connection.RedisConnectionFactory;
-//import org.springframework.data.redis.core.RedisTemplate;
-//import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
-//import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+import org.springframework.stereotype.Service;
 
 /**
  * @program: Linkage
@@ -14,7 +14,7 @@ package com.f4.linkage.fileserver.config;
  * @author: Zijian Zhang
  * @create: 2019/11/11
  **/
-//@Configuration
-//@EnableRedisHttpSession
+@Configuration
+@EnableRedisHttpSession
 public class RedisConfig {
 }

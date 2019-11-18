@@ -33,7 +33,10 @@ public class GlobalUserService {
     return globalUserMapper.getSomeoneGlobalUser(username);
   }
   public PageInfo<InitialGlobalUser> searchForGlobalUserWhoseNameContains(String globalUserName,int currentPage,int pageSize){
+
     PageHelper.startPage(currentPage,pageSize);
+    // todo why add this ?
+    // System.out.println(globalUserMapper.searchForGlobalUser("zzj"));
     List<InitialGlobalUser> initialGlobalUserList = globalUserMapper.searchForGlobalUser("%"+globalUserName+"%");
     return new PageInfo<>(initialGlobalUserList);
   }

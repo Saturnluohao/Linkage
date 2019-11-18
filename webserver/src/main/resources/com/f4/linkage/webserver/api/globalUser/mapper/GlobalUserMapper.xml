@@ -13,6 +13,6 @@
   </select>
   <select id="searchForGlobalUser" resultType="com.f4.linkage.webserver.api.globalUser.model.InitialGlobalUser">
     select username,iconUrl,description from linkage.global_user
-    where username like #{globalUserName} and locked=0
+    where (username like #{globalUserName} and locked=0)
   </select>
 </mapper>
