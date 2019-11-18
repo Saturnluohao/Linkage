@@ -73,12 +73,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
-<!--      <dependency>-->
-<!--        <groupId>com.F4.linkage</groupId>-->
-<!--        <artifactId>webserver</artifactId>-->
-<!--        <version>0.0.1-SNAPSHOT</version>-->
-<!--        <scope>compile</scope>-->
-<!--      </dependency>-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

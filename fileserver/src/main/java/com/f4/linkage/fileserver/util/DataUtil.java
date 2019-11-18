@@ -97,4 +97,9 @@ public class DataUtil {
         }
         return momentList;
     }
+
+    public List<Moment> getPrivateMoments(String username){
+        String sql = "select * from moment where poster_name=?";
+        return jdbcTemplate.query(sql, new Object[]{username}, new MomentMapper());
+    }
 }

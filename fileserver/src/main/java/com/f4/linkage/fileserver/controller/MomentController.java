@@ -97,4 +97,11 @@ public class MomentController {
         LOGGER.info("Return the moment of " + username);
         return dataUtil.getMoments(username);
     }
+
+    @GetMapping("/moment/home")
+    List<Moment> getMyMoments(Principal principal){
+        String username = principal.getName();
+        LOGGER.info("Return " + username + "'s private moments");
+        return dataUtil.getPrivateMoments(username);
+    }
 }
