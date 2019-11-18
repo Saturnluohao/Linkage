@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.security.Principal;
 
 @RestController
 public class IconController {
@@ -25,11 +26,12 @@ public class IconController {
 
 
     @PostMapping("/icon")
-    ResponseEntity<String> uploadIcon(@RequestParam("Icon") MultipartFile icon){
+    ResponseEntity<String> uploadIcon(Principal principal, @RequestParam("Icon") MultipartFile icon){
+        String username = principal.getName();
         if(icon != null){
-            if(fileUtil.saveIconFile(icon, "user")){
-                dataUtil.updateIconUrl("user");
-                return ResponseEntity.ok().body("http://www.saturnluo.cn:5000/icon/" + "usr");
+            if(fileUtil.saveIconFile(icon, username)){
+                dataUtil.updateIconUrl(username);
+                return ResponseEntity.ok().body("http://www.saturnluo.cn:5000/icon/" + username);
             }
             else {
                 return ResponseEntity.status(500).body("We can't save your icon file!");
@@ -39,16 +41,18 @@ public class IconController {
     }
 
     @PostMapping("/global_icon")
-    ResponseEntity<String> uploadGlobalIcon(@RequestParam("Icon") MultipartFile icon){
+    ResponseEntity<String> uploadGlobalIcon(Principal principal, @RequestParam("Icon") MultipartFile icon){
+        String username = principal.getName();
         if(icon != null){
-            if(fileUtil.saveGlobalIconFile(icon, "zzj")){
-                dataUtil.updateGlobalIconUrl("zzj");
-                return ResponseEntity.ok().body("http://www.saturnluo.cn:5000/global_icon/" + "zzj");
+            if(fileUtil.saveGlobalIconFile(icon, username)){
+                dataUtil.updateGlobalIconUrl(username);
+                return ResponseEntity.ok().body("http://www.saturnluo.cn:5000/global_icon/" + username);
             }
             else {
                 return ResponseEntity.status(500).body("We can't save your icon file!");
             }
         }
         return ResponseEntity.status(400).body("We don't receive your icon file");
+
     }
 }

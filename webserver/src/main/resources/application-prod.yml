@@ -14,4 +14,5 @@ spring:
 
 linkage:
   host: https://www.saturnluo.cn/
-  minutesToExpireSession: 10
+  #minutesToExpireSession: 10
+  sessionTimeOut: 10

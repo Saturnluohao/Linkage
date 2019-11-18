@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.security.Principal;
 import java.util.List;
+
+import com.f4.linkage.webserver.api.login.model.LoginUserInfo;
 
 @RestController
 public class MomentController {
@@ -31,13 +34,12 @@ public class MomentController {
     }
 
     @PostMapping("/moment")
-    public ResponseEntity<String> uploadMoment(@RequestParam("Text")String text, @RequestParam("Picture") MultipartFile[] pictures, @RequestParam("Video")MultipartFile[] videos){
-
+    public ResponseEntity<String> uploadMoment(Principal principal, @RequestParam("Text")String text, @RequestParam("Picture") MultipartFile[] pictures, @RequestParam("Video")MultipartFile[] videos){
         LOGGER.info("pictures length is " + pictures.length);
         LOGGER.info("videos length is " + videos.length);
         Object[] args = new Object[4];
 
-        args[0] = "zzj";
+        args[0] = principal.getName();
         args[1] = text;
 
         fileUtil.updateMomentID();
@@ -90,7 +92,8 @@ public class MomentController {
     }
 
     @GetMapping("/moment/check")
-    List<Moment> checkMoment(@RequestParam("user") String username) {
+    List<Moment> checkMoment(Principal principal) {
+        String username = principal.getName();
         LOGGER.info("Return the moment of " + username);
         return dataUtil.getMoments(username);
     }

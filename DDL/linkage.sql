@@ -307,6 +307,7 @@ CREATE TABLE `moment` (
 --
 
 LOCK TABLES `moment` WRITE;
+ALTER TABLE moment AUTO_INCREMENT=1;
 /*!40000 ALTER TABLE `moment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `moment` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -331,6 +332,7 @@ CREATE TABLE `moment_comment` (
 --
 
 LOCK TABLES `moment_comment` WRITE;
+ALTER TABLE moment_comment AUTO_INCREMENT=1;
 /*!40000 ALTER TABLE `moment_comment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `moment_comment` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -358,6 +360,7 @@ CREATE TABLE `post` (
 --
 
 LOCK TABLES `post` WRITE;
+ALTER TABLE post AUTO_INCREMENT=1;
 /*!40000 ALTER TABLE `post` DISABLE KEYS */;
 /*!40000 ALTER TABLE `post` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -382,6 +385,7 @@ CREATE TABLE `post_comment` (
 --
 
 LOCK TABLES `post_comment` WRITE;
+ALTER TABLE post_comment AUTO_INCREMENT=1;
 /*!40000 ALTER TABLE `post_comment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `post_comment` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -509,16 +513,7 @@ CREATE TABLE `who_should_see_moment` (
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `who_should_see_moment`
---
-
-LOCK TABLES `who_should_see_moment` WRITE;
-/*!40000 ALTER TABLE `who_should_see_moment` DISABLE KEYS */;
-INSERT INTO `who_should_see_moment` VALUES (1,4,'admin'),(2,4,'lym'),(3,4,'skr'),(4,5,'admin'),(5,5,'lym'),(6,5,'skr'),(7,6,'admin'),(8,6,'lym'),(9,6,'skr'),(10,7,'admin'),(11,7,'lym'),(12,7,'skr'),(13,8,'admin'),(14,8,'lym'),(15,8,'skr');
-/*!40000 ALTER TABLE `who_should_see_moment` ENABLE KEYS */;
-UNLOCK TABLES;
-
+ALTER TABLE who_should_see_moment AUTO_INCREMENT=1;
 --
 -- Table structure for table `who_should_see_post`
 --
@@ -539,6 +534,7 @@ CREATE TABLE `who_should_see_post` (
 --
 
 LOCK TABLES `who_should_see_post` WRITE;
+ALTER TABLE who_should_see_post AUTO_INCREMENT=1;
 /*!40000 ALTER TABLE `who_should_see_post` DISABLE KEYS */;
 /*!40000 ALTER TABLE `who_should_see_post` ENABLE KEYS */;
 UNLOCK TABLES;

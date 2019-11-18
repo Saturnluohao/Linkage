@@ -14,6 +14,7 @@ public class MomentMapper implements RowMapper<Moment> {
     @Override
     public Moment mapRow(ResultSet resultSet, int i) throws SQLException {
         Moment moment = new Moment();
+        String poster_name = resultSet.getString("poster_name");
         int moment_id = resultSet.getInt("id");
         int picture_num = resultSet.getInt("picture_num");
         int video_num = resultSet.getInt("video_num");
@@ -30,11 +31,12 @@ public class MomentMapper implements RowMapper<Moment> {
         }
 
         moment.setId(moment_id);
-        moment.setPoster_name(resultSet.getString("poster_name"));
+        moment.setPoster_name(poster_name);
         moment.setText(resultSet.getString("text"));
         moment.setImg(picture);
         moment.setVideo(videos);
         moment.setTime(resultSet.getString("time"));
+        moment.setPoster_icon("/icon/" + poster_name);
         return moment;
     }
 }
