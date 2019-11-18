@@ -16,6 +16,8 @@ import javax.annotation.Resource;
 import java.security.Principal;
 import java.util.List;
 
+import com.f4.linkage.webserver.api.login.model.LoginUserInfo;
+
 @RestController
 public class MomentController {
     @Resource
