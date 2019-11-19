@@ -38,7 +38,7 @@ public class DataUtil {
     }
 
     public boolean updateIconUrl(String username){
-        String iconUrl = fileRoot + "icon/" + username;
+        String iconUrl = "icon/" + username;
         String sql = "Update user set iconUrl = ? where username = ?";
         if(jdbcTemplate.update(sql, new Object[]{iconUrl, username}) == 1){
             return true;
@@ -48,7 +48,7 @@ public class DataUtil {
     }
 
     public boolean updateGlobalIconUrl(String username){
-        String iconUrl = fileRoot + "global_icon/" + username;
+        String iconUrl = "global_icon/" + username;
         String sql = "Update global_user set iconUrl = ? where username = ?";
         if(jdbcTemplate.update(sql, new Object[]{iconUrl, username}) == 1){
             return true;
