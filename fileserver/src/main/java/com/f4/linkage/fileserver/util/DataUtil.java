@@ -16,7 +16,7 @@ import java.util.List;
 public class DataUtil {
     private final static Logger LOGGER = LoggerFactory.getLogger(DataUtil.class);
 
-    @Value("app.linkage.fileRoot")
+    @Value("${app.linkage.fileRoot}")
     private String fileRoot;
 
     @Resource
@@ -38,9 +38,9 @@ public class DataUtil {
     }
 
     public boolean updateIconUrl(String username){
-        String iconUrl = fileRoot + "icon/" + username;
+        String iconUrl = "/icon/" + username;
         String sql = "Update user set iconUrl = ? where username = ?";
-        if(jdbcTemplate.update(sql, username, iconUrl) == 1){
+        if(jdbcTemplate.update(sql, new Object[]{iconUrl, username}) == 1){
             return true;
         }else {
             return false;
@@ -48,9 +48,9 @@ public class DataUtil {
     }
 
     public boolean updateGlobalIconUrl(String username){
-        String iconUrl = fileRoot + "global_icon/" + username;
+        String iconUrl = "/global_icon/" + username;
         String sql = "Update global_user set iconUrl = ? where username = ?";
-        if(jdbcTemplate.update(sql, username, iconUrl) == 1){
+        if(jdbcTemplate.update(sql, new Object[]{iconUrl, username}) == 1){
             return true;
         }else {
             return false;
@@ -96,5 +96,10 @@ public class DataUtil {
             momentList.add(getMoment(id));
         }
         return momentList;
+    }
+
+    public List<Moment> getPrivateMoments(String username){
+        String sql = "select * from moment where poster_name=?";
+        return jdbcTemplate.query(sql, new Object[]{username}, new MomentMapper());
     }
 }
