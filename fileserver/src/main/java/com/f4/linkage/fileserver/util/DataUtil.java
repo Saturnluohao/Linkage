@@ -16,7 +16,7 @@ import java.util.List;
 public class DataUtil {
     private final static Logger LOGGER = LoggerFactory.getLogger(DataUtil.class);
 
-    @Value("app.linkage.fileRoot")
+    @Value("${app.linkage.fileRoot}")
     private String fileRoot;
 
     @Resource
