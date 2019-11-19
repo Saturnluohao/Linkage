@@ -15,4 +15,10 @@
     select username,iconUrl,description from linkage.global_user
     where (username like #{globalUserName} and locked=0)
   </select>
+  <update id="changeGlobalUserDescription" parameterType="java.lang.String">
+    update linkage.global_user set description=#{description} where username = #{globalUserName}
+  </update>
+  <select id="getGlobalUserByGlobalUserName" resultType="com.f4.linkage.webserver.api.globalUser.model.InitialGlobalUser">
+    select username,iconUrl,description from linkage.global_user where username = #{globalUserName}
+  </select>
 </mapper>

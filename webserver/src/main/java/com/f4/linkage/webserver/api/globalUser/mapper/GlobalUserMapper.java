@@ -15,4 +15,6 @@ public interface GlobalUserMapper {
   // void addLocalGlobalRelationship(LocalGlobalRelationship localGlobalRelationship);
   InitialGlobalUser getSomeoneGlobalUser(String username);
   List<InitialGlobalUser> searchForGlobalUser(String globalUserName);
+  void changeGlobalUserDescription(String globalUserName,String description);
+  InitialGlobalUser getGlobalUserByGlobalUserName(String globalUserName);
 }

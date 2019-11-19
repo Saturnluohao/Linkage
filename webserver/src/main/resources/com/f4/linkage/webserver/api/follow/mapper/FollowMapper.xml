@@ -20,4 +20,7 @@
   <delete id="deleteFollow" parameterType="java.lang.String">
     delete from linkage.follow where local_username=#{username} and global_username=#{globalUserName}
   </delete>
+  <select id="getMyFollowers" resultType="com.f4.linkage.webserver.api.follow.model.FollowerInfo">
+    select username,iconUrl,description from linkage.user join linkage.follow on user.username = follow.local_username where global_username=#{globalUserName}
+  </select>
 </mapper>

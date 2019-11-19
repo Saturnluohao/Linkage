@@ -16,4 +16,5 @@ public class Friend implements Serializable {
   private String iconUrl;
   private String description;
   private int sex;
+  private String address;
 }

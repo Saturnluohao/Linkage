@@ -5,7 +5,7 @@
     where username like #{name} and linkage.user.locked=0
   </select>
   <select id="GetMyFriends" resultType="com.f4.linkage.webserver.api.friend.model.Friend">
-    select * from linkage.user join linkage.friend on user.username = friend.friend_username
+    select username,description,sex,iconUrl,address from linkage.user join linkage.friend on user.username = friend.friend_username
     where (linkage.friend.my_username = #{myName} and linkage.user.locked=0)
   </select>
   <insert id="addFriend">
@@ -20,4 +20,7 @@
     delete from linkage.friend where friend_username=#{name_1} and my_username=#{name_2};
     delete from linkage.friend where friend_username=#{name_2} and my_username=#{name_1};
   </delete>
+  <select id="getMyFriendByName" parameterType="java.lang.String" resultType="com.f4.linkage.webserver.api.friend.model.Friend">
+    select username,description,sex,iconUrl,address from linkage.user where username=#{name}
+  </select>
 </mapper>

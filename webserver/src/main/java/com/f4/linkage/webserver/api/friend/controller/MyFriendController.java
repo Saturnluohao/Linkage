@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -49,5 +50,19 @@ public class MyFriendController {
     }
     map.put("msg","ok");
     RestfulResponseHelper.writeToResponse(response,200,map);
+  }
+  @GetMapping("/user/myFriend/info")
+  public void getMyFriendInfo(Principal principal, String friendName,HttpServletResponse response) throws IOException {
+    List<String> myFriendNameList = friendService.getAllMyFriends(principal.getName());
+    Map<String,Object> map = new HashMap<>();
+    if(myFriendNameList.contains(friendName)){
+      Friend friend = friendService.getMyFriendDetailInfo(friendName);
+      map.put("info",friend);
+      map.put("msg","OK");
+      RestfulResponseHelper.writeToResponse(response,200,map);
+      return;
+    }
+    map.put("msg","Not your friend");
+    RestfulResponseHelper.writeToResponse(response,401,map);
   }
 }

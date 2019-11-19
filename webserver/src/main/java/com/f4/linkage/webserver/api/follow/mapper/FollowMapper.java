@@ -1,6 +1,7 @@
 package com.f4.linkage.webserver.api.follow.mapper;
 
 import com.f4.linkage.webserver.api.follow.model.FollowRelationship;
+import com.f4.linkage.webserver.api.follow.model.FollowerInfo;
 import com.f4.linkage.webserver.api.globalUser.model.InitialGlobalUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
@@ -16,4 +17,5 @@ public interface FollowMapper {
   List<InitialGlobalUser> getGlobalUserIFollow(String username);
   List<String> getGlobalUserNameIFollowed(String username);
   void deleteFollow(String username ,String globalUserName);
+  List<FollowerInfo> getMyFollowers(String globalUserName);
 }

@@ -58,17 +58,18 @@ public class AddFriendController {
     AddFriendRequest dbRequest = addFriendService.getRequestById(friendRequest.getId());
     assert dbRequest.getTargetName().equals(principal.getName());
     assert friendRequest.getAcceptStatus() != null;
-    boolean userIsOnline = onlineUserHub.findUserByName(friendRequest.getUsername());
+    boolean userIsOnline = onlineUserHub.findUserByName(dbRequest.getUsername());
+    dbRequest.setAcceptStatus(friendRequest.getAcceptStatus());
     if(userIsOnline){
-      friendRequest.setReplyStatus(true);
-      simpMessagingTemplate.convertAndSendToUser(friendRequest.getUsername(),"/queue/friend/reply",friendRequest);
+      dbRequest.setReplyStatus(true);
+      simpMessagingTemplate.convertAndSendToUser(dbRequest.getUsername(),"/queue/friend/reply",dbRequest);
     }else {
-      friendRequest.setReplyStatus(false);
+      dbRequest.setReplyStatus(false);
     }
-    if(friendRequest.getAcceptStatus()){
-      friendService.addFriend(friendRequest.getTargetName(),friendRequest.getUsername());
+    if(dbRequest.getAcceptStatus()){
+      friendService.addFriend(dbRequest.getTargetName(),dbRequest.getUsername());
     }
-    addFriendService.storeReplyStatus(friendRequest.getId(),friendRequest.getAcceptStatus(),friendRequest.getReplyStatus());
+    addFriendService.storeReplyStatus(dbRequest.getId(),dbRequest.getAcceptStatus(),dbRequest.getReplyStatus());
   }
 
   @GetMapping("/user/friend/request")

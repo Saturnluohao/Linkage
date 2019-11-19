@@ -14,4 +14,5 @@ public interface FriendMapper {
   List<String> getAllMyFriends(String name);
   void addFriend(String name_1, String name_2);
   void deleteFriend(String name_1,String name_2);
+  Friend getMyFriendByName(String name);
 }

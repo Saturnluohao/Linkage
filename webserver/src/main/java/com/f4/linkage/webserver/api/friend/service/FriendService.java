@@ -34,6 +34,7 @@ public class FriendService {
     //System.out.println(friendPageInfo.isHasNextPage());
     return new PageInfo<>(friends);
   }
+  public Friend getMyFriendDetailInfo(String friendName){return friendMapper.getMyFriendByName(friendName);}
   public void addFriend(String userName, String targetName){
     friendMapper.addFriend(userName,targetName);
   }
