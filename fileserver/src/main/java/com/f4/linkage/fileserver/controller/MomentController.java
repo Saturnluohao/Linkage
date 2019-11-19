@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.List;
 
@@ -99,8 +100,12 @@ public class MomentController {
     }
 
     @GetMapping("/moment/home")
-    List<Moment> getMyMoments(Principal principal){
-        String username = principal.getName();
+    List<Moment> getMyMoments(Principal principal, HttpServletRequest request){
+        String username;
+        username = request.getParameter("username");
+        if(username == null) {
+            username = principal.getName();
+        }
         LOGGER.info("Return " + username + "'s private moments");
         return dataUtil.getPrivateMoments(username);
     }
