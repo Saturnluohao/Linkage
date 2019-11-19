@@ -31,7 +31,7 @@ public class IconController {
         if(icon != null){
             if(fileUtil.saveIconFile(icon, username)){
                 dataUtil.updateIconUrl(username);
-                return ResponseEntity.ok().body("http://www.saturnluo.cn:5000/icon/" + username);
+                return ResponseEntity.ok().body("/icon/" + username);
             }
             else {
                 return ResponseEntity.status(500).body("We can't save your icon file!");
@@ -46,7 +46,7 @@ public class IconController {
         if(icon != null){
             if(fileUtil.saveGlobalIconFile(icon, username)){
                 dataUtil.updateGlobalIconUrl(username);
-                return ResponseEntity.ok().body("http://www.saturnluo.cn:5000/global_icon/" + username);
+                return ResponseEntity.ok().body("/global_icon/" + username);
             }
             else {
                 return ResponseEntity.status(500).body("We can't save your icon file!");
