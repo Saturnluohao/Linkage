@@ -62,7 +62,6 @@ public class AddFriendController {
     dbRequest.setAcceptStatus(friendRequest.getAcceptStatus());
     if(userIsOnline){
       dbRequest.setReplyStatus(true);
-      simpMessagingTemplate.convertAndSendToUser(dbRequest.getUsername(),"/queue/friend/reply",dbRequest);
     }else {
       dbRequest.setReplyStatus(false);
     }
@@ -70,6 +69,7 @@ public class AddFriendController {
       friendService.addFriend(dbRequest.getTargetName(),dbRequest.getUsername());
     }
     addFriendService.storeReplyStatus(dbRequest.getId(),dbRequest.getAcceptStatus(),dbRequest.getReplyStatus());
+    simpMessagingTemplate.convertAndSendToUser(dbRequest.getUsername(),"/queue/friend/reply",dbRequest);
   }
 
   @GetMapping("/user/friend/request")
