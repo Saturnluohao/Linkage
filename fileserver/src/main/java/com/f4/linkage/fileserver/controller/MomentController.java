@@ -111,8 +111,43 @@ public class MomentController {
     }
 
     @PostMapping("/moment/like")
-    int likeMoment(Principal principal, @RequestParam("MomentId")int momentId){
+    ResponseEntity<String> likeMoment(Principal principal, @RequestParam("MomentId")int momentId, @RequestParam("action")String action){
+        String username = principal.getName();
+        switch (action){
+            case "like":
+                if(dataUtil.updateMomentLike(username, momentId, true)){
+                    return ResponseEntity.ok().body("Like successfully!");
+                }else {
+                    return ResponseEntity.status(500).body("Internal error");
+                }
+            case "cancel":
+                if(dataUtil.updateMomentLike(username, momentId, false)){
+                    return ResponseEntity.ok().body("Like cancelled successfully!");
+                }else {
+                    return ResponseEntity.status(500).body("Internal error!");
+                }
+            default:
+                return ResponseEntity.status(406).body("Unsupported action!");
+        }
+    }
 
-        return 0;
+    @PostMapping("/moment/comment/add")
+    ResponseEntity<String> commentMoment(Principal principal, @RequestParam("MomentId")int momentId, @RequestParam("Comment")String comment){
+        String username = principal.getName();
+        if(dataUtil.insertComment(username, momentId, comment)){
+            return ResponseEntity.ok("Comment successfully!");
+        }else {
+            return ResponseEntity.status(500).body("Internal error! Please try agagin!");
+        }
+    }
+
+    @PostMapping("/moment/comment/delete")
+    ResponseEntity<String> deleteMoment(Principal principal, @RequestParam("CommentId")int commentId){
+        String username = principal.getName();
+        if(dataUtil.deleteComment(username, commentId)){
+            return ResponseEntity.ok("Comment deleted successfully!");
+        }else {
+            return ResponseEntity.status(500).body("Internal error, please try again!");
+        }
     }
 }

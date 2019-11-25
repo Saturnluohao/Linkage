@@ -102,4 +102,44 @@ public class DataUtil {
         String sql = "select * from moment where poster_name=?";
         return jdbcTemplate.query(sql, new Object[]{username}, new MomentMapper());
     }
+
+    public boolean updateMomentLike(String username, int momentId, boolean action) {
+        String sql_query = "select count(*) from moment_like where liker_id=? and liked_id=?";
+        String sql_insert = "insert into moment_like(liker_id, liked_id) value(?,?)";
+        String sql_delete = "delete from moment_like where liked_id=? and liked_id=?";
+        Object[] args = new Object[]{username, momentId};
+        boolean exist = jdbcTemplate.queryForObject(sql_query, args, Integer.class).equals(0);
+        if(action){
+            if(exist || jdbcTemplate.update(sql_insert) == 1){
+                return true;
+            }else {
+                return false;
+            }
+        }else {
+            if(!exist || jdbcTemplate.update(sql_delete) == 1){
+                return true;
+            }else {
+                return false;
+            }
+        }
+    }
+
+    public boolean insertComment(String username, int momentId, String comment){
+        String sql = "insert into moment_comment(commenter, moment_id, content) value (?,?,?)";
+        if(jdbcTemplate.update(sql, new Object[]{username, momentId, comment}) == 1){
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public boolean deleteComment(String username, int commentId){
+        String sql = "delete from moment_comment where id=?";
+
+        if(jdbcTemplate.update(sql, new Object[]{commentId}) == 1){
+            return true;
+        }else {
+            return false;
+        }
+    }
 }
