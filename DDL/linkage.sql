@@ -319,9 +319,10 @@ DROP TABLE IF EXISTS `moment_comment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `moment_comment` (
+  `commenter` varchar(32) NOT NULL,
+  `moment_id` int(11) NOT NULL,
+  `content` text NOT NULL,
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `moment_id` int(11) DEFAULT NULL,
-  `content` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -392,10 +393,9 @@ DROP TABLE IF EXISTS `post_comment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `post_comment` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `post_id` int(11) DEFAULT NULL,
-  `content` text,
-  PRIMARY KEY (`id`)
+  `commenter` varchar(32) NOT NULL,
+  `post_id` int(11) NOT NULL,
+  `content` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -486,7 +486,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin','$2y$10$aMK1CNHNz16C9C1JwNjtHuWYaDluNufZpGHb4qXIiQPQCK67W7feC',1,0,'',NULL,1,'2019-11-13 11:47:02',NULL,NULL),(2,'zzj','$2y$10$aMK1CNHNz16C9C1JwNjtHuWYaDluNufZpGHb4qXIiQPQCK67W7feC',1,0,'','How handsome I am!',1,'2019-11-13 13:24:36',NULL,'Chengdu'),(7,'skr','$2a$10$zapaTNnBIf.VA0FE3.JxmevLEBNXt9v9lr/Q5aDsMJXwxwr60z2/6',1,0,'18280096128','i hate zzj',0,'2019-11-13 12:33:27',NULL,NULL),(13,'lym','$2a$10$dDwIKrenHzns0uY6ZMcN4OJXVtzp1LOW3ieZaBEv2rJmnPEZD64ie',1,0,'18621062280','? why i am here',0,'2019-11-10 05:37:43',NULL,NULL),(14,'zzj_1','1',1,0,'12345678908','zzj No.2',1,'2019-11-10 05:37:43',NULL,NULL),(15,'zzj_2','2',1,0,'12345678901','zzj zzj No.3',0,'2019-11-11 09:07:13',NULL,NULL),(16,'zzj_3','3',1,0,'123','zzj No.4',1,'2019-11-11 09:07:54',NULL,NULL),(17,'zzj_4','4',1,0,'345','zzj No.5',0,'2019-11-11 09:08:30',NULL,NULL),(18,'omg','5',1,0,'4367','zzj No.6',1,'2019-11-11 09:10:44',NULL,NULL),(19,'godfather','6',1,0,'2355','zzj No.7',0,'2019-11-11 09:18:07',NULL,NULL);
+INSERT INTO `user` VALUES (1,'admin','$2y$10$aMK1CNHNz16C9C1JwNjtHuWYaDluNufZpGHb4qXIiQPQCK67W7feC',1,0,'',NULL,1,'2019-11-13 11:47:02',NULL,NULL),(2,'zzj','$2y$10$aMK1CNHNz16C9C1JwNjtHuWYaDluNufZpGHb4qXIiQPQCK67W7feC',1,0,'','How handsome I am!',1,'2019-11-25 12:58:47',NULL,'Chengdu'),(7,'skr','$2a$10$zapaTNnBIf.VA0FE3.JxmevLEBNXt9v9lr/Q5aDsMJXwxwr60z2/6',1,0,'18280096128','i hate zzj',0,'2019-11-13 12:33:27',NULL,NULL),(13,'lym','$2a$10$dDwIKrenHzns0uY6ZMcN4OJXVtzp1LOW3ieZaBEv2rJmnPEZD64ie',1,0,'18621062280','? why i am here',0,'2019-11-10 05:37:43',NULL,NULL),(14,'zzj_1','1',1,0,'12345678908','zzj No.2',1,'2019-11-10 05:37:43',NULL,NULL),(15,'zzj_2','2',1,0,'12345678901','zzj zzj No.3',0,'2019-11-11 09:07:13',NULL,NULL),(16,'zzj_3','3',1,0,'123','zzj No.4',1,'2019-11-11 09:07:54',NULL,NULL),(17,'zzj_4','4',1,0,'345','zzj No.5',0,'2019-11-11 09:08:30',NULL,NULL),(18,'omg','5',1,0,'4367','zzj No.6',1,'2019-11-11 09:10:44',NULL,NULL),(19,'godfather','6',1,0,'2355','zzj No.7',0,'2019-11-11 09:18:07',NULL,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -595,4 +595,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-26  2:05:09
+-- Dump completed on 2019-11-25 21:03:01
