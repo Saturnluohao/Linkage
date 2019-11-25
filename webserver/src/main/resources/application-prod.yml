@@ -16,3 +16,7 @@ linkage:
   host: https://www.saturnluo.cn/
   #minutesToExpireSession: 10
   sessionTimeOut: 10
+
+logging:
+  file:
+    path: /home/linkage/log
