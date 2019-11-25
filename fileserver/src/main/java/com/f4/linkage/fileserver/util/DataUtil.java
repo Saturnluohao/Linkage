@@ -1,7 +1,11 @@
 package com.f4.linkage.fileserver.util;
 
+import com.f4.linkage.fileserver.mapper.MomentCommentMapper;
+import com.f4.linkage.fileserver.mapper.MomentLikeMapper;
 import com.f4.linkage.fileserver.mapper.MomentMapper;
 import com.f4.linkage.fileserver.model.Moment;
+import com.f4.linkage.fileserver.model.MomentComment;
+import com.f4.linkage.fileserver.model.MomentLike;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -79,44 +83,52 @@ public class DataUtil {
         }
     }
 
-
-    public Moment getMoment(int id){
-        String sql = "select * from moment where id=?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, new MomentMapper());
-    }
-
     public List<Moment> getMoments(String username){
-        String sql = "select moment_id from who_should_see_moment where username=?";
-        String sql2 = "select * from moment where id=?";
-        List<Integer> moment_ids = jdbcTemplate.queryForList(sql, new Object[]{username}, Integer.class);
-        List<Moment> momentList = new ArrayList<>();
-        MomentMapper momentMapper = new MomentMapper();
-        for (int id: moment_ids
-                 ) {
-            momentList.add(getMoment(id));
+        String moment_sql = "select * from moment where id in " +
+                "(select moment_id from who_should_see_moment where username=?)";
+        String like_sql = "select * from moment_like where liked_id=?";
+        String comment_sql = "select * from moment_comment where moment_id=?";
+        Object[] arg = new Object[]{username};
+        List<Moment> momentList = jdbcTemplate.query(moment_sql, new Object[]{username}, new MomentMapper());
+
+        for (Moment moment:momentList
+             ) {
+            arg[0] = moment.getId();
+            moment.setLike(jdbcTemplate.query(like_sql, arg, new MomentLikeMapper()));
+            moment.setComment(jdbcTemplate.query(comment_sql, arg, new MomentCommentMapper()));
         }
         return momentList;
     }
 
     public List<Moment> getPrivateMoments(String username){
         String sql = "select * from moment where poster_name=?";
-        return jdbcTemplate.query(sql, new Object[]{username}, new MomentMapper());
+        String like_sql = "select * from moment_like where liked_id=?";
+        String comment_sql = "select * from moment_comment where moment_id=?";
+        Object[] arg = new Object[]{username};
+        List<Moment> momentList = jdbcTemplate.query(sql, new Object[]{username}, new MomentMapper());
+        for (Moment moment:momentList
+             ) {
+            arg[0] = moment.getId();
+            moment.setLike(jdbcTemplate.query(like_sql, arg, new MomentLikeMapper()));
+            moment.setComment(jdbcTemplate.query(comment_sql, arg, new MomentCommentMapper()));
+        }
+        return momentList;
     }
 
     public boolean updateMomentLike(String username, int momentId, boolean action) {
         String sql_query = "select count(*) from moment_like where liker_id=? and liked_id=?";
         String sql_insert = "insert into moment_like(liker_id, liked_id) value(?,?)";
-        String sql_delete = "delete from moment_like where liked_id=? and liked_id=?";
+        String sql_delete = "delete from moment_like where liker_id=? and liked_id=?";
         Object[] args = new Object[]{username, momentId};
-        boolean exist = jdbcTemplate.queryForObject(sql_query, args, Integer.class).equals(0);
+        boolean exist = jdbcTemplate.queryForObject(sql_query, args, Integer.class).equals(1);
         if(action){
-            if(exist || jdbcTemplate.update(sql_insert) == 1){
+            if(exist || jdbcTemplate.update(sql_insert, args) == 1){
                 return true;
             }else {
                 return false;
             }
         }else {
-            if(!exist || jdbcTemplate.update(sql_delete) == 1){
+            if(!exist || jdbcTemplate.update(sql_delete, args) == 1){
                 return true;
             }else {
                 return false;

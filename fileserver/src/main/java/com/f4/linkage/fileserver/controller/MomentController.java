@@ -111,7 +111,7 @@ public class MomentController {
     }
 
     @PostMapping("/moment/like")
-    ResponseEntity<String> likeMoment(Principal principal, @RequestParam("MomentId")int momentId, @RequestParam("action")String action){
+    ResponseEntity<String> likeMoment(Principal principal, @RequestParam("MomentId")int momentId, @RequestParam("Action")String action){
         String username = principal.getName();
         switch (action){
             case "like":
