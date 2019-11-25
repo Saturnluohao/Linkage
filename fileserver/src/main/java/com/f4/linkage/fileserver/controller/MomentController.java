@@ -109,4 +109,10 @@ public class MomentController {
         LOGGER.info("Return " + username + "'s private moments");
         return dataUtil.getPrivateMoments(username);
     }
+
+    @PostMapping("/moment/like")
+    int likeMoment(Principal principal, @RequestParam("MomentId")int momentId){
+
+        return 0;
+    }
 }

@@ -1,13 +1,13 @@
--- MySQL dump 10.13  Distrib 8.0.17, for macos10.14 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.15, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: linkage
 -- ------------------------------------------------------
--- Server version	8.0.17
+-- Server version	8.0.15
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
+ SET NAMES utf8mb4 ;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,21 +21,21 @@
 
 DROP TABLE IF EXISTS `add_friend_request`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `add_friend_request` (
-                                      `id` int(11) NOT NULL AUTO_INCREMENT,
-                                      `username` varchar(32) NOT NULL,
-                                      `targetName` varchar(32) NOT NULL,
-                                      `selfIntro` text,
-                                      `readStatus` smallint(6) NOT NULL,
-                                      `acceptStatus` smallint(6) DEFAULT NULL,
-                                      `replyStatus` smallint(6) DEFAULT NULL,
-                                      `requestTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                                      PRIMARY KEY (`id`),
-                                      KEY `add_friend_request_user_username_fk` (`username`),
-                                      KEY `add_friend_request_user_username_fk_2` (`targetName`),
-                                      CONSTRAINT `add_friend_request_user_username_fk` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
-                                      CONSTRAINT `add_friend_request_user_username_fk_2` FOREIGN KEY (`targetName`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(32) NOT NULL,
+  `targetName` varchar(32) NOT NULL,
+  `selfIntro` text,
+  `readStatus` smallint(6) NOT NULL,
+  `acceptStatus` smallint(6) DEFAULT NULL,
+  `replyStatus` smallint(6) DEFAULT NULL,
+  `requestTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `add_friend_request_user_username_fk` (`username`),
+  KEY `add_friend_request_user_username_fk_2` (`targetName`),
+  CONSTRAINT `add_friend_request_user_username_fk` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `add_friend_request_user_username_fk_2` FOREIGN KEY (`targetName`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -55,15 +55,15 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `admin_lock_moment_operation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `admin_lock_moment_operation` (
-                                               `id` int(11) NOT NULL AUTO_INCREMENT,
-                                               `momentId` int(11) NOT NULL,
-                                               `reason` text,
-                                               `executeTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                                               `operationType` text NOT NULL,
-                                               `adminName` varchar(32) NOT NULL,
-                                               PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `momentId` int(11) NOT NULL,
+  `reason` text,
+  `executeTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `operationType` text NOT NULL,
+  `adminName` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -82,15 +82,15 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `admin_lock_post_operation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `admin_lock_post_operation` (
-                                             `id` int(11) NOT NULL AUTO_INCREMENT,
-                                             `postId` int(11) NOT NULL,
-                                             `reason` text,
-                                             `executeTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                                             `operationType` text NOT NULL,
-                                             `adminName` varchar(32) NOT NULL,
-                                             PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `postId` int(11) NOT NULL,
+  `reason` text,
+  `executeTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `operationType` text NOT NULL,
+  `adminName` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -109,19 +109,19 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `admin_lock_user_operation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `admin_lock_user_operation` (
-                                             `id` int(11) NOT NULL AUTO_INCREMENT,
-                                             `adminName` varchar(32) NOT NULL,
-                                             `username` varchar(32) DEFAULT NULL,
-                                             `operationType` text NOT NULL,
-                                             `reason` text,
-                                             `executeTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                                             PRIMARY KEY (`id`),
-                                             KEY `admin_lock_user_operation_user_username_fk` (`username`),
-                                             KEY `admin_lock_user_operation_user_username_fk_2` (`adminName`),
-                                             CONSTRAINT `admin_lock_user_operation_user_username_fk` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
-                                             CONSTRAINT `admin_lock_user_operation_user_username_fk_2` FOREIGN KEY (`adminName`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `adminName` varchar(32) NOT NULL,
+  `username` varchar(32) DEFAULT NULL,
+  `operationType` text NOT NULL,
+  `reason` text,
+  `executeTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `admin_lock_user_operation_user_username_fk` (`username`),
+  KEY `admin_lock_user_operation_user_username_fk_2` (`adminName`),
+  CONSTRAINT `admin_lock_user_operation_user_username_fk` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `admin_lock_user_operation_user_username_fk_2` FOREIGN KEY (`adminName`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -141,16 +141,16 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `follow`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `follow` (
-                          `id` int(11) NOT NULL AUTO_INCREMENT,
-                          `local_username` varchar(32) NOT NULL,
-                          `global_username` varchar(32) NOT NULL,
-                          PRIMARY KEY (`id`),
-                          KEY `follow_global_user_username_fk` (`global_username`),
-                          KEY `follow_user_username_fk` (`local_username`),
-                          CONSTRAINT `follow_global_user_username_fk` FOREIGN KEY (`global_username`) REFERENCES `global_user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
-                          CONSTRAINT `follow_user_username_fk` FOREIGN KEY (`local_username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `local_username` varchar(32) NOT NULL,
+  `global_username` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `follow_global_user_username_fk` (`global_username`),
+  KEY `follow_user_username_fk` (`local_username`),
+  CONSTRAINT `follow_global_user_username_fk` FOREIGN KEY (`global_username`) REFERENCES `global_user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `follow_user_username_fk` FOREIGN KEY (`local_username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -170,16 +170,16 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `friend`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `friend` (
-                          `id` int(11) NOT NULL AUTO_INCREMENT,
-                          `my_username` varchar(32) DEFAULT NULL,
-                          `friend_username` varchar(32) DEFAULT NULL,
-                          PRIMARY KEY (`id`),
-                          KEY `friend_user_username_fk` (`my_username`),
-                          KEY `friend_user_username_fk_2` (`friend_username`),
-                          CONSTRAINT `friend_user_username_fk` FOREIGN KEY (`my_username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
-                          CONSTRAINT `friend_user_username_fk_2` FOREIGN KEY (`friend_username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `my_username` varchar(32) DEFAULT NULL,
+  `friend_username` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `friend_user_username_fk` (`my_username`),
+  KEY `friend_user_username_fk_2` (`friend_username`),
+  CONSTRAINT `friend_user_username_fk` FOREIGN KEY (`my_username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `friend_user_username_fk_2` FOREIGN KEY (`friend_username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -199,15 +199,15 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `global_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `global_user` (
-                               `id` int(11) NOT NULL AUTO_INCREMENT,
-                               `username` varchar(32) NOT NULL,
-                               `locked` smallint(6) NOT NULL DEFAULT '0',
-                               `iconUrl` text,
-                               `description` text,
-                               PRIMARY KEY (`id`),
-                               UNIQUE KEY `global_user_username_uindex` (`username`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(32) NOT NULL,
+  `locked` smallint(6) NOT NULL DEFAULT '0',
+  `iconUrl` text,
+  `description` text,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `global_user_username_uindex` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -227,17 +227,17 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `local_global_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `local_global_user` (
-                                     `id` int(11) NOT NULL AUTO_INCREMENT,
-                                     `local_username` varchar(32) NOT NULL,
-                                     `global_username` varchar(32) DEFAULT NULL,
-                                     `register_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                                     PRIMARY KEY (`id`),
-                                     KEY `local_global_user_global_user_username_fk` (`global_username`),
-                                     KEY `local_global_user_user_username_fk` (`local_username`),
-                                     CONSTRAINT `local_global_user_global_user_username_fk` FOREIGN KEY (`global_username`) REFERENCES `global_user` (`username`) ON UPDATE CASCADE,
-                                     CONSTRAINT `local_global_user_user_username_fk` FOREIGN KEY (`local_username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `local_username` varchar(32) NOT NULL,
+  `global_username` varchar(32) DEFAULT NULL,
+  `register_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `local_global_user_global_user_username_fk` (`global_username`),
+  KEY `local_global_user_user_username_fk` (`local_username`),
+  CONSTRAINT `local_global_user_global_user_username_fk` FOREIGN KEY (`global_username`) REFERENCES `global_user` (`username`) ON UPDATE CASCADE,
+  CONSTRAINT `local_global_user_user_username_fk` FOREIGN KEY (`local_username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -257,19 +257,19 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `message`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `message` (
-                           `id` int(11) NOT NULL AUTO_INCREMENT,
-                           `name` varchar(32) NOT NULL,
-                           `content` text,
-                           `to` varchar(32) NOT NULL,
-                           `status` int(11) DEFAULT NULL,
-                           `sendTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                           PRIMARY KEY (`id`),
-                           KEY `message_user_username_fk` (`name`),
-                           KEY `message_user_username_fk_2` (`to`),
-                           CONSTRAINT `message_user_username_fk` FOREIGN KEY (`name`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
-                           CONSTRAINT `message_user_username_fk_2` FOREIGN KEY (`to`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) NOT NULL,
+  `content` text,
+  `to` varchar(32) NOT NULL,
+  `status` int(11) DEFAULT NULL,
+  `sendTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `message_user_username_fk` (`name`),
+  KEY `message_user_username_fk_2` (`to`),
+  CONSTRAINT `message_user_username_fk` FOREIGN KEY (`name`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `message_user_username_fk_2` FOREIGN KEY (`to`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=48 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -289,17 +289,17 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `moment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `moment` (
-                          `id` int(11) NOT NULL AUTO_INCREMENT,
-                          `poster_name` varchar(32) NOT NULL,
-                          `text` text NOT NULL,
-                          `picture_num` int(2) DEFAULT NULL,
-                          `video_num` int(2) DEFAULT NULL,
-                          `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                          PRIMARY KEY (`id`),
-                          KEY `weblog_global_user_username_fk` (`poster_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `poster_name` varchar(32) NOT NULL,
+  `text` text NOT NULL,
+  `picture_num` int(2) DEFAULT NULL,
+  `video_num` int(2) DEFAULT NULL,
+  `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `weblog_global_user_username_fk` (`poster_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -307,7 +307,6 @@ CREATE TABLE `moment` (
 --
 
 LOCK TABLES `moment` WRITE;
-ALTER TABLE moment AUTO_INCREMENT=1;
 /*!40000 ALTER TABLE `moment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `moment` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -318,12 +317,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `moment_comment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `moment_comment` (
-                                  `id` int(11) NOT NULL AUTO_INCREMENT,
-                                  `moment_id` int(11) DEFAULT NULL,
-                                  `content` text,
-                                  PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `moment_id` int(11) DEFAULT NULL,
+  `content` text,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -332,9 +331,30 @@ CREATE TABLE `moment_comment` (
 --
 
 LOCK TABLES `moment_comment` WRITE;
-ALTER TABLE moment_comment AUTO_INCREMENT=1;
 /*!40000 ALTER TABLE `moment_comment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `moment_comment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `moment_like`
+--
+
+DROP TABLE IF EXISTS `moment_like`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `moment_like` (
+  `liker_id` int(11) NOT NULL,
+  `liked_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `moment_like`
+--
+
+LOCK TABLES `moment_like` WRITE;
+/*!40000 ALTER TABLE `moment_like` DISABLE KEYS */;
+/*!40000 ALTER TABLE `moment_like` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -343,15 +363,15 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `post`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `post` (
-                        `id` int(11) NOT NULL AUTO_INCREMENT,
-                        `post_name` varchar(32) DEFAULT NULL,
-                        `text` text,
-                        `picture_num` int(2) DEFAULT NULL,
-                        `video_num` int(2) DEFAULT NULL,
-                        `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                        PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_name` varchar(32) DEFAULT NULL,
+  `text` text,
+  `picture_num` int(2) DEFAULT NULL,
+  `video_num` int(2) DEFAULT NULL,
+  `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -360,7 +380,6 @@ CREATE TABLE `post` (
 --
 
 LOCK TABLES `post` WRITE;
-ALTER TABLE post AUTO_INCREMENT=1;
 /*!40000 ALTER TABLE `post` DISABLE KEYS */;
 /*!40000 ALTER TABLE `post` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -371,12 +390,12 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `post_comment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `post_comment` (
-                                `id` int(11) NOT NULL AUTO_INCREMENT,
-                                `post_id` int(11) DEFAULT NULL,
-                                `content` text,
-                                PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) DEFAULT NULL,
+  `content` text,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -385,9 +404,30 @@ CREATE TABLE `post_comment` (
 --
 
 LOCK TABLES `post_comment` WRITE;
-ALTER TABLE post_comment AUTO_INCREMENT=1;
 /*!40000 ALTER TABLE `post_comment` DISABLE KEYS */;
 /*!40000 ALTER TABLE `post_comment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `post_like`
+--
+
+DROP TABLE IF EXISTS `post_like`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `post_like` (
+  `liker_id` int(11) NOT NULL,
+  `liked_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `post_like`
+--
+
+LOCK TABLES `post_like` WRITE;
+/*!40000 ALTER TABLE `post_like` DISABLE KEYS */;
+/*!40000 ALTER TABLE `post_like` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -396,11 +436,11 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `role` (
-                        `id` int(11) NOT NULL AUTO_INCREMENT,
-                        `name` varchar(32) NOT NULL,
-                        PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -420,23 +460,23 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `user` (
-                        `id` int(11) NOT NULL AUTO_INCREMENT,
-                        `username` varchar(32) NOT NULL,
-                        `password` varchar(255) NOT NULL,
-                        `enabled` tinyint(1) NOT NULL,
-                        `locked` tinyint(1) NOT NULL,
-                        `phoneNumber` varchar(30) NOT NULL,
-                        `description` text,
-                        `sex` smallint(6) DEFAULT NULL,
-                        `lastLogIn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                        `iconUrl` varchar(100) DEFAULT NULL,
-                        `address` text,
-                        PRIMARY KEY (`id`),
-                        UNIQUE KEY `user_username_uindex` (`username`),
-                        UNIQUE KEY `user_id_uindex` (`id`),
-                        KEY `user_phoneNumber_index` (`phoneNumber`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(32) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `locked` tinyint(1) NOT NULL,
+  `phoneNumber` varchar(30) NOT NULL,
+  `description` text,
+  `sex` smallint(6) DEFAULT NULL,
+  `lastLogIn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `iconUrl` varchar(100) DEFAULT NULL,
+  `address` text,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_username_uindex` (`username`),
+  UNIQUE KEY `user_id_uindex` (`id`),
+  KEY `user_phoneNumber_index` (`phoneNumber`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -475,16 +515,16 @@ DELIMITER ;
 
 DROP TABLE IF EXISTS `user_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `user_role` (
-                             `id` int(11) NOT NULL AUTO_INCREMENT,
-                             `uid` int(11) NOT NULL,
-                             `rid` int(11) NOT NULL,
-                             PRIMARY KEY (`id`),
-                             KEY `user_role_role_id_fk` (`rid`),
-                             KEY `user_role_user_id_fk` (`uid`),
-                             CONSTRAINT `user_role_role_id_fk` FOREIGN KEY (`rid`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-                             CONSTRAINT `user_role_user_id_fk` FOREIGN KEY (`uid`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NOT NULL,
+  `rid` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_role_role_id_fk` (`rid`),
+  KEY `user_role_user_id_fk` (`uid`),
+  CONSTRAINT `user_role_role_id_fk` FOREIGN KEY (`rid`) REFERENCES `role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `user_role_user_id_fk` FOREIGN KEY (`uid`) REFERENCES `user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -504,28 +544,36 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `who_should_see_moment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `who_should_see_moment` (
-                                         `id` int(11) NOT NULL AUTO_INCREMENT,
-                                         `moment_id` int(11) DEFAULT NULL,
-                                         `username` varchar(32) DEFAULT NULL,
-                                         PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `moment_id` int(11) DEFAULT NULL,
+  `username` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-ALTER TABLE who_should_see_moment AUTO_INCREMENT=1;
+--
+-- Dumping data for table `who_should_see_moment`
+--
+
+LOCK TABLES `who_should_see_moment` WRITE;
+/*!40000 ALTER TABLE `who_should_see_moment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `who_should_see_moment` ENABLE KEYS */;
+UNLOCK TABLES;
+
 --
 -- Table structure for table `who_should_see_post`
 --
 
 DROP TABLE IF EXISTS `who_should_see_post`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `who_should_see_post` (
-                                       `id` int(11) NOT NULL AUTO_INCREMENT,
-                                       `post_id` int(11) DEFAULT NULL,
-                                       `global_username` varchar(32) DEFAULT NULL,
-                                       PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `post_id` int(11) DEFAULT NULL,
+  `global_username` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -534,7 +582,6 @@ CREATE TABLE `who_should_see_post` (
 --
 
 LOCK TABLES `who_should_see_post` WRITE;
-ALTER TABLE who_should_see_post AUTO_INCREMENT=1;
 /*!40000 ALTER TABLE `who_should_see_post` DISABLE KEYS */;
 /*!40000 ALTER TABLE `who_should_see_post` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -548,4 +595,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-13 22:14:41
+-- Dump completed on 2019-11-26  2:05:09
