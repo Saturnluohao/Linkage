@@ -51,10 +51,10 @@ public class GreetingController {
     }
     if(targetOnline){
       message.setStatus(1);
-      simpMessagingTemplate.convertAndSendToUser(message.getTo(),"/queue/chat",message);
     }else {
       message.setStatus(0);
     }
+    simpMessagingTemplate.convertAndSendToUser(message.getTo(),"/queue/chat",message);
     messageService.addMessage(message);
   }
 }
