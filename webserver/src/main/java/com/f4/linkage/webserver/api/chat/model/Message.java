@@ -13,7 +13,6 @@ import java.io.Serializable;
  **/
 @Data
 public class Message implements Serializable {
-  @JsonIgnore
   private int id;
   private String name;
   private String content;

@@ -460,8 +460,9 @@ UNLOCK TABLES;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `UserLogInSetAllRead` AFTER UPDATE ON `user` FOR EACH ROW begin
     update message set status=1 where (sendTime between OLD.lastLogIn and NEW.lastLogIn) and (`to`=NEW.username);
-    update add_friend_request set readStatus=1 where (requestTime between OLD.lastLogIn and NEW.lastLogIn)
+    update add_friend_request set readStatus=1, replyStatus=1 where (requestTime between OLD.lastLogIn and NEW.lastLogIn)
                                                  and (username=NEW.username or targetName = NEW.username);
+
 end */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;

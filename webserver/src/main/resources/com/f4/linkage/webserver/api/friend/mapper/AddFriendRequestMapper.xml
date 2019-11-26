@@ -24,4 +24,10 @@
   <select id="getUnreadReply" resultType="com.f4.linkage.webserver.api.friend.model.AddFriendRequest">
     select * from linkage.add_friend_request where username=#{username} and replyStatus=0
   </select>
+  <update id="setReadStatusReadById" parameterType="java.lang.Integer">
+    update linkage.add_friend_request set readStatus=1 where id=#{id}
+  </update>
+  <update id="setReplyStatusReadById" parameterType="java.lang.Integer">
+    update linkage.add_friend_request set replyStatus=1 where id=#{id}
+  </update>
 </mapper>

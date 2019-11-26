@@ -42,4 +42,6 @@ public class AddFriendService {
     List<AddFriendRequest> addFriendRequests = addFriendRequestMapper.getHistoryReply(username);
     return new PageInfo<>(addFriendRequests);
   }
+  public void setReadStatusRead(int id){addFriendRequestMapper.setReadStatusReadById(id);}
+  public void setReplyStatusRead(int id){addFriendRequestMapper.setReplyStatusReadById(id);}
 }

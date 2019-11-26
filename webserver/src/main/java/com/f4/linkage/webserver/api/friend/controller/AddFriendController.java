@@ -6,6 +6,8 @@ import com.f4.linkage.webserver.api.friend.service.FriendService;
 import com.f4.linkage.webserver.config.OnlineUserHub;
 import com.f4.linkage.webserver.util.RestfulResponseHelper;
 import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -26,6 +28,7 @@ import java.util.Map;
  **/
 @Controller
 public class AddFriendController {
+  private Logger logger = LoggerFactory.getLogger(AddFriendController.class);
   @Autowired
   private SimpMessagingTemplate simpMessagingTemplate;
   @Autowired
@@ -49,7 +52,13 @@ public class AddFriendController {
     int id = addFriendService.getLastID();
     friendRequest.setId(id);
     simpMessagingTemplate.convertAndSendToUser(friendRequest.getTargetName(),"/queue/friend/request",friendRequest);
+  }
 
+  @MessageMapping("/friend/add/confirm")
+  public void makeRequestAlreadyRead(Principal principal,AddFriendRequest friendRequest){
+    if(!friendRequest.getTargetName().equals(principal.getName())) return;
+    logger.info("No."+friendRequest.getId() + " request is read.");
+    addFriendService.setReadStatusRead(friendRequest.getId());
   }
 
   @MessageMapping("/friend/check")
@@ -70,6 +79,13 @@ public class AddFriendController {
     }
     addFriendService.storeReplyStatus(dbRequest.getId(),dbRequest.getAcceptStatus(),dbRequest.getReplyStatus());
     simpMessagingTemplate.convertAndSendToUser(dbRequest.getUsername(),"/queue/friend/reply",dbRequest);
+  }
+
+  @MessageMapping("/friend/check/confirm")
+  public void makeReplyStatusAlreadyRead(Principal principal,AddFriendRequest friendRequest){
+    if(!friendRequest.getUsername().equals(principal.getName())) return;
+    logger.info("No."+friendRequest.getId()+" reply is read.");
+    addFriendService.setReplyStatusRead(friendRequest.getId());
   }
 
   @GetMapping("/user/friend/request")

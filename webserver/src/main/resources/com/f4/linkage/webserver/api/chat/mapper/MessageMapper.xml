@@ -12,4 +12,10 @@
   <select id="getUnreadMessage" resultType="com.f4.linkage.webserver.api.chat.model.Message">
     select id, name, content, `to`, status, sendTime from linkage.message where `to`=#{userName} and status=0
   </select>
+  <select id="getLastInsertId" resultType="java.lang.Integer">
+    select LAST_INSERT_ID()
+  </select>
+  <update id="setMessageReadById" parameterType="java.lang.Integer">
+    update linkage.message set status=1 where id=#{id}
+  </update>
 </mapper>

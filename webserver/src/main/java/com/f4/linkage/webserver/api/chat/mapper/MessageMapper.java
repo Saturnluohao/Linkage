@@ -9,8 +9,9 @@ import java.util.List;
 @Mapper
 @Repository
 public interface MessageMapper {
-  int addMessage(Message message);
+  void addMessage(Message message);
   List<Message> getMessage(String userName,String targetName);
-  int setMessagesRead(String receiverName);
   List<Message> getUnreadMessage(String userName);
+  Integer getLastInsertId();
+  void setMessageReadById(Integer id);
 }

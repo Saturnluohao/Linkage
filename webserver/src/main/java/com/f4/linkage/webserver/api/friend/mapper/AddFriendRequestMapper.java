@@ -17,5 +17,6 @@ public interface AddFriendRequestMapper {
   List<AddFriendRequest> getHistoryReply(String username);  // sender is me
   List<AddFriendRequest> getUnreadRequest(String username); // target is me
   List<AddFriendRequest> getUnreadReply(String username); // sender is me
-
+  void setReadStatusReadById(Integer id);
+  void setReplyStatusReadById(Integer id);
 }

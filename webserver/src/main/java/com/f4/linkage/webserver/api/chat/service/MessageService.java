@@ -27,4 +27,6 @@ public class MessageService {
     List<Message> messages = messageMapper.getMessage(name,targetName);
     return new PageInfo<>(messages);
   }
+  public int getLastId(){return messageMapper.getLastInsertId();}
+  public void setMessageReadById(int id){messageMapper.setMessageReadById(id);}
 }
