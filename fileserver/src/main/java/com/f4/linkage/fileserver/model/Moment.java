@@ -58,6 +58,22 @@ public class Moment {
         this.poster_icon = poster_icon;
     }
 
+    public List<MomentLike> getLike() {
+        return like;
+    }
+
+    public void setLike(List<MomentLike> like) {
+        this.like = like;
+    }
+
+    public List<MomentComment> getComment() {
+        return comment;
+    }
+
+    public void setComment(List<MomentComment> comment) {
+        this.comment = comment;
+    }
+
 
     private int id;
     private String poster_name;
@@ -66,4 +82,6 @@ public class Moment {
     private String text;
     private String time;
     private String poster_icon;
+    private List<MomentLike> like;
+    private List<MomentComment> comment;
 }
