@@ -86,16 +86,17 @@ public class DataUtil {
     public List<Moment> getMoments(String username){
         String moment_sql = "select * from moment where id in " +
                 "(select moment_id from who_should_see_moment where username=?)";
-        String like_sql = "select * from moment_like where liked_id=?";
-        String comment_sql = "select * from moment_comment where moment_id=?";
         Object[] arg = new Object[]{username};
         List<Moment> momentList = jdbcTemplate.query(moment_sql, new Object[]{username}, new MomentMapper());
 
         for (Moment moment:momentList
              ) {
-            arg[0] = moment.getId();
-            moment.setLike(jdbcTemplate.query(like_sql, arg, new MomentLikeMapper()));
-            moment.setComment(jdbcTemplate.query(comment_sql, arg, new MomentCommentMapper()));
+            int momentId = moment.getId();
+            moment.setSelf_like(false);
+            List<MomentLike> likeList = getMomentLikeList(momentId);
+            moment.setLike(likeList);
+            moment.setComment(getMomentCommentList(momentId));
+            moment.setSelf_like(amILiker(likeList, username));
         }
         return momentList;
     }
@@ -103,14 +104,14 @@ public class DataUtil {
     public List<Moment> getPrivateMoments(String username){
         String sql = "select * from moment where poster_name=?";
 
-
-        Object[] arg = new Object[]{username};
         List<Moment> momentList = jdbcTemplate.query(sql, new Object[]{username}, new MomentMapper());
         for (Moment moment:momentList
              ) {
             int momentId = moment.getId();
-            moment.setLike(getMomentLikeList(momentId));
+            List<MomentLike> likeList = getMomentLikeList(momentId);
+            moment.setLike(likeList);
             moment.setComment(getMomentCommentList(momentId));
+            moment.setSelf_like(amILiker(likeList, username));
         }
         return momentList;
     }
@@ -123,6 +124,16 @@ public class DataUtil {
     public List<MomentComment> getMomentCommentList(int momentId){
         String comment_sql = "select * from moment_comment where moment_id=?";
         return jdbcTemplate.query(comment_sql, new Object[]{momentId}, new MomentCommentMapper());
+    }
+
+    private boolean amILiker(List<MomentLike> likeList, String username){
+        for (MomentLike momentLike:likeList
+             ) {
+            if(momentLike.getLiker().equals(username)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean updateMomentLike(String username, int momentId, boolean action) {

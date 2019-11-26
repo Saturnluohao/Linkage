@@ -74,6 +74,14 @@ public class Moment {
         this.comment = comment;
     }
 
+    public boolean isSelf_like() {
+        return self_like;
+    }
+
+    public void setSelf_like(boolean self_like) {
+        this.self_like = self_like;
+    }
+
 
     private int id;
     private String poster_name;
@@ -84,4 +92,5 @@ public class Moment {
     private String poster_icon;
     private List<MomentLike> like;
     private List<MomentComment> comment;
+    private boolean self_like;
 }
