@@ -102,17 +102,27 @@ public class DataUtil {
 
     public List<Moment> getPrivateMoments(String username){
         String sql = "select * from moment where poster_name=?";
-        String like_sql = "select * from moment_like where liked_id=?";
-        String comment_sql = "select * from moment_comment where moment_id=?";
+
+
         Object[] arg = new Object[]{username};
         List<Moment> momentList = jdbcTemplate.query(sql, new Object[]{username}, new MomentMapper());
         for (Moment moment:momentList
              ) {
-            arg[0] = moment.getId();
-            moment.setLike(jdbcTemplate.query(like_sql, arg, new MomentLikeMapper()));
-            moment.setComment(jdbcTemplate.query(comment_sql, arg, new MomentCommentMapper()));
+            int momentId = moment.getId();
+            moment.setLike(getMomentLikeList(momentId));
+            moment.setComment(getMomentCommentList(momentId));
         }
         return momentList;
+    }
+
+    public List<MomentLike> getMomentLikeList(int momentId){
+        String like_sql = "select * from moment_like where liked_id=?";
+        return jdbcTemplate.query(like_sql, new Object[]{momentId}, new MomentLikeMapper());
+    }
+
+    public List<MomentComment> getMomentCommentList(int momentId){
+        String comment_sql = "select * from moment_comment where moment_id=?";
+        return jdbcTemplate.query(comment_sql, new Object[]{momentId}, new MomentCommentMapper());
     }
 
     public boolean updateMomentLike(String username, int momentId, boolean action) {

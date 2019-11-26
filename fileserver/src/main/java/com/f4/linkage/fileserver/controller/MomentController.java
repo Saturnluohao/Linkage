@@ -1,6 +1,8 @@
 package com.f4.linkage.fileserver.controller;
 
 import com.f4.linkage.fileserver.model.Moment;
+import com.f4.linkage.fileserver.model.MomentComment;
+import com.f4.linkage.fileserver.model.MomentLike;
 import com.f4.linkage.fileserver.util.DataUtil;
 import com.f4.linkage.fileserver.util.FileUtil;
 import org.slf4j.Logger;
@@ -15,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.f4.linkage.webserver.api.login.model.LoginUserInfo;
@@ -111,43 +114,43 @@ public class MomentController {
     }
 
     @PostMapping("/moment/like")
-    ResponseEntity<String> likeMoment(Principal principal, @RequestParam("MomentId")int momentId, @RequestParam("Action")String action){
+    ResponseEntity<List<MomentLike>> likeMoment(Principal principal, @RequestParam("MomentId")int momentId, @RequestParam("Action")String action){
         String username = principal.getName();
         switch (action){
             case "like":
                 if(dataUtil.updateMomentLike(username, momentId, true)){
-                    return ResponseEntity.ok().body("Like successfully!");
+                    return ResponseEntity.ok().body(dataUtil.getMomentLikeList(momentId));
                 }else {
-                    return ResponseEntity.status(500).body("Internal error");
+                    return ResponseEntity.status(500).body(new ArrayList<>());
                 }
             case "cancel":
                 if(dataUtil.updateMomentLike(username, momentId, false)){
-                    return ResponseEntity.ok().body("Like cancelled successfully!");
+                    return ResponseEntity.ok().body(dataUtil.getMomentLikeList(momentId));
                 }else {
-                    return ResponseEntity.status(500).body("Internal error!");
+                    return ResponseEntity.status(500).body(new ArrayList<>());
                 }
             default:
-                return ResponseEntity.status(406).body("Unsupported action!");
+                return ResponseEntity.status(406).body(new ArrayList<>());
         }
     }
 
     @PostMapping("/moment/comment/add")
-    ResponseEntity<String> commentMoment(Principal principal, @RequestParam("MomentId")int momentId, @RequestParam("Comment")String comment){
+    ResponseEntity<List<MomentComment>> commentMoment(Principal principal, @RequestParam("MomentId")int momentId, @RequestParam("Comment")String comment){
         String username = principal.getName();
         if(dataUtil.insertComment(username, momentId, comment)){
-            return ResponseEntity.ok("Comment successfully!");
+            return ResponseEntity.ok(dataUtil.getMomentCommentList(momentId));
         }else {
-            return ResponseEntity.status(500).body("Internal error! Please try agagin!");
+            return ResponseEntity.status(500).body(new ArrayList<MomentComment>());
         }
     }
 
     @PostMapping("/moment/comment/delete")
-    ResponseEntity<String> deleteMoment(Principal principal, @RequestParam("CommentId")int commentId){
+    ResponseEntity<List<MomentComment>> deleteMoment(Principal principal, @RequestParam("CommentId")int commentId, @RequestParam("MomentId")int momentId){
         String username = principal.getName();
         if(dataUtil.deleteComment(username, commentId)){
-            return ResponseEntity.ok("Comment deleted successfully!");
+            return ResponseEntity.ok(dataUtil.getMomentCommentList(momentId));
         }else {
-            return ResponseEntity.status(500).body("Internal error, please try again!");
+            return ResponseEntity.status(500).body(new ArrayList<>());
         }
     }
 }
