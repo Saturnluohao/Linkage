@@ -17,11 +17,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @Service
 public class FileUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileUtil.class);
     public static int momentID = -1;
+    public static int postID = -1;
 
     @Resource
     private JdbcTemplate jdbcTemplate;
@@ -33,11 +35,14 @@ public class FileUtil {
     @Value("${app.linkage.defaultGlobalIcon}")
     private String defaultGlobalIcon;
 
-    public boolean saveFiles(MultipartFile[] files, int kind){
+    public boolean saveFiles(MultipartFile[] files, FileKind fileKind, List<String> serverSideUrls){
         try {
             for (int i = 0; i < files.length; i++) {
                 MultipartFile file = files[i];
-                file.transferTo(getServerFilePath(i, file, kind));
+                file.transferTo(getServerFilePath(i, file, fileKind));
+                if(serverSideUrls != null){
+                    serverSideUrls.add("/post/" + postID + "/picture/" + i);
+                }
             }
         }catch (IOException e){
             return false;
@@ -63,12 +68,26 @@ public class FileUtil {
         return true;
     }
 
-    private Path getServerFilePath(int index, MultipartFile file, int kind){
+    private Path getServerFilePath(int index, MultipartFile file, FileKind fileKind){
         String fileName = file.getOriginalFilename();
         LOGGER.info("file name is " + fileName);
-        String fileKind = kind == 0 ? "img" : "video";
+        String prefix = "";
+        switch (fileKind){
+            case MomentPicture:
+                prefix = "moment/img/" + momentID;
+                break;
+            case MomentVideo:
+                prefix = "moment/video/" + momentID;
+                break;
+            case PostPicture:
+                prefix = "post/img/" + postID;
+                break;
+            case PostVideo:
+                prefix = "post/video/" + postID;
+                break;
+        }
 
-        return Paths.get(fileRoot + fileKind +"/" + momentID + "_" + index);
+        return Paths.get(fileRoot + prefix + "_" + index);
     }
 
     private String getPosix(String name){
@@ -86,6 +105,16 @@ public class FileUtil {
         }
         else {
             momentID++;
+        }
+    }
+
+    public void updatePostID(){
+        if(postID < 0){
+            String query = "SELECT COUNT(*) FROM post";
+            postID = jdbcTemplate.queryForObject(query, Integer.class) + 1;
+        }
+        else {
+            postID++;
         }
     }
 

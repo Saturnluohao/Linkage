@@ -1,6 +1,6 @@
 package com.f4.linkage.fileserver.model;
 
-public class MomentComment {
+public class Comment {
     private int id;
     private String commenter;
     private int moment_id;

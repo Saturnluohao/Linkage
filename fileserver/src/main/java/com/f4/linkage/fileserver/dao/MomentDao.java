@@ -1,11 +1,12 @@
-package com.f4.linkage.fileserver.util;
+package com.f4.linkage.fileserver.dao;
 
-import com.f4.linkage.fileserver.mapper.MomentCommentMapper;
-import com.f4.linkage.fileserver.mapper.MomentLikeMapper;
+import com.f4.linkage.fileserver.mapper.CommentMapper;
+import com.f4.linkage.fileserver.mapper.LikeMapper;
 import com.f4.linkage.fileserver.mapper.MomentMapper;
 import com.f4.linkage.fileserver.model.Moment;
-import com.f4.linkage.fileserver.model.MomentComment;
-import com.f4.linkage.fileserver.model.MomentLike;
+import com.f4.linkage.fileserver.model.Comment;
+import com.f4.linkage.fileserver.model.Like;
+import com.f4.linkage.fileserver.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,12 +14,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class DataUtil {
-    private final static Logger LOGGER = LoggerFactory.getLogger(DataUtil.class);
+public class MomentDao {
+    private final static Logger LOGGER = LoggerFactory.getLogger(MomentDao.class);
 
     @Value("${app.linkage.fileRoot}")
     private String fileRoot;
@@ -26,7 +26,7 @@ public class DataUtil {
     @Resource
     JdbcTemplate jdbcTemplate;
 
-    public boolean insertBlog(Object[] args){
+    public boolean insertMoment(Object[] args){
         String sql = "INSERT INTO moment(poster_name, text, picture_num, video_num) VALUES (?,?,?,?)";
         if(jdbcTemplate.update(sql, args) == 1) {
             String poster = args[0].toString();
@@ -93,7 +93,7 @@ public class DataUtil {
              ) {
             int momentId = moment.getId();
             moment.setSelf_like(false);
-            List<MomentLike> likeList = getMomentLikeList(momentId);
+            List<Like> likeList = getMomentLikeList(momentId);
             moment.setLike(likeList);
             moment.setComment(getMomentCommentList(momentId));
             moment.setSelf_like(amILiker(likeList, username));
@@ -108,7 +108,7 @@ public class DataUtil {
         for (Moment moment:momentList
              ) {
             int momentId = moment.getId();
-            List<MomentLike> likeList = getMomentLikeList(momentId);
+            List<Like> likeList = getMomentLikeList(momentId);
             moment.setLike(likeList);
             moment.setComment(getMomentCommentList(momentId));
             moment.setSelf_like(amILiker(likeList, username));
@@ -116,18 +116,18 @@ public class DataUtil {
         return momentList;
     }
 
-    public List<MomentLike> getMomentLikeList(int momentId){
+    public List<Like> getMomentLikeList(int momentId){
         String like_sql = "select * from moment_like where liked_id=?";
-        return jdbcTemplate.query(like_sql, new Object[]{momentId}, new MomentLikeMapper());
+        return jdbcTemplate.query(like_sql, new Object[]{momentId}, new LikeMapper());
     }
 
-    public List<MomentComment> getMomentCommentList(int momentId){
-        String comment_sql = "select * from moment_comment where moment_id=?";
-        return jdbcTemplate.query(comment_sql, new Object[]{momentId}, new MomentCommentMapper());
+    public List<Comment> getMomentCommentList(int momentId){
+        String comment_sql = "select * from moment_comment where commented_id=?";
+        return jdbcTemplate.query(comment_sql, new Object[]{momentId}, new CommentMapper());
     }
 
-    private boolean amILiker(List<MomentLike> likeList, String username){
-        for (MomentLike momentLike:likeList
+    private boolean amILiker(List<Like> likeList, String username){
+        for (Like momentLike:likeList
              ) {
             if(momentLike.getLiker().equals(username)){
                 return true;
@@ -158,7 +158,7 @@ public class DataUtil {
     }
 
     public boolean insertComment(String username, int momentId, String comment){
-        String sql = "insert into moment_comment(commenter, moment_id, content) value (?,?,?)";
+        String sql = "insert into moment_comment(commenter, commented_id, content) value (?,?,?)";
         if(jdbcTemplate.update(sql, new Object[]{username, momentId, comment}) == 1){
             return true;
         }else {
@@ -175,4 +175,5 @@ public class DataUtil {
             return false;
         }
     }
+
 }

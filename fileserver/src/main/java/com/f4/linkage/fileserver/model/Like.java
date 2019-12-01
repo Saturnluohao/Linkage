@@ -1,6 +1,6 @@
 package com.f4.linkage.fileserver.model;
 
-public class MomentLike {
+public class Like {
     private String liker;
     private int moment_id;
 

@@ -18,15 +18,28 @@ public class FileDownloadController {
 
 
     @GetMapping("/moment/{id}/picture/{picture_index}")
-    void pictureTransferer(@PathVariable int id, @PathVariable int picture_index, HttpServletResponse response){
-        String fileName = "img/" + id + "_" + picture_index;
-        fileUtil.transfer(response, fileName, FileKind.OTHER);
+    void momentPictureTransferer(@PathVariable int id, @PathVariable int picture_index, HttpServletResponse response){
+        String fileName = "moment/img/" + id + "_" + picture_index;
+        fileUtil.transfer(response, fileName, FileKind.MomentPicture);
     }
 
     @GetMapping("/moment/{id}/video/{video_index}")
-    void videoTransferer(@PathVariable int id, @PathVariable int video_index, HttpServletResponse response){
-        String fileName = "video/" + id + "_" + video_index;
-        fileUtil.transfer(response, fileName, FileKind.OTHER);
+    void momentVideoTransferer(@PathVariable int id, @PathVariable int video_index, HttpServletResponse response){
+        String fileName = "moment/video/" + id + "_" + video_index;
+        fileUtil.transfer(response, fileName, FileKind.MomentVideo);
+        response.setContentType("video/mp4");
+    }
+
+    @GetMapping("/post/{id}/picture/{picture_index}")
+    void postPictureTransferer(@PathVariable int id, @PathVariable int picture_index, HttpServletResponse response){
+        String fileName = "post/img/" + id + "_" + picture_index;
+        fileUtil.transfer(response, fileName, FileKind.MomentPicture);
+    }
+
+    @GetMapping("/post/{id}/video/{video_index}")
+    void postVideoTransferer(@PathVariable int id, @PathVariable int video_index, HttpServletResponse response){
+        String fileName = "post/video/" + id + "_" + video_index;
+        fileUtil.transfer(response, fileName, FileKind.MomentVideo);
         response.setContentType("video/mp4");
     }
 

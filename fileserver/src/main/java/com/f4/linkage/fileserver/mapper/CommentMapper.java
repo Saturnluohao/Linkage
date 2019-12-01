@@ -1,15 +1,15 @@
 package com.f4.linkage.fileserver.mapper;
 
-import com.f4.linkage.fileserver.model.MomentComment;
+import com.f4.linkage.fileserver.model.Comment;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MomentCommentMapper implements RowMapper<MomentComment> {
+public class CommentMapper implements RowMapper<Comment> {
     @Override
-    public MomentComment mapRow(ResultSet resultSet, int i) throws SQLException {
-        MomentComment momentComment = new MomentComment();
+    public Comment mapRow(ResultSet resultSet, int i) throws SQLException {
+        Comment momentComment = new Comment();
         momentComment.setCommenter(resultSet.getString("commenter"));
         momentComment.setMoment_id(resultSet.getInt("moment_id"));
         momentComment.setContent(resultSet.getString("content"));

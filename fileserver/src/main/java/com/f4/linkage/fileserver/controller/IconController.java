@@ -1,6 +1,6 @@
 package com.f4.linkage.fileserver.controller;
 
-import com.f4.linkage.fileserver.util.DataUtil;
+import com.f4.linkage.fileserver.dao.MomentDao;
 import com.f4.linkage.fileserver.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,13 +15,13 @@ import java.security.Principal;
 
 @RestController
 public class IconController {
-    private final static Logger LOGGER = LoggerFactory.getLogger(FileUploadController.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(IconController.class);
 
     @Resource
     private FileUtil fileUtil;
 
     @Resource
-    private DataUtil dataUtil;
+    private MomentDao momentDao;
 
 
 
@@ -30,7 +30,7 @@ public class IconController {
         String username = principal.getName();
         if(icon != null){
             if(fileUtil.saveIconFile(icon, username)){
-                dataUtil.updateIconUrl(username);
+                momentDao.updateIconUrl(username);
                 return ResponseEntity.ok().body("/icon/" + username);
             }
             else {
@@ -45,7 +45,7 @@ public class IconController {
         String username = principal.getName();
         if(icon != null){
             if(fileUtil.saveGlobalIconFile(icon, username)){
-                dataUtil.updateGlobalIconUrl(username);
+                momentDao.updateGlobalIconUrl(username);
                 return ResponseEntity.ok().body("/global_icon/" + username);
             }
             else {

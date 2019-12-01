@@ -1,9 +1,10 @@
 package com.f4.linkage.fileserver.controller;
 
+import com.f4.linkage.fileserver.model.FileKind;
 import com.f4.linkage.fileserver.model.Moment;
-import com.f4.linkage.fileserver.model.MomentComment;
-import com.f4.linkage.fileserver.model.MomentLike;
-import com.f4.linkage.fileserver.util.DataUtil;
+import com.f4.linkage.fileserver.model.Comment;
+import com.f4.linkage.fileserver.model.Like;
+import com.f4.linkage.fileserver.dao.MomentDao;
 import com.f4.linkage.fileserver.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,12 +21,10 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.f4.linkage.webserver.api.login.model.LoginUserInfo;
-
 @RestController
 public class MomentController {
     @Resource
-    DataUtil dataUtil;
+    MomentDao momentDao;
 
     @Resource
     FileUtil fileUtil;
@@ -49,7 +48,7 @@ public class MomentController {
         fileUtil.updateMomentID();
 
         if(pictures != null){
-            if(fileUtil.saveFiles(pictures, 0)){
+            if(fileUtil.saveFiles(pictures, FileKind.MomentPicture, null)){
                 LOGGER.info("Pictures transferred successfully!");
                 args[2] = pictures.length;
             }
@@ -61,7 +60,7 @@ public class MomentController {
             args[2] = null;
         }
         if(videos != null){
-            if(fileUtil.saveFiles(videos, 1)){
+            if(fileUtil.saveFiles(videos, FileKind.MomentVideo, null)){
                 LOGGER.info("Videos transferred successfully!");
                 args[3] = videos.length;
             }
@@ -72,7 +71,7 @@ public class MomentController {
         else {
             args[3] = null;
         }
-        if(!dataUtil.insertBlog(args)){
+        if(!momentDao.insertMoment(args)){
             return ResponseEntity.status(500).body("We don't make it to insert your blog record to our database!");
         }
 
@@ -88,7 +87,7 @@ public class MomentController {
         }catch (Exception e){
             return ResponseEntity.status(400).body("Please ensure the id is correct!");
         }
-        if(dataUtil.deleteMoment(id)){
+        if(momentDao.deleteMoment(id)){
             return ResponseEntity.ok("Delete successfully");
         }else {
             return ResponseEntity.status(500).body("We fail to delete your moment, try again!");
@@ -99,33 +98,33 @@ public class MomentController {
     List<Moment> checkMoment(Principal principal) {
         String username = principal.getName();
         LOGGER.info("Return the moment of " + username);
-        return dataUtil.getMoments(username);
+        return momentDao.getMoments(username);
     }
 
     @GetMapping("/moment/home")
     List<Moment> getMyMoments(Principal principal, HttpServletRequest request){
         String username;
         username = request.getParameter("username");
-        if(username == null) {
+        if(username == null) {  
             username = principal.getName();
         }
         LOGGER.info("Return " + username + "'s private moments");
-        return dataUtil.getPrivateMoments(username);
+        return momentDao.getPrivateMoments(username);
     }
 
     @PostMapping("/moment/like")
-    ResponseEntity<List<MomentLike>> likeMoment(Principal principal, @RequestParam("MomentId")int momentId, @RequestParam("Action")String action){
+    ResponseEntity<List<Like>> likeMoment(Principal principal, @RequestParam("MomentId")int momentId, @RequestParam("Action")String action){
         String username = principal.getName();
         switch (action){
             case "like":
-                if(dataUtil.updateMomentLike(username, momentId, true)){
-                    return ResponseEntity.ok().body(dataUtil.getMomentLikeList(momentId));
+                if(momentDao.updateMomentLike(username, momentId, true)){
+                    return ResponseEntity.ok().body(momentDao.getMomentLikeList(momentId));
                 }else {
                     return ResponseEntity.status(500).body(new ArrayList<>());
                 }
             case "cancel":
-                if(dataUtil.updateMomentLike(username, momentId, false)){
-                    return ResponseEntity.ok().body(dataUtil.getMomentLikeList(momentId));
+                if(momentDao.updateMomentLike(username, momentId, false)){
+                    return ResponseEntity.ok().body(momentDao.getMomentLikeList(momentId));
                 }else {
                     return ResponseEntity.status(500).body(new ArrayList<>());
                 }
@@ -135,20 +134,20 @@ public class MomentController {
     }
 
     @PostMapping("/moment/comment/add")
-    ResponseEntity<List<MomentComment>> commentMoment(Principal principal, @RequestParam("MomentId")int momentId, @RequestParam("Comment")String comment){
+    ResponseEntity<List<Comment>> commentMoment(Principal principal, @RequestParam("MomentId")int momentId, @RequestParam("Comment")String comment){
         String username = principal.getName();
-        if(dataUtil.insertComment(username, momentId, comment)){
-            return ResponseEntity.ok(dataUtil.getMomentCommentList(momentId));
+        if(momentDao.insertComment(username, momentId, comment)){
+            return ResponseEntity.ok(momentDao.getMomentCommentList(momentId));
         }else {
-            return ResponseEntity.status(500).body(new ArrayList<MomentComment>());
+            return ResponseEntity.status(500).body(new ArrayList<Comment>());
         }
     }
 
     @PostMapping("/moment/comment/delete")
-    ResponseEntity<List<MomentComment>> deleteMoment(Principal principal, @RequestParam("CommentId")int commentId, @RequestParam("MomentId")int momentId){
+    ResponseEntity<List<Comment>> deleteMoment(Principal principal, @RequestParam("CommentId")int commentId, @RequestParam("MomentId")int momentId){
         String username = principal.getName();
-        if(dataUtil.deleteComment(username, commentId)){
-            return ResponseEntity.ok(dataUtil.getMomentCommentList(momentId));
+        if(momentDao.deleteComment(username, commentId)){
+            return ResponseEntity.ok(momentDao.getMomentCommentList(momentId));
         }else {
             return ResponseEntity.status(500).body(new ArrayList<>());
         }
