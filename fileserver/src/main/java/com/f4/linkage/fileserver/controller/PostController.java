@@ -29,13 +29,23 @@ public class PostController {
     PostDao postDao;
 
     @PostMapping("/post")
-    void uploadPost(){
-
+    ResponseEntity<String> uploadPost(Principal principal, @RequestParam("PostHtml")String postHtml){
+        String username = principal.getName();
+        fileUtil.updatePostID();
+        if(postDao.insertPost(new Object[]{username, postHtml})){
+            return ResponseEntity.ok("Upload successfully, and your post id is " + FileUtil.postID);
+        }else {
+            return ResponseEntity.status(500).body("Sorry, maybe try again!");
+        }
     }
 
     @PostMapping("/post/delete")
-    void deletePost(){
-
+    ResponseEntity<String> deletePost(@RequestParam("id")int id){
+        if(postDao.deletePost(id)){
+            return ResponseEntity.ok("Deleted successfully");
+        }else {
+            return ResponseEntity.status(500).body("Sorry, maybe try again!");
+        }
     }
 
     @PostMapping("/post/img")
@@ -54,8 +64,8 @@ public class PostController {
     }
 
     @GetMapping("/post/search")
-    void search(){
-
+    List<Post> search(@RequestParam("Keyword")String keyword){
+        return postDao.searchPost(keyword);
     }
 
     @GetMapping("/post/hot")

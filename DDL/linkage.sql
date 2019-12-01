@@ -1,13 +1,13 @@
--- MySQL dump 10.13  Distrib 8.0.17, for macos10.14 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.18, for Linux (x86_64)
 --
 -- Host: 127.0.0.1    Database: linkage
 -- ------------------------------------------------------
--- Server version	8.0.17
+-- Server version	8.0.18
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
- SET NAMES utf8mb4 ;
+/*!50503 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,7 +21,7 @@
 
 DROP TABLE IF EXISTS `add_friend_request`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `add_friend_request` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(32) NOT NULL,
@@ -55,7 +55,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `admin_lock_moment_operation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `admin_lock_moment_operation` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `momentId` int(11) NOT NULL,
@@ -82,7 +82,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `admin_lock_post_operation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `admin_lock_post_operation` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `postId` int(11) NOT NULL,
@@ -109,7 +109,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `admin_lock_user_operation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `admin_lock_user_operation` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `adminName` varchar(32) NOT NULL,
@@ -141,7 +141,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `follow`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `follow` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `local_username` varchar(32) NOT NULL,
@@ -170,7 +170,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `friend`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `friend` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `my_username` varchar(32) DEFAULT NULL,
@@ -199,7 +199,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `global_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `global_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(32) NOT NULL,
@@ -227,7 +227,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `local_global_user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `local_global_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `local_username` varchar(32) NOT NULL,
@@ -289,7 +289,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `moment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `moment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `poster_name` varchar(32) NOT NULL,
@@ -317,10 +317,10 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `moment_comment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `moment_comment` (
   `commenter` varchar(32) NOT NULL,
-  `moment_id` int(11) NOT NULL,
+  `commented_id` int(11) NOT NULL,
   `content` text NOT NULL,
   `id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
@@ -342,9 +342,9 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `moment_like`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `moment_like` (
-  `liker_id` int(11) NOT NULL,
+  `liker` varchar(32) NOT NULL,
   `liked_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -364,10 +364,10 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `post`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `post` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `post_name` varchar(32) DEFAULT NULL,
+  `poster_name` varchar(32) DEFAULT NULL,
   `text` text,
   `picture_num` int(2) DEFAULT NULL,
   `video_num` int(2) DEFAULT NULL,
@@ -391,11 +391,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `post_comment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `post_comment` (
   `commenter` varchar(32) NOT NULL,
-  `post_id` int(11) NOT NULL,
-  `content` text NOT NULL
+  `commented_id` int(11) NOT NULL,
+  `content` text NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -414,9 +416,9 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `post_like`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `post_like` (
-  `liker_id` int(11) NOT NULL,
+  `liker` varchar(32) NOT NULL,
   `liked_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -436,7 +438,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(32) NOT NULL,
@@ -460,7 +462,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(32) NOT NULL,
@@ -516,7 +518,7 @@ DELIMITER ;
 
 DROP TABLE IF EXISTS `user_role`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user_role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` int(11) NOT NULL,
@@ -545,7 +547,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `who_should_see_moment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `who_should_see_moment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `moment_id` int(11) DEFAULT NULL,
@@ -569,11 +571,11 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `who_should_see_post`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
- SET character_set_client = utf8mb4 ;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `who_should_see_post` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `post_id` int(11) DEFAULT NULL,
-  `global_username` varchar(32) DEFAULT NULL,
+  `username` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -596,4 +598,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-25 21:03:01
+-- Dump completed on 2019-12-01 19:45:03

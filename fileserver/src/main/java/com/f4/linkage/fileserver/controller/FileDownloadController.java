@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
@@ -30,13 +31,19 @@ public class FileDownloadController {
         response.setContentType("video/mp4");
     }
 
-    @GetMapping("/post/{id}/picture/{picture_index}")
+    @GetMapping("/post/{id}.html")
+    void postHtml(@PathVariable int id, HttpServletResponse response){
+        String fileName = "post/html/" + id + ".html";
+        fileUtil.transfer(response, fileName, FileKind.Html);
+    }
+
+    @GetMapping("/post/picture/{picture_index}")
     void postPictureTransferer(@PathVariable int id, @PathVariable int picture_index, HttpServletResponse response){
         String fileName = "post/img/" + id + "_" + picture_index;
         fileUtil.transfer(response, fileName, FileKind.MomentPicture);
     }
 
-    @GetMapping("/post/{id}/video/{video_index}")
+    @GetMapping("/post/video/{video_index}")
     void postVideoTransferer(@PathVariable int id, @PathVariable int video_index, HttpServletResponse response){
         String fileName = "post/video/" + id + "_" + video_index;
         fileUtil.transfer(response, fileName, FileKind.MomentVideo);

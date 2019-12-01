@@ -11,19 +11,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class FileUtil {
     private static final Logger LOGGER = LoggerFactory.getLogger(FileUtil.class);
     public static int momentID = -1;
     public static int postID = -1;
+    public static AtomicInteger imgID = new AtomicInteger(0);
 
     @Resource
     private JdbcTemplate jdbcTemplate;
@@ -41,11 +40,25 @@ public class FileUtil {
                 MultipartFile file = files[i];
                 file.transferTo(getServerFilePath(i, file, fileKind));
                 if(serverSideUrls != null){
-                    serverSideUrls.add("/post/" + postID + "/picture/" + i);
+                    serverSideUrls.add("/post/picture/" + imgID.getAndAdd(1));
                 }
             }
         }catch (IOException e){
             return false;
+        }
+        return true;
+    }
+
+    public boolean saveHtml(String content, String path){
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(path));
+            writer.write(content);
+            writer.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return true;
     }

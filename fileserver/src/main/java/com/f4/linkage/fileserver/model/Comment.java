@@ -3,7 +3,7 @@ package com.f4.linkage.fileserver.model;
 public class Comment {
     private int id;
     private String commenter;
-    private int moment_id;
+    private int commented_id;
     private String content;
 
     public int getId() {
@@ -22,12 +22,12 @@ public class Comment {
         this.commenter = commenter;
     }
 
-    public int getMoment_id() {
-        return moment_id;
+    public int getCommented_id() {
+        return commented_id;
     }
 
-    public void setMoment_id(int moment_id) {
-        this.moment_id = moment_id;
+    public void setCommented_id(int commented_id) {
+        this.commented_id = commented_id;
     }
 
     public String getContent() {

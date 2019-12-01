@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -26,11 +27,15 @@ public class PostDao {
     @Resource
     JdbcTemplate jdbcTemplate;
 
+    @Resource
+    FileUtil fileUtil;
+
     public boolean insertPost(Object[] args){
-        String sql = "INSERT INTO post(poster_name, text, picture_num, video_num) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO post(poster_name, text) VALUES (?,?)";
         if(jdbcTemplate.update(sql, args) == 1) {
+            fileUtil.saveHtml(args[1].toString(), fileRoot + "post/html/" + FileUtil.postID + ".html");
             String poster = args[0].toString();
-            List<String> friends = getSubscribers(poster);
+            List<String> friends = getFollowers(poster);
             for (String friend: friends
             ) {
                 insertWSSP(friend, FileUtil.postID);
@@ -42,15 +47,15 @@ public class PostDao {
     }
 
 
-    public List<String> getSubscribers(String username){
-        String sql = "select global_username from follow where local_username=?";
-        List<String> friends = jdbcTemplate.queryForList(sql, new Object[]{username}, String.class);
-        friends.add(username);
-        return friends;
+    public List<String> getFollowers(String username){
+        String sql = "select local_username from follow where global_username=?";
+        List<String> followers = jdbcTemplate.queryForList(sql, new Object[]{username}, String.class);
+        followers.add(username);
+        return followers;
     }
 
     public void insertWSSP(String username, int post_id){
-        String sql = "insert into who_should_see_post values(null, ?, ?)";
+        String sql = "insert into who_should_see_post(post_id, username) values(?, ?)";
         jdbcTemplate.update(sql, new Object[]{post_id, username});
     }
 
@@ -66,7 +71,7 @@ public class PostDao {
 
     public List<Post> getPosts(String username){
         String post_sql = "select * from post where id in " +
-                "(select post_id from who_should_see_post where global_username=?)";
+                "(select post_id from who_should_see_post where username=?)";
         Object[] arg = new Object[]{username};
         List<Post> postList = jdbcTemplate.query(post_sql, new Object[]{username}, new PostMapper());
 
@@ -118,9 +123,9 @@ public class PostDao {
     }
 
     public boolean updatePostLike(String username, int postId, boolean action) {
-        String sql_query = "select count(*) from post_like where liker_id=? and liked_id=?";
-        String sql_insert = "insert into post_like(liker_id, liked_id) value(?,?)";
-        String sql_delete = "delete from post_like where liker_id=? and liked_id=?";
+        String sql_query = "select count(*) from post_like where liker=? and liked_id=?";
+        String sql_insert = "insert into post_like(liker, liked_id) value(?,?)";
+        String sql_delete = "delete from post_like where liker=? and liked_id=?";
         Object[] args = new Object[]{username, postId};
         boolean exist = jdbcTemplate.queryForObject(sql_query, args, Integer.class).equals(1);
         if(action){
@@ -155,5 +160,10 @@ public class PostDao {
         }else {
             return false;
         }
+    }
+
+    public List<Post> searchPost(String keyword){
+        String sql = "select * from post where text like ?";
+        return jdbcTemplate.query(sql, new Object[]{'%' + keyword + '%'}, new PostMapper());
     }
 }

@@ -6,5 +6,6 @@ public enum FileKind {
     MomentPicture,
     MomentVideo,
     PostPicture,
-    PostVideo
+    PostVideo,
+    Html
 }

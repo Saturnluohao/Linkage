@@ -2,7 +2,7 @@ package com.f4.linkage.fileserver.model;
 
 public class Like {
     private String liker;
-    private int moment_id;
+    private int liked_id;
 
     public String getLiker() {
         return liker;
@@ -12,11 +12,11 @@ public class Like {
         this.liker = liker;
     }
 
-    public int getMoment_id() {
-        return moment_id;
+    public int getLiked_id() {
+        return liked_id;
     }
 
-    public void setMoment_id(int moment_id) {
-        this.moment_id = moment_id;
+    public void setLiked_id(int liked_id) {
+        this.liked_id = liked_id;
     }
 }

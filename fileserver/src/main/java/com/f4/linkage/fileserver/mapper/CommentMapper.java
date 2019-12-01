@@ -9,11 +9,11 @@ import java.sql.SQLException;
 public class CommentMapper implements RowMapper<Comment> {
     @Override
     public Comment mapRow(ResultSet resultSet, int i) throws SQLException {
-        Comment momentComment = new Comment();
-        momentComment.setCommenter(resultSet.getString("commenter"));
-        momentComment.setMoment_id(resultSet.getInt("moment_id"));
-        momentComment.setContent(resultSet.getString("content"));
-        momentComment.setId(resultSet.getInt("id"));
-        return momentComment;
+        Comment comment = new Comment();
+        comment.setCommenter(resultSet.getString("commenter"));
+        comment.setCommented_id(resultSet.getInt("commented_id"));
+        comment.setContent(resultSet.getString("content"));
+        comment.setId(resultSet.getInt("id"));
+        return comment;
     }
 }

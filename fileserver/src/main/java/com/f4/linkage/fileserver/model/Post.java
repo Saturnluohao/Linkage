@@ -5,6 +5,20 @@ import java.util.List;
 public class Post {
     private int id;
     private String poster_name;
+    private String time;
+    private String poster_icon;
+    private String postAbstract;
+    private List<Like> like;
+    private List<Comment> comment;
+    private boolean self_like;
+
+    public String getPostAbstract() {
+        return postAbstract;
+    }
+
+    public void setPostAbstract(String postAbstract) {
+        this.postAbstract = postAbstract;
+    }
 
     public int getId() {
         return id;
@@ -61,10 +75,4 @@ public class Post {
     public void setSelf_like(boolean self_like) {
         this.self_like = self_like;
     }
-
-    private String time;
-    private String poster_icon;
-    private List<Like> like;
-    private List<Comment> comment;
-    private boolean self_like;
 }

@@ -137,9 +137,9 @@ public class MomentDao {
     }
 
     public boolean updateMomentLike(String username, int momentId, boolean action) {
-        String sql_query = "select count(*) from moment_like where liker_id=? and liked_id=?";
-        String sql_insert = "insert into moment_like(liker_id, liked_id) value(?,?)";
-        String sql_delete = "delete from moment_like where liker_id=? and liked_id=?";
+        String sql_query = "select count(*) from moment_like where liker=? and liked_id=?";
+        String sql_insert = "insert into moment_like(liker, liked_id) value(?,?)";
+        String sql_delete = "delete from moment_like where liker=? and liked_id=?";
         Object[] args = new Object[]{username, momentId};
         boolean exist = jdbcTemplate.queryForObject(sql_query, args, Integer.class).equals(1);
         if(action){
