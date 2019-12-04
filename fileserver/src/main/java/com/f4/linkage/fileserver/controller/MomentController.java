@@ -9,10 +9,7 @@ import com.f4.linkage.fileserver.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -20,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class MomentController {
@@ -134,8 +132,16 @@ public class MomentController {
     }
 
     @PostMapping("/moment/comment/add")
-    ResponseEntity<List<Comment>> commentMoment(Principal principal, @RequestParam("MomentId")int momentId, @RequestParam("Comment")String comment){
+    ResponseEntity<List<Comment>> commentMoment(Principal principal, @RequestBody Map params){
         String username = principal.getName();
+        int momentId = -1;
+        String comment = "";
+        try {
+            momentId = Integer.parseInt(params.get("MomentId").toString());
+            comment = params.get("Comment").toString();
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(new ArrayList<>());
+        }
         if(momentDao.insertComment(username, momentId, comment)){
             return ResponseEntity.ok(momentDao.getMomentCommentList(momentId));
         }else {
