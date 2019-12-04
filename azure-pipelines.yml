@@ -38,6 +38,11 @@ steps:
 
 - task: SSH@0
   inputs:
+    sshEndpoint: WebServer2
+    commands: sh /home/linkage/script/start-webserver.sh
+
+- task: SSH@0
+  inputs:
     sshEndpoint: FileServer
     commands: sh /home/saturn/script/registry.sh
 
