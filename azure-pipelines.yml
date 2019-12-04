@@ -23,13 +23,17 @@ steps:
 - script:
     sh deploy_script/build.sh
 
-- task: CopyFilesOverSSH@0
-  inputs:
-    sshEndpoint: WebServer
-    contents: DDL/linkage.sql
-    targetFolder: /home/linkage/sql/
-    overwrite: true
-    flattenFolders: true
+#- task: CopyFilesOverSSH@0
+#  inputs:
+#    sshEndpoint: WebServer
+#    contents: DDL/linkage.sql
+#    targetFolder: /home/linkage/sql/
+#    overwrite: true
+#    flattenFolders: true
+
+- script:
+    sh deploy_script/copyFile.sh
+
 - task: SSH@0
   inputs:
     sshEndpoint: WebServer
