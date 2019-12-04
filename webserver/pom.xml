@@ -104,7 +104,35 @@
       <artifactId>pagehelper-spring-boot-starter</artifactId>
       <version>1.2.12</version>
     </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-amqp</artifactId>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/io.projectreactor.ipc/reactor-netty -->
+    <!-- https://mvnrepository.com/artifact/io.projectreactor.netty/reactor-netty -->
+    <dependency>
+      <groupId>io.projectreactor.netty</groupId>
+      <artifactId>reactor-netty</artifactId>
+      <version>0.9.2.RELEASE</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-reactor-netty -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-reactor-netty</artifactId>
+      <version>2.2.1.RELEASE</version>
+    </dependency>
 <!--    <dependency>-->
+<!--      <groupId>org.springframework.boot</groupId>-->
+<!--      <artifactId>spring-boot-starter-activemq</artifactId>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>org.apache.activemq</groupId>-->
+<!--      <artifactId>activemq-pool</artifactId>-->
+<!--    </dependency>-->
+
+
+
+    <!--    <dependency>-->
 <!--      <groupId>org.springframework.data</groupId>-->
 <!--      <artifactId>spring-data-redis</artifactId>-->
 <!--      <version>2.0.3.RELEASE</version>-->

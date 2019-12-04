@@ -16,6 +16,11 @@ linkage:
   host: https://www.saturnluo.cn/
   #minutesToExpireSession: 10
   sessionTimeOut: 10
+  RabbitMQ:
+    host: '49.235.3.219'
+    port: 32768
+    userName: 'zzj'
+    password: 'zzjHH'
 
 logging:
   file:

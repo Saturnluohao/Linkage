@@ -51,7 +51,7 @@ public class AddFriendController {
     addFriendService.storeAddFriendRequest(friendRequest);
     int id = addFriendService.getLastID();
     friendRequest.setId(id);
-    simpMessagingTemplate.convertAndSendToUser(friendRequest.getTargetName(),"/queue/friend/request",friendRequest);
+    simpMessagingTemplate.convertAndSendToUser(friendRequest.getTargetName(),"/queue/friend.request",friendRequest);
   }
 
   @MessageMapping("/friend/add/confirm")
@@ -78,7 +78,7 @@ public class AddFriendController {
       friendService.addFriend(dbRequest.getTargetName(),dbRequest.getUsername());
     }
     addFriendService.storeReplyStatus(dbRequest.getId(),dbRequest.getAcceptStatus(),dbRequest.getReplyStatus());
-    simpMessagingTemplate.convertAndSendToUser(dbRequest.getUsername(),"/queue/friend/reply",dbRequest);
+    simpMessagingTemplate.convertAndSendToUser(dbRequest.getUsername(),"/queue/friend.reply",dbRequest);
   }
 
   @MessageMapping("/friend/check/confirm")

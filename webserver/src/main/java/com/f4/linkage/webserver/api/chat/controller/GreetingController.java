@@ -59,6 +59,7 @@ public class GreetingController {
     }
     messageService.addMessage(message);
     message.setId(messageService.getLastId());
+    logger.info("send a message to " + message.getTo());
     simpMessagingTemplate.convertAndSendToUser(message.getTo(),"/queue/chat",message);
   }
 
