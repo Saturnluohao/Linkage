@@ -6,10 +6,7 @@ import com.f4.linkage.fileserver.util.FileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -17,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class PostController {
@@ -29,10 +27,10 @@ public class PostController {
     PostDao postDao;
 
     @PostMapping("/post")
-    ResponseEntity<String> uploadPost(Principal principal, @RequestParam("PostHtml")String postHtml){
+    ResponseEntity<String> uploadPost(Principal principal, @RequestBody Map param){
         String username = principal.getName();
         fileUtil.updatePostID();
-        if(postDao.insertPost(new Object[]{username, postHtml})){
+        if(postDao.insertPost(new Object[]{username, param.get("PostHtml").toString()})){
             return ResponseEntity.ok("Upload successfully, and your post id is " + FileUtil.postID);
         }else {
             return ResponseEntity.status(500).body("Sorry, maybe try again!");
@@ -113,8 +111,16 @@ public class PostController {
     }
 
     @PostMapping("/post/comment/add")
-    ResponseEntity<List<Comment>> addComment(Principal principal, @RequestParam("PostId")int postId, @RequestParam("Comment")String comment){
+    ResponseEntity<List<Comment>> addComment(Principal principal, @RequestBody Map params){
         String username = principal.getName();
+        int postId = -1;
+        String comment = "";
+        try {
+             postId = Integer.parseInt(params.get("PostId").toString());
+             comment = params.get("Comment").toString();
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(new ArrayList<>());
+        }
         if(postDao.insertComment(username, postId, comment)){
             return ResponseEntity.ok(postDao.getPostCommentList(postId));
         }else {
