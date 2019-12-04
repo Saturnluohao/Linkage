@@ -32,7 +32,7 @@ steps:
 #    flattenFolders: true
 
 - script:
-    sh deploy_script/copyFile.sh
+    expect deploy_script/copyFile.sh
 
 - task: SSH@0
   inputs:
