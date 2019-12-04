@@ -31,9 +31,6 @@ steps:
 #    overwrite: true
 #    flattenFolders: true
 
-- script:
-    expect deploy_script/copyFile.sh
-
 - task: SSH@0
   inputs:
     sshEndpoint: WebServer
