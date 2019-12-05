@@ -3,8 +3,8 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://localhost:3306/linkage?allowMultiQueries=true
     username: root
-    #password: '@Cmhdb_wsngp6'
-    password: eikvDK5R47hK0ztHN1qL0
+    password: '@Cmhdb_wsngp6'
+    #password: eikvDK5R47hK0ztHN1qL0
 
   redis:
     database: 0

@@ -38,8 +38,8 @@ public class FileDownloadController {
     }
 
     @GetMapping("/post/picture/{picture_index}")
-    void postPictureTransferer(@PathVariable int id, @PathVariable int picture_index, HttpServletResponse response){
-        String fileName = "post/img/" + id + "_" + picture_index;
+    void postPictureTransferer(@PathVariable int picture_index, HttpServletResponse response){
+        String fileName = "post/img/" + picture_index + "_" + picture_index;
         fileUtil.transfer(response, fileName, FileKind.MomentPicture);
     }
 
