@@ -14,7 +14,7 @@
     <description>File server for linkage</description>
 
     <properties>
-        <skipTests>true</skipTests>
+        <skipTests>false</skipTests>
     </properties>
 
     <dependencies>
