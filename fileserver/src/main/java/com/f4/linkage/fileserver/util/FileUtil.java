@@ -92,8 +92,7 @@ public class FileUtil {
                 prefix = "moment/video/" + momentID;
                 break;
             case PostPicture:
-                prefix = "post/img/" + imgID;
-                break;
+                return  Paths.get(fileRoot + "post/img/" + imgID);
             case PostVideo:
                 prefix = "post/video/" + postID;
                 break;
@@ -132,7 +131,6 @@ public class FileUtil {
 
     public void transfer(HttpServletResponse response, String path, FileKind fileKind) {
         File file = new File(fileRoot + path);
-
         if (!file.exists()) {
             if(fileKind.equals(FileKind.ICON)){
                 file = new File(defaultIcon);

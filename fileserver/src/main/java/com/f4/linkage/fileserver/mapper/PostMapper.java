@@ -22,10 +22,16 @@ public class PostMapper implements RowMapper<Post> {
     }
 
     private String getAbstract(String str){
-        if(str.length() > 20){
-            return str.substring(0, 20);
+        String content = str;
+        int start = str.indexOf("<p>");
+        int end = str.indexOf("</p>");
+        if(start != -1 && end != -1){
+            content = str.substring(start + 3, end);
+        }
+        if(content.length() > 20){
+            return content.substring(0, 20);
         }else {
-            return str;
+            return content;
         }
     }
 }
