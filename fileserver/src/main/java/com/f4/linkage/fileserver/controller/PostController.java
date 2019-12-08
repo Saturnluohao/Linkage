@@ -52,7 +52,6 @@ public class PostController {
     PostImgInfo handlePostImg(@RequestParam("Picture")MultipartFile[] imgs){
         PostImgInfo postImgInfo = new PostImgInfo();
         List<String> imgUrls = new ArrayList<>();
-        fileUtil.updatePostID();
         if(fileUtil.saveFiles(imgs, FileKind.PostPicture, imgUrls)){
             postImgInfo.setData(imgUrls);
             postImgInfo.setErrno(0);
