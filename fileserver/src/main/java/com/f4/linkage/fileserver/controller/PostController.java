@@ -27,6 +27,7 @@ public class PostController {
     @Resource
     PostDao postDao;
 
+
     @PostMapping("/post")
     ResponseEntity<String> uploadPost(Principal principal, @RequestBody Map param){
         String username = principal.getName();
