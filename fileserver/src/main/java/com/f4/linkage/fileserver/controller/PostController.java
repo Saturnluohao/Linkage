@@ -64,6 +64,7 @@ public class PostController {
 
     @GetMapping("/post/search")
     List<Post> search(@RequestParam("Keyword")String keyword){
+
         return postDao.searchPost(keyword);
     }
 
