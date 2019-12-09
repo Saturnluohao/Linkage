@@ -191,7 +191,8 @@ public class PostDao {
     public List<HotPostCandidate> getVisit(long interval, int amount){
         long min = new Date().getTime() - interval;
         String sql = " select post.id,poster_name,text,visits from post natural join " +
-                "(select id,count(*) as visits from post_visit where visitTime>? group by id order by visits desc limit ?) as visitNum";
+                "(select id,count(*) as visits from post_visit where unix_timestamp(visitTime)>? " +
+                "group by id order by visits desc limit ?) as visitNum";
         return jdbcTemplate.query(sql, new Object[]{min, amount}, new HotPostCandidateMapper());
     }
 }
