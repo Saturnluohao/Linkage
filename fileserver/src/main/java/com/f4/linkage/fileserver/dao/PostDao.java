@@ -93,7 +93,6 @@ public class PostDao {
 
     public List<Post> getPrivatePosts(String username){
         String sql = "select * from post where poster_name=? order by id desc ";
-
         List<Post> postList = jdbcTemplate.query(sql, new Object[]{username}, new PostMapper());
         for (Post post:postList
         ) {
