@@ -4,6 +4,7 @@ import com.f4.linkage.webserver.api.chat.mapper.MessageMapper;
 import com.f4.linkage.webserver.api.friend.mapper.AddFriendRequestMapper;
 import com.f4.linkage.webserver.api.login.mapper.UserMapper;
 import com.f4.linkage.webserver.api.login.model.LoginUserInfo;
+import com.f4.linkage.webserver.api.login.model.Role;
 import com.f4.linkage.webserver.api.login.model.UserSelfInfo;
 import com.f4.linkage.webserver.api.login.model.unread.UnreadAddFriendReply;
 import com.f4.linkage.webserver.api.login.model.unread.UnreadAddFriendRequest;
@@ -52,6 +53,17 @@ public class UserService implements UserDetailsService {
     unreadAddFriendRequest.setCount(unreadAddFriendRequest.getUnreadList().size());
     loginUserInfo.setUnreadAddFriendRequest(unreadAddFriendRequest);
     userMapper.changeTimeStamp(s);
+    Role adminRole = new Role();
+    adminRole.setName("admin");
+    adminRole.setId(1);
+    Role adminRole2 = new Role();
+    adminRole2.setId(1);
+    adminRole2.setName("ROLE_admin");
+    if(loginUserInfo.getRoles().contains(adminRole)||loginUserInfo.getRoles().contains(adminRole2)){
+      loginUserInfo.setAdmin(true);
+    }else{
+      loginUserInfo.setAdmin(false);
+    }
     return loginUserInfo;
   }
 

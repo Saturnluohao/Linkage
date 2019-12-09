@@ -28,7 +28,7 @@ public class LoginUserInfo implements UserDetails, Serializable {
   private UnreadMessage unreadMessage;
   private UnreadAddFriendRequest unreadAddFriendRequest;
   private UnreadAddFriendReply unreadAddFriendReply;
-
+  private boolean isAdmin;
 
   @JsonIgnore
   private String password;
