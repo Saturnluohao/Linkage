@@ -15,6 +15,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @program: Linkage
  * @description: LoginUserInfo CRUD
@@ -68,7 +70,20 @@ public class UserService implements UserDetailsService {
   }
 
   public UserSelfInfo getUserInfoByHimself(String username){
-    return userMapper.getUserSelfInfoByUsername(username);
+    UserSelfInfo selfInfo = userMapper.getUserSelfInfoByUsername(username);
+    List<Role> userRole = userMapper.getUserRoleByUsername(username);
+    Role adminRole = new Role();
+    adminRole.setName("admin");
+    adminRole.setId(1);
+    Role adminRole2 = new Role();
+    adminRole2.setId(1);
+    adminRole2.setName("ROLE_admin");
+    if(userRole.contains(adminRole) || userRole.contains(adminRole2)){
+      selfInfo.setAdmin(true);
+    }else {
+      selfInfo.setAdmin(false);
+    }
+    return selfInfo;
   }
   public void updateUserInfo(UserSelfInfo selfInfo){
     userMapper.updateSelfInfo(selfInfo);

@@ -13,6 +13,7 @@ import java.util.List;
 public interface UserMapper {
   LoginUserInfo loadUserByUserName(String username);
   List<Role> getUserRoleByUserId(Integer id);
+  List<Role> getUserRoleByUsername(String username);
   void changeTimeStamp(String username);
   UserSelfInfo getUserSelfInfoByUsername(String username);
   void updateSelfInfo(UserSelfInfo userSelfInfo);

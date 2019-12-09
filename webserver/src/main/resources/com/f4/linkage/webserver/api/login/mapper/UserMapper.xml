@@ -20,4 +20,9 @@
   <update id="updateSelfInfo" parameterType="com.f4.linkage.webserver.api.login.model.UserSelfInfo">
     update linkage.user set description=#{description},sex=#{sex},address=#{address} where username=#{username}
   </update>
+  <select id="getUserRoleByUsername" resultType="com.f4.linkage.webserver.api.login.model.Role">
+    select linkage.role.id, name
+    from linkage.user join linkage.user_role on linkage.user.id = user_role.uid join linkage.role on user_role.rid = role.id
+    where linkage.user.username = #{username}
+  </select>
 </mapper>
