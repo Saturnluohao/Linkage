@@ -24,10 +24,11 @@ import java.util.List;
 public class LoginUserInfo implements UserDetails, Serializable {
   private Integer id;
   private String userName;
+  // private String phoneNumber;
   private UnreadMessage unreadMessage;
   private UnreadAddFriendRequest unreadAddFriendRequest;
   private UnreadAddFriendReply unreadAddFriendReply;
-
+  private boolean isAdmin;
 
   @JsonIgnore
   private String password;

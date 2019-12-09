@@ -3,8 +3,8 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     url: jdbc:mysql://localhost:3306/linkage?allowMultiQueries=true
     username: root
-    #password: '@Cmhdb_wsngp6'
-    password: eikvDK5R47hK0ztHN1qL0
+    password: '@Cmhdb_wsngp6'
+    #password: eikvDK5R47hK0ztHN1qL0
   mail:
     host: smtp.qq.com
     port: 465
@@ -27,7 +27,7 @@ linkage:
   host: 'http://localhost:8080'
   sessionTimeOut: 10
   RabbitMQ:
-    host: localhost
+    host: 49.234.3.219
     port: 61613
     userName: 'zzj'
     password: 'zzjHH'

@@ -1,5 +1,6 @@
 package com.f4.linkage.fileserver.controller;
 
+import com.f4.linkage.fileserver.dao.PostDao;
 import com.f4.linkage.fileserver.model.FileKind;
 import com.f4.linkage.fileserver.util.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +11,16 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @RestController
 public class FileDownloadController {
 
     @Resource
     FileUtil fileUtil;
+
+    @Resource
+    PostDao postDao;
 
 
     @GetMapping("/moment/{id}/picture/{picture_index}")
@@ -31,10 +36,16 @@ public class FileDownloadController {
         response.setContentType("video/mp4");
     }
 
-    @GetMapping("/post/{id}.html")
+    @GetMapping("/post/article/{id}.html")
     void postHtml(@PathVariable int id, HttpServletResponse response){
-        String fileName = "post/html/" + id + ".html";
-        fileUtil.transfer(response, fileName, FileKind.Html);
+        //String fileName = "post/html/" + id + ".html";
+        //fileUtil.transfer(response, fileName, FileKind.Html);
+        postDao.addVisitItem(id);
+        try {
+            response.sendRedirect("/post/article/static/" + id + ".html");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @GetMapping("/post/picture/{picture_index}")

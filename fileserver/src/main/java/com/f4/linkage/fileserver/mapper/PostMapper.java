@@ -14,24 +14,10 @@ public class PostMapper implements RowMapper<Post> {
 
         post.setId(resultSet.getInt("id"));
         post.setPoster_name(poster_name);
-        post.setPostAbstract(getAbstract(resultSet.getString("text")));
+        post.setPostAbstract(resultSet.getString("abstract"));
 
         post.setTime(resultSet.getString("time"));
         post.setPoster_icon("/global_icon/" + poster_name);
         return post;
-    }
-
-    private String getAbstract(String str){
-        String content = str;
-        int start = str.indexOf("<p>");
-        int end = str.indexOf("</p>");
-        if(start != -1 && end != -1){
-            content = str.substring(start + 3, end);
-        }
-        if(content.length() > 20){
-            return content.substring(0, 20);
-        }else {
-            return content;
-        }
     }
 }

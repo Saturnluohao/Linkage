@@ -1,9 +1,12 @@
 package com.f4.linkage.fileserver.dao;
 
+import com.f4.linkage.fileserver.controller.AdminController;
 import com.f4.linkage.fileserver.mapper.CommentMapper;
+import com.f4.linkage.fileserver.mapper.HotPostCandidateMapper;
 import com.f4.linkage.fileserver.mapper.LikeMapper;
 import com.f4.linkage.fileserver.mapper.PostMapper;
 import com.f4.linkage.fileserver.model.Comment;
+import com.f4.linkage.fileserver.model.HotPostCandidate;
 import com.f4.linkage.fileserver.model.Like;
 import com.f4.linkage.fileserver.model.Post;
 import com.f4.linkage.fileserver.util.FileUtil;
@@ -14,7 +17,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -31,7 +35,7 @@ public class PostDao {
     FileUtil fileUtil;
 
     public boolean insertPost(Object[] args){
-        String sql = "INSERT INTO post(poster_name, text) VALUES (?,?)";
+        String sql = "INSERT INTO post(poster_name, text, abstract) VALUES (?,?,?)";
         if(jdbcTemplate.update(sql, args) == 1) {
             fileUtil.saveHtml(args[1].toString(), fileRoot + "post/html/" + FileUtil.postID + ".html");
             String poster = args[0].toString();
@@ -71,7 +75,7 @@ public class PostDao {
 
     public List<Post> getPosts(String username){
         String post_sql = "select * from post where id in " +
-                "(select post_id from who_should_see_post where username=?)";
+                "(select post_id from who_should_see_post where username=?) order by id desc ";
         Object[] arg = new Object[]{username};
         List<Post> postList = jdbcTemplate.query(post_sql, new Object[]{username}, new PostMapper());
 
@@ -88,7 +92,7 @@ public class PostDao {
     }
 
     public List<Post> getPrivatePosts(String username){
-        String sql = "select * from post where poster_name=?";
+        String sql = "select * from post where poster_name=? order by id desc ";
 
         List<Post> postList = jdbcTemplate.query(sql, new Object[]{username}, new PostMapper());
         for (Post post:postList
@@ -98,6 +102,19 @@ public class PostDao {
             post.setLike(likeList);
             post.setComment(getPostCommentList(postId));
             post.setSelf_like(amILiker(likeList, username));
+        }
+        return postList;
+    }
+
+    public List<Post> getPosts(List<Integer> idList){
+        List<Post> postList = new ArrayList<>();
+        PostMapper postMapper = new PostMapper();
+        String sql = "select * from post where id=?";
+        for (Integer id: idList
+        ) {
+            if(id.intValue() != -1) {
+                postList.add(jdbcTemplate.queryForObject(sql, new Object[]{id.intValue()}, postMapper));
+            }
         }
         return postList;
     }
@@ -165,5 +182,17 @@ public class PostDao {
     public List<Post> searchPost(String keyword){
         String sql = "select * from post where text like ?";
         return jdbcTemplate.query(sql, new Object[]{'%' + keyword + '%'}, new PostMapper());
+    }
+
+    public void addVisitItem(int id){
+        String sql = "insert into post_visit(id) values (?)";
+        jdbcTemplate.update(sql, new Object[]{id});
+    }
+
+    public List<HotPostCandidate> getVisit(long interval, int amount){
+        long min = new Date().getTime() - interval;
+        String sql = " select post.id,poster_name,text,visits from post natural join " +
+                "(select id,count(*) as visits from post_visit where visitTime>? group by id order by visits desc limit ?) as visitNum";
+        return jdbcTemplate.query(sql, new Object[]{min, amount}, new HotPostCandidateMapper());
     }
 }

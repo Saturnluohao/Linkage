@@ -16,4 +16,5 @@ public class UserSelfInfo {
   private String address;
   private String phoneNumber;
   private String username;
+  private boolean admin;
 }

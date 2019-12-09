@@ -32,7 +32,7 @@ public class PostController {
     ResponseEntity<String> uploadPost(Principal principal, @RequestBody Map param){
         String username = principal.getName();
         fileUtil.updatePostID();
-        if(postDao.insertPost(new Object[]{username, param.get("PostHtml").toString()})){
+        if(postDao.insertPost(new Object[]{username, param.get("PostHtml").toString(), param.get("Abstract").toString()})){
             return ResponseEntity.ok("Upload successfully, and your post id is " + FileUtil.postID);
         }else {
             return ResponseEntity.status(500).body("Sorry, maybe try again!");
@@ -68,8 +68,8 @@ public class PostController {
     }
 
     @GetMapping("/post/hot")
-    void hot(){
-
+    List<Post> hot(){
+        return postDao.getPosts(AdminController.hpList);
     }
 
     @GetMapping("/post/check")

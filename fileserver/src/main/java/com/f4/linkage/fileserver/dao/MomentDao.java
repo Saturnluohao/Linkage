@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -85,7 +86,7 @@ public class MomentDao {
 
     public List<Moment> getMoments(String username){
         String moment_sql = "select * from moment where id in " +
-                "(select moment_id from who_should_see_moment where username=?)";
+                "(select moment_id from who_should_see_moment where username=?) order by id desc ";
         Object[] arg = new Object[]{username};
         List<Moment> momentList = jdbcTemplate.query(moment_sql, new Object[]{username}, new MomentMapper());
 
@@ -102,7 +103,7 @@ public class MomentDao {
     }
 
     public List<Moment> getPrivateMoments(String username){
-        String sql = "select * from moment where poster_name=?";
+        String sql = "select * from moment where poster_name=? order by id desc ";
 
         List<Moment> momentList = jdbcTemplate.query(sql, new Object[]{username}, new MomentMapper());
         for (Moment moment:momentList
