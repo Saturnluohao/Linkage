@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.18, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.17, for macos10.14 (x86_64)
 --
 -- Host: 127.0.0.1    Database: linkage
 -- ------------------------------------------------------
--- Server version	8.0.18
+-- Server version	8.0.17
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -475,6 +475,7 @@ CREATE TABLE `user` (
   `lastLogIn` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `iconUrl` varchar(100) DEFAULT NULL,
   `address` text,
+  `email` varchar(80) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `user_username_uindex` (`username`),
   UNIQUE KEY `user_id_uindex` (`id`),
@@ -488,7 +489,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin','$2y$10$aMK1CNHNz16C9C1JwNjtHuWYaDluNufZpGHb4qXIiQPQCK67W7feC',1,0,'',NULL,1,'2019-11-13 11:47:02',NULL,NULL),(2,'zzj','$2y$10$aMK1CNHNz16C9C1JwNjtHuWYaDluNufZpGHb4qXIiQPQCK67W7feC',1,0,'','How handsome I am!',1,'2019-11-25 12:58:47',NULL,'Chengdu'),(7,'skr','$2a$10$zapaTNnBIf.VA0FE3.JxmevLEBNXt9v9lr/Q5aDsMJXwxwr60z2/6',1,0,'18280096128','i hate zzj',0,'2019-11-13 12:33:27',NULL,NULL),(13,'lym','$2a$10$dDwIKrenHzns0uY6ZMcN4OJXVtzp1LOW3ieZaBEv2rJmnPEZD64ie',1,0,'18621062280','? why i am here',0,'2019-11-10 05:37:43',NULL,NULL),(14,'zzj_1','1',1,0,'12345678908','zzj No.2',1,'2019-11-10 05:37:43',NULL,NULL),(15,'zzj_2','2',1,0,'12345678901','zzj zzj No.3',0,'2019-11-11 09:07:13',NULL,NULL),(16,'zzj_3','3',1,0,'123','zzj No.4',1,'2019-11-11 09:07:54',NULL,NULL),(17,'zzj_4','4',1,0,'345','zzj No.5',0,'2019-11-11 09:08:30',NULL,NULL),(18,'omg','5',1,0,'4367','zzj No.6',1,'2019-11-11 09:10:44',NULL,NULL),(19,'godfather','6',1,0,'2355','zzj No.7',0,'2019-11-11 09:18:07',NULL,NULL);
+INSERT INTO `user` VALUES (1,'admin','$2y$10$aMK1CNHNz16C9C1JwNjtHuWYaDluNufZpGHb4qXIiQPQCK67W7feC',1,0,'',NULL,1,'2019-12-09 03:22:30',NULL,NULL,NULL),(2,'zzj','$2y$10$aMK1CNHNz16C9C1JwNjtHuWYaDluNufZpGHb4qXIiQPQCK67W7feC',1,0,'','How handsome I am!',1,'2019-11-25 12:58:47',NULL,'Chengdu','zzj1999@outlook.com'),(7,'skr','$2a$10$zapaTNnBIf.VA0FE3.JxmevLEBNXt9v9lr/Q5aDsMJXwxwr60z2/6',1,0,'18280096128','i hate zzj',0,'2019-11-13 12:33:27',NULL,NULL,NULL),(13,'lym','$2a$10$dDwIKrenHzns0uY6ZMcN4OJXVtzp1LOW3ieZaBEv2rJmnPEZD64ie',1,0,'18621062280','? why i am here',0,'2019-11-10 05:37:43',NULL,NULL,NULL),(14,'zzj_1','1',1,0,'12345678908','zzj No.2',1,'2019-11-10 05:37:43',NULL,NULL,NULL),(15,'zzj_2','2',1,0,'12345678901','zzj zzj No.3',0,'2019-11-11 09:07:13',NULL,NULL,NULL),(16,'zzj_3','3',1,0,'123','zzj No.4',1,'2019-11-11 09:07:54',NULL,NULL,NULL),(17,'zzj_4','4',1,0,'345','zzj No.5',0,'2019-11-11 09:08:30',NULL,NULL,NULL),(18,'omg','5',1,0,'4367','zzj No.6',1,'2019-11-11 09:10:44',NULL,NULL,NULL),(19,'godfather','6',1,0,'2355','zzj No.7',0,'2019-11-11 09:18:07',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -503,7 +504,7 @@ DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `UserLogInSetAllRead` AFTER UPDATE ON `user` FOR EACH ROW begin
     update message set status=1 where (sendTime between OLD.lastLogIn and NEW.lastLogIn) and (`to`=NEW.username);
     update add_friend_request set readStatus=1, replyStatus=1 where (requestTime between OLD.lastLogIn and NEW.lastLogIn)
-                                                 and (username=NEW.username or targetName = NEW.username);
+                                                                and (username=NEW.username or targetName = NEW.username);
 
 end */;;
 DELIMITER ;
@@ -539,6 +540,31 @@ LOCK TABLES `user_role` WRITE;
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
 INSERT INTO `user_role` VALUES (2,2,2),(14,1,1),(15,1,2),(16,7,2),(22,13,2);
 /*!40000 ALTER TABLE `user_role` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_weblog_push`
+--
+
+DROP TABLE IF EXISTS `user_weblog_push`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user_weblog_push` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(32) NOT NULL,
+  `blog_id` int(11) NOT NULL,
+  `publishTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_weblog_push`
+--
+
+LOCK TABLES `user_weblog_push` WRITE;
+/*!40000 ALTER TABLE `user_weblog_push` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_weblog_push` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -598,4 +624,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-01 19:45:03
+-- Dump completed on 2019-12-09 11:27:27

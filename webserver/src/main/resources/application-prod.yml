@@ -12,6 +12,19 @@ spring:
     port: 6379
     password: nKsf7IxQRUdwfj3pMLaVmRA
 
+  mail:
+    host: smtp.qq.com
+    port: 465
+    username: buffalo139@foxmail.com
+    password: tjcybjhzpqqsbdbj
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          socketFactory:
+            class: javax.net.ssl.SSLSocketFactory
+        debug: true
+
 linkage:
   host: https://www.saturnluo.cn/
   #minutesToExpireSession: 10

@@ -14,4 +14,5 @@ public class SignUpUserInfo {
   private String userName;
   private String userPassword;
   private String verificationCode;
+  private String email;
 }

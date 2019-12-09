@@ -1,0 +1,6 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.f4.linkage.webserver.api.mail.mapper.MailMapper">
+    <select id="getEmailAddress" parameterType="java.lang.String" resultType="java.lang.String">
+        select linkage.user.email from linkage.user where username = #{username}
+    </select>
+</mapper>
