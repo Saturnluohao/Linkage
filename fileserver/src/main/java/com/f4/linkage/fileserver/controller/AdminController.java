@@ -48,6 +48,7 @@ public class AdminController {
         return hpcList;
     }
 
+
     @PostMapping("/admin/post/trend")
     void setHotPostCandidateList(@RequestBody Map param){
         try {
