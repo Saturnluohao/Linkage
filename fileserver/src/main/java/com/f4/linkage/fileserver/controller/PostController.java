@@ -33,9 +33,9 @@ public class PostController {
         String username = principal.getName();
         String abstracStr;
         try{
-            abstracStr = param.get("Abstract").toString();
+            abstracStr = param.get("Title").toString();
         }catch (Exception e){
-            abstracStr = "No abstract for this article!";
+            abstracStr = "No Title for this article!";
         }
         fileUtil.updatePostID();
         if(postDao.insertPost(new Object[]{username, param.get("PostHtml").toString(), abstracStr})){

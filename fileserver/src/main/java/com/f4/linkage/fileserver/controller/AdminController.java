@@ -2,10 +2,10 @@ package com.f4.linkage.fileserver.controller;
 
 import com.f4.linkage.fileserver.dao.PostDao;
 import com.f4.linkage.fileserver.model.HotPostCandidate;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.web.bind.annotation.*;
-import redis.clients.jedis.Jedis;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
