@@ -31,8 +31,14 @@ public class PostController {
     @PostMapping("/post")
     ResponseEntity<String> uploadPost(Principal principal, @RequestBody Map param){
         String username = principal.getName();
+        String abstracStr;
+        try{
+            abstracStr = param.get("Abstract").toString();
+        }catch (Exception e){
+            abstracStr = "No abstract for this article!";
+        }
         fileUtil.updatePostID();
-        if(postDao.insertPost(new Object[]{username, param.get("PostHtml").toString(), param.get("Abstract").toString()})){
+        if(postDao.insertPost(new Object[]{username, param.get("PostHtml").toString(), abstracStr})){
             return ResponseEntity.ok("Upload successfully, and your post id is " + FileUtil.postID);
         }else {
             return ResponseEntity.status(500).body("Sorry, maybe try again!");
