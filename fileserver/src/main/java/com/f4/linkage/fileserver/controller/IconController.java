@@ -41,12 +41,11 @@ public class IconController {
     }
 
     @PostMapping("/global_icon")
-    ResponseEntity<String> uploadGlobalIcon(Principal principal, @RequestParam("Icon") MultipartFile icon){
-        String username = principal.getName();
+    ResponseEntity<String> uploadGlobalIcon(Principal principal, @RequestParam("Icon") MultipartFile icon, @RequestParam("GlobalName")String globalName){
         if(icon != null){
-            if(fileUtil.saveGlobalIconFile(icon, username)){
-                momentDao.updateGlobalIconUrl(username);
-                return ResponseEntity.ok().body("/global_icon/" + username);
+            if(fileUtil.saveGlobalIconFile(icon, globalName)){
+                momentDao.updateGlobalIconUrl(globalName);
+                return ResponseEntity.ok().body("/global_icon/" + globalName);
             }
             else {
                 return ResponseEntity.status(500).body("We can't save your icon file!");
