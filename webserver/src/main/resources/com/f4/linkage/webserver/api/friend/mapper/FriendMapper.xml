@@ -1,7 +1,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.f4.linkage.webserver.api.friend.mapper.FriendMapper">
   <select id="SearchFriendByName" resultType="com.f4.linkage.webserver.api.friend.model.Friend" >
-    select username,description,sex from linkage.user
+    select username,description,sex,iconUrl,address from linkage.user
     where username like #{name} and linkage.user.locked=0
   </select>
   <select id="GetMyFriends" resultType="com.f4.linkage.webserver.api.friend.model.Friend">
