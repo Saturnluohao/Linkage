@@ -177,4 +177,14 @@ public class MomentDao {
         }
     }
 
+    public String getGlobalName(String localName){
+        String sql = "select global_username from local_global_user where local_username=?";
+        String globalName = null;
+        try {
+            globalName = jdbcTemplate.queryForObject(sql, new Object[]{localName}, String.class);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return globalName;
+    }
 }

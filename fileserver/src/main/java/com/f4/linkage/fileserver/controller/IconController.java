@@ -41,7 +41,12 @@ public class IconController {
     }
 
     @PostMapping("/global_icon")
-    ResponseEntity<String> uploadGlobalIcon(Principal principal, @RequestParam("Icon") MultipartFile icon, @RequestParam("GlobalName")String globalName){
+    ResponseEntity<String> uploadGlobalIcon(Principal principal, @RequestParam("Icon") MultipartFile icon){
+        String localName = principal.getName();
+        String globalName = momentDao.getGlobalName(localName);
+        if(globalName == null){
+            return ResponseEntity.status(400).body("You don't have a global account!");
+        }
         if(icon != null){
             if(fileUtil.saveGlobalIconFile(icon, globalName)){
                 momentDao.updateGlobalIconUrl(globalName);
