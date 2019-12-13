@@ -120,12 +120,22 @@ public class PostDao {
 
     public List<Like> getPostLikeList(int postId){
         String like_sql = "select * from post_like where liked_id=?";
-        return jdbcTemplate.query(like_sql, new Object[]{postId}, new LikeMapper());
+        List<Like> likeList = jdbcTemplate.query(like_sql, new Object[]{postId}, new LikeMapper());
+        if(likeList == null){
+            return new ArrayList<>();
+        }else {
+            return likeList;
+        }
     }
 
     public List<Comment> getPostCommentList(int postId){
         String comment_sql = "select * from post_comment where commented_id=?";
-        return jdbcTemplate.query(comment_sql, new Object[]{postId}, new CommentMapper());
+        List<Comment> commentList = jdbcTemplate.query(comment_sql, new Object[]{postId}, new CommentMapper());
+        if(commentList == null){
+            return new ArrayList<>();
+        }else {
+            return commentList;
+        }
     }
 
     private boolean amILiker(List<Like> likeList, String username){
