@@ -59,7 +59,7 @@ public class GreetingController {
     }
     messageService.addMessage(message);
     message.setId(messageService.getLastId());
-    message.setTimeStamp(messageService.getTimeStampByID(message.getId()));
+    message.setTimeStamp(System.currentTimeMillis());
     logger.info("send a message to " + message.getTo());
     simpMessagingTemplate.convertAndSendToUser(message.getTo(),"/queue/chat",message);
   }
