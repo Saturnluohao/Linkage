@@ -1,14 +1,14 @@
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://118.25.191.207:3306/linkage?allowMultiQueries=true
+    url: jdbc:mysql://10.0.1.16:3306/linkage?allowMultiQueries=true
     username: linkage
     password: Zzj6p@saturn@lym
 
   redis:
     database: 0
     #host: 172.17.0.17
-    host: 118.25.191.207
+    host: 10.0.1.16
     port: 6379
     password: nKsf7IxQRUdwfj3pMLaVmRA
 
