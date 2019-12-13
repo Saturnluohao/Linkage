@@ -17,6 +17,7 @@ public class Message implements Serializable {
   private String name;
   private String content;
   private String to;
+  private long timeStamp;
   @JsonIgnore
   private int status; // 0 unread
                       // 1 read

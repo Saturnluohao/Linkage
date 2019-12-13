@@ -7,6 +7,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -29,4 +30,9 @@ public class MessageService {
   }
   public int getLastId(){return messageMapper.getLastInsertId();}
   public void setMessageReadById(int id){messageMapper.setMessageReadById(id);}
+  public long getTimeStampByID(int id){
+    Date date = messageMapper.getDateById(id);
+    return date.getTime();
+  }
 }
+
