@@ -42,7 +42,7 @@ public class PostController {
             abstracStr = "No Title for this article!";
         }
         fileUtil.updatePostID();
-        if(postDao.insertPost(new Object[]{globalName, param.get("PostHtml").toString(), abstracStr})){
+        if(postDao.insertPost(new Object[]{globalName, param.get("PostHtml").toString(), abstracStr}, username)){
             return ResponseEntity.ok("Upload successfully, and your post id is " + FileUtil.postID);
         }else {
             return ResponseEntity.status(500).body("Sorry, maybe try again!");

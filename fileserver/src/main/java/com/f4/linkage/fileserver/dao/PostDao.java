@@ -34,12 +34,13 @@ public class PostDao {
     @Resource
     FileUtil fileUtil;
 
-    public boolean insertPost(Object[] args){
+    public boolean insertPost(Object[] args, String localName){
         String sql = "INSERT INTO post(poster_name, text, abstract) VALUES (?,?,?)";
         if(jdbcTemplate.update(sql, args) == 1) {
             fileUtil.saveHtml(args[1].toString(), fileRoot + "post/html/" + FileUtil.postID + ".html");
             String poster = args[0].toString();
             List<String> friends = getFollowers(poster);
+            friends.add(localName);
             for (String friend: friends
             ) {
                 insertWSSP(friend, FileUtil.postID);
@@ -54,7 +55,6 @@ public class PostDao {
     public List<String> getFollowers(String username){
         String sql = "select local_username from follow where global_username=?";
         List<String> followers = jdbcTemplate.queryForList(sql, new Object[]{username}, String.class);
-        followers.add(username);
         return followers;
     }
 
