@@ -92,13 +92,15 @@ public class PostController {
 
     @GetMapping("/post/home")
     List<Post> homePost(HttpServletRequest request, Principal principal){
-        String username;
+        String username, globalName;
         username = request.getParameter("username");
         if(username == null) {
-            username = principal.getName();
+            globalName = postDao.getGlobalName(principal.getName());
+        }else {
+            globalName = postDao.getGlobalName(username);
         }
         LOGGER.info("Return " + username + "'s private moments");
-        return postDao.getPrivatePosts(username);
+        return postDao.getPrivatePosts(globalName);
     }
 
     @PostMapping("/post/like")
