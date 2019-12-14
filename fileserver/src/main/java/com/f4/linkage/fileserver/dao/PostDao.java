@@ -112,7 +112,10 @@ public class PostDao {
         for (Integer id: idList
         ) {
             if(id.intValue() != -1) {
-                postList.add(jdbcTemplate.queryForObject(sql, new Object[]{id.intValue()}, postMapper));
+                Post post = jdbcTemplate.queryForObject(sql, new Object[]{id.intValue()}, postMapper);
+                post.setComment(getPostCommentList(id.intValue()));
+                post.setLike(getPostLikeList(id.intValue()));
+                postList.add(post);
             }
         }
         return postList;
