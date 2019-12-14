@@ -97,9 +97,9 @@ public class PostController {
         if(username == null) {
             globalName = postDao.getGlobalName(principal.getName());
         }else {
-            globalName = postDao.getGlobalName(username);
+            globalName = username;
         }
-        LOGGER.info("Return " + username + "'s private moments");
+        LOGGER.info("Return " + globalName + "'s private moments");
         return postDao.getPrivatePosts(globalName);
     }
 
