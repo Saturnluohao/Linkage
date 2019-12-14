@@ -31,6 +31,10 @@ public class PostController {
     @PostMapping("/post")
     ResponseEntity<String> uploadPost(Principal principal, @RequestBody Map param){
         String username = principal.getName();
+        String globalName = postDao.getGlobalName(username);
+        if(globalName == null){
+            return ResponseEntity.status(400).body("You don't have a global account!");
+        }
         String abstracStr;
         try{
             abstracStr = param.get("Title").toString();

@@ -206,4 +206,15 @@ public class PostDao {
                 "group by id order by visits desc limit ?) as visitNum order by post.id desc ";
         return jdbcTemplate.query(sql, new Object[]{min, amount}, new HotPostCandidateMapper());
     }
+
+    public String getGlobalName(String localName){
+        String sql = "select global_username from local_global_user where local_username=?";
+        String globalName = null;
+        try {
+            globalName = jdbcTemplate.queryForObject(sql, new Object[]{localName}, String.class);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return globalName;
+    }
 }
