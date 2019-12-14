@@ -105,7 +105,7 @@ public class PostDao {
         return postList;
     }
 
-    public List<Post> getPosts(List<Integer> idList){
+    public List<Post> getPosts(List<Integer> idList, String username){
         List<Post> postList = new ArrayList<>();
         PostMapper postMapper = new PostMapper();
         String sql = "select * from post where id=?";
@@ -113,8 +113,10 @@ public class PostDao {
         ) {
             if(id.intValue() != -1) {
                 Post post = jdbcTemplate.queryForObject(sql, new Object[]{id.intValue()}, postMapper);
+                List<Like> likeList = getPostLikeList(id.intValue());
                 post.setComment(getPostCommentList(id.intValue()));
-                post.setLike(getPostLikeList(id.intValue()));
+                post.setLike(likeList);
+                post.setSelf_like(amILiker(likeList, username));
                 postList.add(post);
             }
         }
@@ -191,9 +193,18 @@ public class PostDao {
         }
     }
 
-    public List<Post> searchPost(String keyword){
+    public List<Post> searchPost(String keyword, String username){
         String sql = "select * from post where text like ?";
-        return jdbcTemplate.query(sql, new Object[]{'%' + keyword + '%'}, new PostMapper());
+        List<Post> postList = jdbcTemplate.query(sql, new Object[]{'%' + keyword + '%'}, new PostMapper());
+        for (Post post:postList
+        ) {
+            int postId = post.getId();
+            List<Like> likeList = getPostLikeList(postId);
+            post.setLike(likeList);
+            post.setComment(getPostCommentList(postId));
+            post.setSelf_like(amILiker(likeList, username));
+        }
+        return postList;
     }
 
     public void addVisitItem(int id){

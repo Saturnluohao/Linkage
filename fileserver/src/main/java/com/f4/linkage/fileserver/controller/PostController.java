@@ -73,14 +73,15 @@ public class PostController {
     }
 
     @GetMapping("/post/search")
-    List<Post> search(@RequestParam("Keyword")String keyword){
-
-        return postDao.searchPost(keyword);
+    List<Post> search(Principal principal, @RequestParam("Keyword")String keyword){
+        String username = principal.getName();
+        return postDao.searchPost(keyword, username);
     }
 
     @GetMapping("/post/hot")
-    List<Post> hot(){
-        return postDao.getPosts(AdminController.hpList);
+    List<Post> hot(Principal principal){
+        String username = principal.getName();
+        return postDao.getPosts(AdminController.hpList, username);
     }
 
     @GetMapping("/post/check")
