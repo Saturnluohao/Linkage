@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.17, for macos10.14 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.18, for Linux (x86_64)
 --
 -- Host: 127.0.0.1    Database: linkage
 -- ------------------------------------------------------
--- Server version	8.0.17
+-- Server version	8.0.18-0ubuntu0.19.10.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -298,7 +298,8 @@ CREATE TABLE `moment` (
   `video_num` int(2) DEFAULT NULL,
   `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `weblog_global_user_username_fk` (`poster_name`)
+  KEY `username_idx` (`poster_name`),
+  CONSTRAINT `username` FOREIGN KEY (`poster_name`) REFERENCES `user` (`username`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -323,7 +324,11 @@ CREATE TABLE `moment_comment` (
   `commented_id` int(11) NOT NULL,
   `content` text NOT NULL,
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_idx` (`commenter`),
+  KEY `moment_idx` (`commented_id`),
+  CONSTRAINT `moment` FOREIGN KEY (`commented_id`) REFERENCES `moment` (`id`),
+  CONSTRAINT `user` FOREIGN KEY (`commenter`) REFERENCES `user` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -345,7 +350,11 @@ DROP TABLE IF EXISTS `moment_like`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `moment_like` (
   `liker` varchar(32) NOT NULL,
-  `liked_id` int(11) NOT NULL
+  `liked_id` int(11) NOT NULL,
+  KEY `user_idx` (`liker`),
+  KEY `moment_idx` (`liked_id`),
+  CONSTRAINT `fk_moment_like_1` FOREIGN KEY (`liker`) REFERENCES `user` (`username`),
+  CONSTRAINT `fk_moment_like_2` FOREIGN KEY (`liked_id`) REFERENCES `moment` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -371,7 +380,9 @@ CREATE TABLE `post` (
   `text` text,
   `abstract` text NOT NULL,
   `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `fk_post_1_idx` (`poster_name`),
+  CONSTRAINT `fk_post_1` FOREIGN KEY (`poster_name`) REFERENCES `global_user` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -396,7 +407,11 @@ CREATE TABLE `post_comment` (
   `commented_id` int(11) NOT NULL,
   `content` text NOT NULL,
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `fk_post_comment_1_idx` (`commenter`),
+  KEY `fk_post_comment_2_idx` (`commented_id`),
+  CONSTRAINT `fk_post_comment_1` FOREIGN KEY (`commenter`) REFERENCES `user` (`username`),
+  CONSTRAINT `fk_post_comment_2` FOREIGN KEY (`commented_id`) REFERENCES `post` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -418,7 +433,11 @@ DROP TABLE IF EXISTS `post_like`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `post_like` (
   `liker` varchar(32) NOT NULL,
-  `liked_id` int(11) NOT NULL
+  `liked_id` int(11) NOT NULL,
+  KEY `fk_post_like_1_idx` (`liker`),
+  KEY `fk_post_like_2_idx` (`liked_id`),
+  CONSTRAINT `fk_post_like_1` FOREIGN KEY (`liker`) REFERENCES `user` (`username`),
+  CONSTRAINT `fk_post_like_2` FOREIGN KEY (`liked_id`) REFERENCES `post` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -440,7 +459,9 @@ DROP TABLE IF EXISTS `post_visit`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `post_visit` (
   `id` int(11) NOT NULL,
-  `visitTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+  `visitTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  KEY `fk_post_visit_1_idx` (`id`),
+  CONSTRAINT `fk_post_visit_1` FOREIGN KEY (`id`) REFERENCES `post` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -513,25 +534,6 @@ LOCK TABLES `user` WRITE;
 INSERT INTO `user` VALUES (1,'admin','$2y$10$aMK1CNHNz16C9C1JwNjtHuWYaDluNufZpGHb4qXIiQPQCK67W7feC',1,0,'',NULL,1,'2019-11-13 11:47:02',NULL,NULL,NULL),(2,'zzj','$2y$10$aMK1CNHNz16C9C1JwNjtHuWYaDluNufZpGHb4qXIiQPQCK67W7feC',1,0,'','How handsome I am!',1,'2019-11-25 12:58:47',NULL,'Chengdu','zzj1999@outlook.com'),(7,'skr','$2a$10$zapaTNnBIf.VA0FE3.JxmevLEBNXt9v9lr/Q5aDsMJXwxwr60z2/6',1,0,'18280096128','i hate zzj',0,'2019-11-13 12:33:27',NULL,NULL,'zijianzh6@gmail.com'),(13,'lym','$2a$10$dDwIKrenHzns0uY6ZMcN4OJXVtzp1LOW3ieZaBEv2rJmnPEZD64ie',1,0,'18621062280','? why i am here',0,'2019-11-10 05:37:43',NULL,NULL,NULL),(14,'zzj_1','1',1,0,'12345678908','zzj No.2',1,'2019-11-10 05:37:43',NULL,NULL,NULL),(15,'zzj_2','2',1,0,'12345678901','zzj zzj No.3',0,'2019-11-11 09:07:13',NULL,NULL,NULL),(16,'zzj_3','3',1,0,'123','zzj No.4',1,'2019-11-11 09:07:54',NULL,NULL,NULL),(17,'zzj_4','4',1,0,'345','zzj No.5',0,'2019-11-11 09:08:30',NULL,NULL,NULL),(18,'omg','5',1,0,'4367','zzj No.6',1,'2019-11-11 09:10:44',NULL,NULL,NULL),(19,'godfather','6',1,0,'2355','zzj No.7',0,'2019-11-11 09:18:07',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `UserLogInSetAllRead` AFTER UPDATE ON `user` FOR EACH ROW begin
-    update message set status=1 where (sendTime between OLD.lastLogIn and NEW.lastLogIn) and (`to`=NEW.username);
-    update add_friend_request set readStatus=1, replyStatus=1 where (requestTime between OLD.lastLogIn and NEW.lastLogIn)
-                                                                and (username=NEW.username or targetName = NEW.username);
-end */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `user_role`
@@ -598,7 +600,11 @@ CREATE TABLE `who_should_see_moment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `moment_id` int(11) DEFAULT NULL,
   `username` varchar(32) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `fk_who_should_see_moment_1_idx` (`username`),
+  KEY `fk_who_should_see_moment_2_idx` (`moment_id`),
+  CONSTRAINT `fk_who_should_see_moment_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`),
+  CONSTRAINT `fk_who_should_see_moment_2` FOREIGN KEY (`moment_id`) REFERENCES `moment` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -622,7 +628,10 @@ CREATE TABLE `who_should_see_post` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `post_id` int(11) DEFAULT NULL,
   `username` varchar(32) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `fk_who_should_see_post_1_idx` (`username`),
+  CONSTRAINT `fk_who_should_see_post_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`),
+  CONSTRAINT `fk_who_should_see_post_2` FOREIGN KEY (`id`) REFERENCES `post` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -644,4 +653,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-10 20:35:31
+-- Dump completed on 2019-12-15 11:14:07
