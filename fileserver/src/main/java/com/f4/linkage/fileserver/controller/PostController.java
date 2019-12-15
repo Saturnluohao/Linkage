@@ -101,7 +101,7 @@ public class PostController {
             globalName = username;
         }
         LOGGER.info("Return " + globalName + "'s private moments");
-        return postDao.getPrivatePosts(globalName);
+        return postDao.getPrivatePosts(globalName, principal.getName());
     }
 
     @PostMapping("/post/like")

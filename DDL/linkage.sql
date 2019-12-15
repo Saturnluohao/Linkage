@@ -299,7 +299,7 @@ CREATE TABLE `moment` (
   `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `username_idx` (`poster_name`),
-  CONSTRAINT `username` FOREIGN KEY (`poster_name`) REFERENCES `user` (`username`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `username` FOREIGN KEY (`poster_name`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -327,8 +327,8 @@ CREATE TABLE `moment_comment` (
   PRIMARY KEY (`id`),
   KEY `user_idx` (`commenter`),
   KEY `moment_idx` (`commented_id`),
-  CONSTRAINT `moment` FOREIGN KEY (`commented_id`) REFERENCES `moment` (`id`),
-  CONSTRAINT `user` FOREIGN KEY (`commenter`) REFERENCES `user` (`username`)
+  CONSTRAINT `moment` FOREIGN KEY (`commented_id`) REFERENCES `moment` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `user` FOREIGN KEY (`commenter`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -353,8 +353,8 @@ CREATE TABLE `moment_like` (
   `liked_id` int(11) NOT NULL,
   KEY `user_idx` (`liker`),
   KEY `moment_idx` (`liked_id`),
-  CONSTRAINT `fk_moment_like_1` FOREIGN KEY (`liker`) REFERENCES `user` (`username`),
-  CONSTRAINT `fk_moment_like_2` FOREIGN KEY (`liked_id`) REFERENCES `moment` (`id`)
+  CONSTRAINT `fk_moment_like_1` FOREIGN KEY (`liker`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_moment_like_2` FOREIGN KEY (`liked_id`) REFERENCES `moment` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -382,7 +382,7 @@ CREATE TABLE `post` (
   `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   KEY `fk_post_1_idx` (`poster_name`),
-  CONSTRAINT `fk_post_1` FOREIGN KEY (`poster_name`) REFERENCES `global_user` (`username`)
+  CONSTRAINT `fk_post_1` FOREIGN KEY (`poster_name`) REFERENCES `global_user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -410,8 +410,8 @@ CREATE TABLE `post_comment` (
   PRIMARY KEY (`id`),
   KEY `fk_post_comment_1_idx` (`commenter`),
   KEY `fk_post_comment_2_idx` (`commented_id`),
-  CONSTRAINT `fk_post_comment_1` FOREIGN KEY (`commenter`) REFERENCES `user` (`username`),
-  CONSTRAINT `fk_post_comment_2` FOREIGN KEY (`commented_id`) REFERENCES `post` (`id`)
+  CONSTRAINT `fk_post_comment_1` FOREIGN KEY (`commenter`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_post_comment_2` FOREIGN KEY (`commented_id`) REFERENCES `post` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -436,8 +436,8 @@ CREATE TABLE `post_like` (
   `liked_id` int(11) NOT NULL,
   KEY `fk_post_like_1_idx` (`liker`),
   KEY `fk_post_like_2_idx` (`liked_id`),
-  CONSTRAINT `fk_post_like_1` FOREIGN KEY (`liker`) REFERENCES `user` (`username`),
-  CONSTRAINT `fk_post_like_2` FOREIGN KEY (`liked_id`) REFERENCES `post` (`id`)
+  CONSTRAINT `fk_post_like_1` FOREIGN KEY (`liker`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_post_like_2` FOREIGN KEY (`liked_id`) REFERENCES `post` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -461,7 +461,7 @@ CREATE TABLE `post_visit` (
   `id` int(11) NOT NULL,
   `visitTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   KEY `fk_post_visit_1_idx` (`id`),
-  CONSTRAINT `fk_post_visit_1` FOREIGN KEY (`id`) REFERENCES `post` (`id`)
+  CONSTRAINT `fk_post_visit_1` FOREIGN KEY (`id`) REFERENCES `post` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -603,8 +603,8 @@ CREATE TABLE `who_should_see_moment` (
   PRIMARY KEY (`id`),
   KEY `fk_who_should_see_moment_1_idx` (`username`),
   KEY `fk_who_should_see_moment_2_idx` (`moment_id`),
-  CONSTRAINT `fk_who_should_see_moment_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`),
-  CONSTRAINT `fk_who_should_see_moment_2` FOREIGN KEY (`moment_id`) REFERENCES `moment` (`id`)
+  CONSTRAINT `fk_who_should_see_moment_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_who_should_see_moment_2` FOREIGN KEY (`moment_id`) REFERENCES `moment` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -630,8 +630,8 @@ CREATE TABLE `who_should_see_post` (
   `username` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_who_should_see_post_1_idx` (`username`),
-  CONSTRAINT `fk_who_should_see_post_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`),
-  CONSTRAINT `fk_who_should_see_post_2` FOREIGN KEY (`id`) REFERENCES `post` (`id`)
+  CONSTRAINT `fk_who_should_see_post_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_who_should_see_post_2` FOREIGN KEY (`id`) REFERENCES `post` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -653,4 +653,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-15 11:14:07
+-- Dump completed on 2019-12-15 15:29:56

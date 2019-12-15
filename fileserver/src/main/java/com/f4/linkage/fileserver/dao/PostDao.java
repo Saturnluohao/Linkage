@@ -91,7 +91,7 @@ public class PostDao {
         return postList;
     }
 
-    public List<Post> getPrivatePosts(String username){
+    public List<Post> getPrivatePosts(String username, String localName){
         String sql = "select * from post where poster_name=? order by id desc ";
         List<Post> postList = jdbcTemplate.query(sql, new Object[]{username}, new PostMapper());
         for (Post post:postList
@@ -100,7 +100,7 @@ public class PostDao {
             List<Like> likeList = getPostLikeList(postId);
             post.setLike(likeList);
             post.setComment(getPostCommentList(postId));
-            post.setSelf_like(amILiker(likeList, username));
+            post.setSelf_like(amILiker(likeList, localName));
         }
         return postList;
     }
