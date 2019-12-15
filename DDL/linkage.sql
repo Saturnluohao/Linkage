@@ -630,8 +630,9 @@ CREATE TABLE `who_should_see_post` (
   `username` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_who_should_see_post_1_idx` (`username`),
+  KEY `fk_who_should_see_post_2_idx` (`post_id`),
   CONSTRAINT `fk_who_should_see_post_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `fk_who_should_see_post_2` FOREIGN KEY (`id`) REFERENCES `post` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `fk_who_should_see_post_2` FOREIGN KEY (`post_id`) REFERENCES `post` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -653,4 +654,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-15 15:29:56
+-- Dump completed on 2019-12-15 20:47:05
