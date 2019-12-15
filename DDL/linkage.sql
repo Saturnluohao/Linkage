@@ -534,6 +534,27 @@ LOCK TABLES `user` WRITE;
 INSERT INTO `user` VALUES (1,'admin','$2y$10$aMK1CNHNz16C9C1JwNjtHuWYaDluNufZpGHb4qXIiQPQCK67W7feC',1,0,'',NULL,1,'2019-11-13 11:47:02',NULL,NULL,NULL),(2,'zzj','$2y$10$aMK1CNHNz16C9C1JwNjtHuWYaDluNufZpGHb4qXIiQPQCK67W7feC',1,0,'','How handsome I am!',1,'2019-11-25 12:58:47',NULL,'Chengdu','zzj1999@outlook.com'),(7,'skr','$2a$10$zapaTNnBIf.VA0FE3.JxmevLEBNXt9v9lr/Q5aDsMJXwxwr60z2/6',1,0,'18280096128','i hate zzj',0,'2019-11-13 12:33:27',NULL,NULL,'zijianzh6@gmail.com'),(13,'lym','$2a$10$dDwIKrenHzns0uY6ZMcN4OJXVtzp1LOW3ieZaBEv2rJmnPEZD64ie',1,0,'18621062280','? why i am here',0,'2019-11-10 05:37:43',NULL,NULL,NULL),(14,'zzj_1','1',1,0,'12345678908','zzj No.2',1,'2019-11-10 05:37:43',NULL,NULL,NULL),(15,'zzj_2','2',1,0,'12345678901','zzj zzj No.3',0,'2019-11-11 09:07:13',NULL,NULL,NULL),(16,'zzj_3','3',1,0,'123','zzj No.4',1,'2019-11-11 09:07:54',NULL,NULL,NULL),(17,'zzj_4','4',1,0,'345','zzj No.5',0,'2019-11-11 09:08:30',NULL,NULL,NULL),(18,'omg','5',1,0,'4367','zzj No.6',1,'2019-11-11 09:10:44',NULL,NULL,NULL),(19,'godfather','6',1,0,'2355','zzj No.7',0,'2019-11-11 09:18:07',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `UserLogInSetAllRead` AFTER UPDATE ON `user` FOR EACH ROW begin
+    update message set status=1 where (sendTime between OLD.lastLogIn and NEW.lastLogIn) and (`to`=NEW.username);
+#     update add_friend_request set readStatus=1 where targetName=NEW.username;
+#     update add_friend_request set replyStatus=1 where username=NEW.username;
+    update add_friend_request set readStatus=1, replyStatus=1 where (requestTime between OLD.lastLogIn and NEW.lastLogIn)
+                                                                and (username=NEW.username or targetName = NEW.username);
+end */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `user_role`
