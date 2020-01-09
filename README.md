@@ -1,2 +1,2 @@
 # Linkage
-The course project.
+The course project for software engineering.
